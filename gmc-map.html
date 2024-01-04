@@ -57,7 +57,11 @@
             },
             properties: {
               id: 'Canada',
-              description: 'Canada'
+              description: 'Canada',
+              images: [
+                'https://picsum.photos/100/100',
+                'https://picsum.photos/100/200'
+              ]
             }
           },
           {
@@ -68,7 +72,11 @@
             },
             properties: {
               id: 'USA',
-              description: 'USA'
+              description: 'USA',
+              images: [
+                'https://picsum.photos/100/100',
+                'https://picsum.photos/100/150'
+              ]
             }
           },
           {
@@ -79,7 +87,8 @@
             },
             properties: {
               id: 'Mexico',
-              description: 'Mexico'
+              description: 'Mexico',
+              images: ['https://picsum.photos/100/100']
             }
           },
           {
@@ -90,7 +99,8 @@
             },
             properties: {
               id: 'Brasil',
-              description: 'Brasil'
+              description: 'Brasil',
+              images: []
             }
           },
           {
@@ -101,7 +111,8 @@
             },
             properties: {
               id: 'Chile',
-              description: 'Chile'
+              description: 'Chile',
+              images: []
             }
           },
           {
@@ -112,7 +123,8 @@
             },
             properties: {
               id: 'Argentina',
-              description: 'Argentina'
+              description: 'Argentina',
+              images: []
             }
           },
           {
@@ -123,7 +135,8 @@
             },
             properties: {
               id: 'Australia',
-              description: 'Australia'
+              description: 'Australia',
+              images: []
             }
           },
           {
@@ -134,7 +147,8 @@
             },
             properties: {
               id: 'Nigeria',
-              description: 'Nigeria'
+              description: 'Nigeria',
+              images: []
             }
           },
           {
@@ -145,7 +159,8 @@
             },
             properties: {
               id: 'India',
-              description: 'India'
+              description: 'India',
+              images: []
             }
           },
           {
@@ -156,7 +171,8 @@
             },
             properties: {
               id: 'China',
-              description: 'China'
+              description: 'China',
+              images: []
             }
           },
           {
@@ -167,7 +183,8 @@
             },
             properties: {
               id: 'Rusia',
-              description: 'Rusia'
+              description: 'Rusia',
+              images: []
             }
           },
           {
@@ -178,7 +195,8 @@
             },
             properties: {
               id: 'Saudi Arabia',
-              description: 'Saudi Arabia'
+              description: 'Saudi Arabia',
+              images: []
             }
           },
           {
@@ -189,7 +207,8 @@
             },
             properties: {
               id: 'Kuwait',
-              description: 'Kuwait'
+              description: 'Kuwait',
+              images: []
             }
           },
           {
@@ -200,7 +219,8 @@
             },
             properties: {
               id: 'Israel',
-              description: 'Israel'
+              description: 'Israel',
+              images: []
             }
           },
           {
@@ -211,7 +231,8 @@
             },
             properties: {
               id: 'Tunisia',
-              description: 'Tunisia'
+              description: 'Tunisia',
+              images: []
             }
           },
           {
@@ -222,7 +243,8 @@
             },
             properties: {
               id: 'Spain',
-              description: 'Spain'
+              description: 'Spain',
+              images: []
             }
           },
           {
@@ -233,7 +255,8 @@
             },
             properties: {
               id: 'Italia',
-              description: 'Italia'
+              description: 'Italia',
+              images: []
             }
           },
           {
@@ -244,7 +267,8 @@
             },
             properties: {
               id: 'France',
-              description: 'France'
+              description: 'France',
+              images: []
             }
           },
           {
@@ -255,7 +279,8 @@
             },
             properties: {
               id: 'UK',
-              description: 'UK'
+              description: 'UK',
+              images: []
             }
           },
           {
@@ -266,7 +291,8 @@
             },
             properties: {
               id: 'Netherlands',
-              description: 'Netherlands'
+              description: 'Netherlands',
+              images: []
             }
           },
           {
@@ -277,7 +303,8 @@
             },
             properties: {
               id: 'Switzerland',
-              description: 'Switzerland'
+              description: 'Switzerland',
+              images: []
             }
           },
           {
@@ -288,7 +315,8 @@
             },
             properties: {
               id: 'Austria',
-              description: 'Austria'
+              description: 'Austria',
+              images: []
             }
           },
           {
@@ -299,7 +327,8 @@
             },
             properties: {
               id: 'Denmark',
-              description: 'Denmark'
+              description: 'Denmark',
+              images: []
             }
           },
           {
@@ -310,7 +339,8 @@
             },
             properties: {
               id: 'Germany',
-              description: 'Germany'
+              description: 'Germany',
+              images: []
             }
           }
         ]
@@ -386,10 +416,17 @@
           while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
             coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
           }
+          const images = JSON.parse(e.features[0].properties.images)
+          const imagesHtml = images
+            .map(
+              (image) =>
+                `<img src="${image}" style="max-width: 100%; max-height: 200px; display: block"/>`
+            )
+            .join('')
 
           new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(`<h3>${name}</h3>`)
+            .setHTML(`<h3>${name}</h3>${imagesHtml}`)
             .addTo(map)
         })
 

@@ -81,7 +81,10 @@ function addMapPoints() {
     /* Add a GeoJSON source containing place coordinates and information. */
     source: {
       type: 'geojson',
-      data: mapLocations
+      data: mapLocations,
+      cluster: true,
+      clusterMaxZoom: 10, // Max zoom to cluster points on
+      clusterRadius: 80
     },
     // layout: {
     //   'icon-image': 'custom-marker'
@@ -92,6 +95,29 @@ function addMapPoints() {
       'circle-color': '#cc0000',
       'circle-opacity': 1,
       'circle-stroke-color': 'white'
+    }
+  })
+
+  map.addLayer({
+    id: 'clusters',
+    type: 'circle',
+    source: 'locations',
+    filter: ['has', 'point_count'],
+    paint: {
+      'circle-color': '#cc0000',
+      'circle-radius': 20
+    }
+  })
+
+  map.addLayer({
+    id: 'cluster-count',
+    type: 'symbol',
+    source: 'locations',
+    filter: ['has', 'point_count'],
+    layout: {
+      'text-field': ['get', 'point_count_abbreviated'],
+      'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+      'text-size': 12
     }
   })
 
@@ -109,7 +135,13 @@ function addMapPoints() {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
     }
 
-    new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map)
+    // Populate the popup and set its coordinates if description exists
+    if (description) {
+      new mapboxgl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(description)
+        .addTo(map)
+    }
   })
 
   // Center the map on the coordinates of any clicked circle from the 'locations' layer.
@@ -145,6 +177,29 @@ function addMapPoints() {
   map.on('mouseleave', 'locations', () => {
     map.getCanvas().style.cursor = ''
   })
+
+  map.on('mouseenter', 'clusters', () => {
+    map.getCanvas().style.cursor = 'pointer'
+  })
+  map.on('mouseleave', 'clusters', () => {
+    map.getCanvas().style.cursor = ''
+  })
+  map.on('click', 'clusters', (e) => {
+    const features = map.queryRenderedFeatures(e.point, {
+      layers: ['clusters']
+    })
+    const clusterId = features[0].properties.cluster_id
+    map
+      .getSource('locations')
+      .getClusterExpansionZoom(clusterId, (err, zoom) => {
+        if (err) return
+
+        map.easeTo({
+          center: features[0].geometry.coordinates,
+          zoom: zoom
+        })
+      })
+  })
 }
 
 //When map is loaded initialize with data
@@ -158,6 +213,15 @@ function handleCountriesFilter() {
   // Remove existing map layer
   if (map.getLayer('locations')) {
     map.removeLayer('locations')
+  }
+
+  // Remove cluster layers
+  if (map.getLayer('clusters')) {
+    map.removeLayer('clusters')
+  }
+
+  if (map.getLayer('cluster-count')) {
+    map.removeLayer('cluster-count')
   }
 
   // Remove existing map source

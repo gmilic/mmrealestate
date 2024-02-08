@@ -5,8 +5,66 @@
   const testdiv02 = document.getElementById('testdiv02')
   const testdiv03 = document.getElementById('testdiv03')
 
+  // payment plan
+  let euro = Intl.NumberFormat('en-DE', {
+    style: 'currency',
+    currency: 'EUR'
+  })
+  testdiv01.innerHTML = `
+  <label for="price">Price</label>
+<input type="text" id="price" placeholder="Price" value="150000"/><br />
+<label for="downpaymentPercentage">Downpayment percentage</label>
+<input type="text" id="downpaymentPercentage" placeholder="Downpayment percentage" value="50"/><br />
+<label for="months">Period</label>
+<select id="months">
+  <option value="12" selected="selected" >1 year</option>
+  <option value="24">2 years</option>
+  <option value="36">3 years</option>
+</select>
+<br />
+
+
+
+<button onclick="calculate()">Calculate</button>
+<div id="result"></div>
+<br />
+<br />
+<br />
+<br />
+<hr />
+<br />
+<br />
+<br />
+<br />
+`
+  function calculate() {
+    const price = document.getElementById('price').value
+    const downpaymentPercentage = document.getElementById(
+      'downpaymentPercentage'
+    ).value
+    const months = document.getElementById('months').value
+
+    const downpayment = (price * (downpaymentPercentage / 100))
+      .toFixed(2)
+      .toLocaleString()
+    const loan = (price - downpayment).toFixed(2).toLocaleString()
+    const monthlyPayment = (loan / months).toFixed(2).toLocaleString()
+    const monthlyPaymentPercentage = ((monthlyPayment / price) * 100)
+      .toFixed(2)
+      .toLocaleString()
+
+    const result = document.getElementById('result')
+    result.innerHTML = `
+    <p>Downpayment: ${euro.format(downpayment)}</p>
+    <p>Rest: ${loan} Eur</p>
+    <p>Monthly payment: ${monthlyPayment} Eur</p>
+    <p>Monthly payment percentage: ${monthlyPaymentPercentage}%</p>
+    `
+  }
+
+  // Chart
   // create canvas element in testdiv01 with id chart
-  const canvas = testdiv01.appendChild(document.createElement('canvas'))
+  const canvas = testdiv03.appendChild(document.createElement('canvas'))
   canvas.id = 'chart'
   canvas.width = 800
   canvas.height = 400

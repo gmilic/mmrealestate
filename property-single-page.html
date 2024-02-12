@@ -1,0 +1,156 @@
+<style>
+  /* consts */
+  :root {
+    --primary-color: #1c2433;
+    --secondary-color: #2efd53;
+    --light-green: #eefff3;
+  }
+  inter google {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .select-js-elements {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-green);
+    margin-bottom: 2rem;
+    border-radius: 8px;
+  }
+
+  .h5-js-elements {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin: 0;
+    line-height: 1.1;
+    font-family: 'Inter', sans-serif;
+  }
+  .h6-js-elements {
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--primary-color);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.1;
+    font-family: 'Inter', sans-serif;
+  }
+  .payment-plan_items {
+    margin-bottom: 2rem;
+  }
+  .label-js-elements {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin: 0;
+    line-height: 1.1;
+    font-family: 'Inter', sans-serif;
+  }
+</style>
+
+<script>
+  let euro = Intl.NumberFormat('en-DE', {
+    style: 'currency',
+    currency: 'EUR'
+  })
+  const paymentPlanWrap = document.getElementById('property-payment-plan-wrap')
+  // create optinos for period
+  const monthsLabel = paymentPlanWrap.appendChild(
+    document.createElement('label')
+  )
+  monthsLabel.classList.add('label-js-elements')
+  monthsLabel.htmlFor = 'months'
+  monthsLabel.textContent = 'Period'
+  const months = paymentPlanWrap.appendChild(document.createElement('select'))
+  months.id = 'months'
+  months.classList.add('select-js-elements')
+  const monthsOptions = ['12', '24', '36']
+  monthsOptions.forEach((option) => {
+    const optionEl = months.appendChild(document.createElement('option'))
+    optionEl.value = option
+    optionEl.textContent = `${option / 12} ${
+      option / 12 > 1 ? 'years' : 'year'
+    }`
+  })
+  // add label for period
+  // on change period call calculate
+  months.addEventListener('change', calculate)
+
+  const paymentPlan = paymentPlanWrap.appendChild(document.createElement('div'))
+  paymentPlan.classList.add('property-payment-plan')
+
+  calculate()
+
+  function calculate() {
+    const price = document.getElementById('main-price').textContent
+    const downpaymentPercentage = document.getElementById(
+      'downpayment-percentage'
+    ).textContent
+    const months = document.getElementById('months').value
+
+    const downpayment = (price * (downpaymentPercentage / 100))
+      .toFixed(2)
+      .toLocaleString()
+    const loan = (price - downpayment).toFixed(2).toLocaleString()
+    const monthlyPayment = (loan / months).toFixed(2).toLocaleString()
+    const monthlyPaymentPercentage = ((monthlyPayment / price) * 100)
+      .toFixed(2)
+      .toLocaleString()
+
+    // calculate last month payment date just month and year
+    const lastMonthPaymentDate = new Date()
+    lastMonthPaymentDate.setMonth(
+      lastMonthPaymentDate.getMonth() + parseInt(months)
+    )
+    const lastMonthPaymentDateStr = lastMonthPaymentDate.toLocaleDateString(
+      'en-DE',
+      {
+        year: 'numeric',
+        month: 'long'
+      }
+    )
+
+    paymentPlan.innerHTML = `
+    <div class="payment-plan_items">
+    <h6 class="h6-js-elements">Downpayment percentage:</h6>
+    <h5 class="h5-js-elements">${downpaymentPercentage}%</h5>
+    </div>
+    <div class="payment-plan_items">
+    <h6 class="h6-js-elements">Downpayment amount: </h6>
+    <h5 class="h5-js-elements">${euro.format(downpayment)}</h5>
+    </div>
+    <div class="payment-plan_items">
+    <h6 class="h6-js-elements">Remaining amount:</h6>
+    <h5 class="h5-js-elements">${euro.format(loan)}</h5>
+    </div>
+    <div class="payment-plan_items">
+    <h6 class="h6-js-elements">Monthly payment percentage:</h6>
+    <h5 class="h5-js-elements">${monthlyPaymentPercentage}%</h5>
+    </div>
+    <div class="payment-plan_items">
+    <h6 class="h6-js-elements">Monthly payment:</h6>
+    <h5 class="h5-js-elements">${euro.format(monthlyPayment)}</h5>
+    </div>
+    <div class="payment-plan_items">
+    <h6 class="h6-js-elements">Last payment:</h6>
+    <h5 class="h5-js-elements">${lastMonthPaymentDateStr}</h5>
+    </div>
+    
+    `
+  }
+
+  // Mapbox
+  mapboxgl.accessToken =
+    'pk.eyJ1IjoibW1yZWFsZXN0YXRldGVjaCIsImEiOiJjbHB3bjVsZ2EwZzByMm9wYmVtZDVwb2hyIn0.d66L0eAH0VLt2CvD8stQlw'
+
+  const latitude = document.getElementById('data-latitude')
+  const longitude = document.getElementById('data-longitude')
+  const map = new mapboxgl.Map({
+    container: 'map', // container ID
+    center: [latitude, longitude], // starting position [lng, lat]
+    zoom: 9 // starting zoom
+  })
+</script>

@@ -1,12 +1,10 @@
 <style>
-  /* consts */
   :root {
     --primary-color: #1c2433;
     --secondary-color: #2efd53;
     --light-green: #eefff3;
-  }
-  inter google {
-    font-family: 'Inter', sans-serif;
+    --light-black: #313a46;
+    --darkd-green: #194035;
   }
 
   .select-js-elements {
@@ -48,6 +46,135 @@
     margin: 0;
     line-height: 1.1;
     font-family: 'Inter', sans-serif;
+  }
+  .roi-calc-slider-wrap {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 1rem;
+    grid-row-gap: 1rem;
+  }
+  .roi-calc-buttons-wrap {
+    display: flex;
+  }
+  .roi-calc-button-result-wrap {
+  }
+  .roi-calc-button-result {
+    background-color: var(--light-black);
+    color: #fff;
+    border-radius: 10px;
+    text-align: left;
+    padding: 0.8rem 1rem 0.4rem 1rem;
+    margin-right: 0.6rem;
+    cursor: default;
+  }
+  .roi-calc-button-profit-label {
+    margin: 0;
+  }
+  .roi-calc-button-result-main {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1.1;
+    margin: 0;
+    min-width: 260px;
+  }
+  .roi-calc-button-result-span {
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0;
+    margin-left: 0.4rem;
+    font-style: italic;
+  }
+  .button-js-elements-black {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    color: var(--primary-color);
+    padding: 0 3rem;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .button-js-elements-black:hover {
+    background-color: var(--primary-color);
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+  }
+  .slider-js-elements-wrap {
+    width: 100%;
+    padding: 4rem 2rem 4rem 0;
+    position: relative;
+  }
+  .slider-js-elements-wrap .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background-image: linear-gradient(
+      to right,
+      var(--darkd-green),
+      var(--secondary-color)
+    );
+    outline: none;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+  }
+  .slider-js-elements-wrap .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px;
+    height: 25px;
+    background: #fff;
+    cursor: grab;
+  }
+
+  .slider-js-elements-wrap .slider::-moz-range-thumb {
+    width: 8px;
+    height: 25px;
+    background: #fff;
+    cursor: grab;
+  }
+
+  .sliderLabel {
+    position: absolute;
+    top: 8.2rem;
+    left: -1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6em;
+    /* transition: 366ms cubic-bezier(0.3, 0.6, 0.4, 1.125); */
+    color: #fff;
+    /* min-width: 2rem; */
+  }
+  .sliderMinMaxLabels {
+    display: flex;
+    justify-content: space-between;
+  }
+  .sliderMinMaxLabelsTitle {
+    color: #fff;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .sliderMinMaxLabelsSubTitle {
+    color: #fff;
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+  }
+  .sliderMinMaxLabelsEnd {
+    text-align: end;
+  }
+  .labelSmallText {
+    font-size: 0.8rem;
+    font-weight: 400;
+    position: relative;
+    top: 5px;
+  }
+  #roi-calc-button-result-span {
+    min-width: 90px;
+    display: inline-block;
   }
 </style>
 
@@ -100,18 +227,7 @@
       .toFixed(2)
       .toLocaleString()
 
-    // calculate last month payment date just month and year
-    const lastMonthPaymentDate = new Date()
-    lastMonthPaymentDate.setMonth(
-      lastMonthPaymentDate.getMonth() + parseInt(months)
-    )
-    const lastMonthPaymentDateStr = lastMonthPaymentDate.toLocaleDateString(
-      'en-DE',
-      {
-        year: 'numeric',
-        month: 'long'
-      }
-    )
+    let lastMonthPaymentDateStr = lastMonthOfPayment(months, 'long')
 
     paymentPlan.innerHTML = `
     <div class="payment-plan_items">
@@ -142,15 +258,207 @@
     `
   }
 
+  function lastMonthOfPayment(months, length) {
+    // calculate last month payment date just month and year
+    const lastMonthPaymentDate = new Date()
+    lastMonthPaymentDate.setMonth(
+      lastMonthPaymentDate.getMonth() + parseInt(months)
+    )
+    return (lastMonthPaymentDateStr = lastMonthPaymentDate.toLocaleDateString(
+      'en-DE',
+      {
+        year: 'numeric',
+        month: length
+      }
+    ))
+  }
+
+  // ROI Calc
+  console.log('ROI Calc')
+  const roiCalcWrap = document.getElementById('roi-calc-wrap')
+  const priceMin = document.getElementById('data-price-min').textContent
+  const priceMax = document.getElementById('data-price-max').textContent
+  if (!priceMin && !priceMax) {
+  }
+  const roiCalcInner = roiCalcWrap.appendChild(document.createElement('div'))
+  const firstMonthROI = lastMonthOfPayment(0, 'short')
+  const lastMonthROI = lastMonthOfPayment(36, 'short')
+
+  roiCalcInner.innerHTML = `
+<div class="roi-calc-slider-wrap">
+  <div class="roi-calc-single-slider">
+    <div class="slider-js-elements-wrap">
+      <div class="sliderMinMaxLabels">
+        <div class="sliderMinMaxLabelsStart">
+          <p class="sliderMinMaxLabelsTitle">${priceMin}</p>
+          <p class="sliderMinMaxLabelsSubTitle">Minimum</p>
+        </div>
+        <div class="sliderMinMaxLabelsEnd">
+          <p class="sliderMinMaxLabelsTitle">1M €</p>
+          <p class="sliderMinMaxLabelsSubTitle">Maximum</p>
+        </div>
+      </div>
+      <input
+        type="range"
+        min=${priceMin}
+        max=1000000
+        step=1000
+        class="slider"
+        id="sliderPrice"
+      />
+      <label for="sliderPrice" class="sliderLabel" id="sliderPriceLabel"
+        >0</label
+      >
+    </div>
+  </div>
+  <div class="roi-calc-single-slider">
+    <div class="slider-js-elements-wrap">
+      <div class="sliderMinMaxLabels">
+        <div class="sliderMinMaxLabelsStart">
+          <p class="sliderMinMaxLabelsTitle">${firstMonthROI}</p>
+          <p class="sliderMinMaxLabelsSubTitle">Start</p>
+        </div>
+        <div class="sliderMinMaxLabelsEnd">
+          <p class="sliderMinMaxLabelsTitle">${lastMonthROI}</p>
+          <p class="sliderMinMaxLabelsSubTitle">Finish</p>
+        </div>
+      </div>
+      <input
+        type="range"
+        min="1"
+        max="36"
+        value="24"
+        class="slider"
+        id="sliderTime"
+      />
+      <label for="sliderPrice" class="sliderLabel" id="sliderTimeLabel"
+        >0</label
+      >
+    </div>
+  </div>
+</div>
+      
+    <div class="roi-calc-buttons-wrap">
+      <button class="roi-calc-button-result">
+        <p class="roi-calc-button-profit-label">PROFIT:</p>
+        <div class="roi-calc-button-result-wrap">
+          <p class="roi-calc-button-result-main"><span id="roi-calc-profit"></span><span id="roi-calc-button-result-span" class="roi-calc-button-result-span">in 22 months</span></p>
+        </div>  
+      </button>
+      <button class="button-js-elements-black">Schedule a call
+      </button>
+    </div>
+
+
+  `
+
+  const sliderPrice = document.getElementById('sliderPrice')
+  const sliderTime = document.getElementById('sliderTime')
+  const roiCalcProfit = document.getElementById('roi-calc-profit')
+  const sliderPriceLabel = document.getElementById('sliderPriceLabel')
+  const sliderTimeLabel = document.getElementById('sliderTimeLabel')
+  const roiCalcButtonResultSpan = document.getElementById(
+    'roi-calc-button-result-span'
+  )
+  let monthsForCalc = 24
+  let investment = document.getElementById('main-price').textContent
+  let roi1year = document.getElementById('data-roi').textContent
+  let roi2year = document.getElementById('data-roi-2year').textContent
+  let roi3year = document.getElementById('data-roi-3year').textContent
+
+  sliderPrice.addEventListener('input', () => {
+    const { value, min, max, offsetWidth } = sliderPrice
+    const percent = ((value - min) / (max - min)) * 100
+    if (percent > 90) {
+      sliderPriceLabel.style.left = '-6rem'
+    } else if (percent > 50) {
+      sliderPriceLabel.style.left = '-4rem'
+    } else if (percent > 10) {
+      sliderPriceLabel.style.left = '-2rem'
+    } else {
+      sliderPriceLabel.style.left = '-1rem'
+    }
+    const newPosition = percent * (offsetWidth / 100)
+    sliderPriceLabel.style.transform = `translateX(${newPosition}px)`
+    sliderPriceLabel.textContent = value
+    investment = value
+    roiCalcProfit.textContent = calculateProfitROI(
+      investment,
+      monthsForCalc,
+      roi1year,
+      roi2year,
+      roi3year
+    )
+  })
+  sliderTime.addEventListener('input', () => {
+    const { value, min, max, offsetWidth } = sliderTime
+    const percent = ((value - min) / (max - min)) * 100
+    if (percent > 90) {
+      sliderTimeLabel.style.left = '-4rem'
+    } else if (percent > 50) {
+      sliderTimeLabel.style.left = '-3rem'
+    } else if (percent > 10) {
+      sliderTimeLabel.style.left = '-2rem'
+    } else {
+      sliderTimeLabel.style.left = '-0.5rem'
+    }
+    const newPosition = percent * (offsetWidth / 100)
+    sliderTimeLabel.style.transform = `translateX(${newPosition}px)`
+    sliderTimeLabel.innerHTML =
+      value + ' <span class="labelSmallText">months</span>'
+    roiCalcButtonResultSpan.textContent = `in ${value} months`
+    monthsForCalc = value
+    roiCalcProfit.textContent = calculateProfitROI(
+      investment,
+      monthsForCalc,
+      roi1year,
+      roi2year,
+      roi3year
+    )
+  })
+  sliderPrice.dispatchEvent(new Event('input', { bubbles: true }))
+  sliderTime.dispatchEvent(new Event('input', { bubbles: true }))
+
+  function calculateProfitROI(
+    investment,
+    months,
+    roi1year,
+    roi2year,
+    roi3year
+  ) {
+    // calculate profit based on investment and number of months. roi parameter is given for firt, second and third year
+    let profit = 0
+    let profit1year = 0
+    let profit2year = 0
+    let profit3year = 0
+    if (months <= 12) {
+      profit = investment * (roi1year / 100) * (months / 12)
+    } else if (months > 12 && months <= 24) {
+      profit1year = investment * (roi1year / 100)
+      profit2year = investment * (roi2year / 100) * ((months - 12) / 12)
+      profit = profit1year + profit2year
+    } else if (months > 24) {
+      profit1year = investment * (roi1year / 100)
+      profit2year = investment * (roi2year / 100)
+      profit3year = investment * (roi3year / 100) * ((months - 24) / 12)
+      profit = profit1year + profit2year + profit3year
+    }
+    return Math.round(profit).toLocaleString()
+  }
+
   // Mapbox
   mapboxgl.accessToken =
     'pk.eyJ1IjoibW1yZWFsZXN0YXRldGVjaCIsImEiOiJjbHB3bjVsZ2EwZzByMm9wYmVtZDVwb2hyIn0.d66L0eAH0VLt2CvD8stQlw'
 
-  const latitude = document.getElementById('data-latitude')
-  const longitude = document.getElementById('data-longitude')
+  const latitude = document.getElementById('data-latitude').textContent
+  const longitude = document.getElementById('data-longitude').textContent
   const map = new mapboxgl.Map({
-    container: 'map', // container ID
-    center: [latitude, longitude], // starting position [lng, lat]
-    zoom: 9 // starting zoom
+    container: 'property-map-wrap', // container ID
+    center: [longitude, latitude], // starting position [lng, lat]
+    zoom: 12, // starting zoom
+    style: 'mapbox://styles/mmrealestatetech/clsisuepv00cb01qx84hd38f3'
   })
+  const marker1 = new mapboxgl.Marker()
+    .setLngLat([longitude, latitude])
+    .addTo(map)
 </script>

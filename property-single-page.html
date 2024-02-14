@@ -174,6 +174,41 @@
     min-width: 90px;
     display: inline-block;
   }
+  #infaltion-trends-select select,
+  #savings-select select {
+    max-width: 250px;
+    margin-bottom: 0;
+  }
+
+  /* SPINNER */
+  .dropload {
+    position: relative;
+    display: inline-block; /* or block */
+  }
+
+  .dropload::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    content: '';
+    background: url('https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/65ccccafe2b75fdda9060ed3_loading.gif')
+      no-repeat center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity 0.5s;
+  }
+
+  .dropload.show::before {
+    opacity: 1;
+    visibility: visible;
+  }
+  /* END SPINNER */
 </style>
 <script>
   // =================================== Payment Plan ===================================
@@ -429,6 +464,11 @@
       ]
     },
     options: {
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
       scales: {
         y: {
           beginAtZero: false
@@ -468,7 +508,7 @@
       roi1year,
       roi2year,
       roi3year
-    )
+    ).toLocaleString()
   })
 
   sliderTime.addEventListener('input', () => {
@@ -506,7 +546,7 @@
       roi1year,
       roi2year,
       roi3year
-    )
+    ).toLocaleString()
   })
   sliderPrice.dispatchEvent(new Event('input', { bubbles: true }))
   sliderTime.dispatchEvent(new Event('input', { bubbles: true }))
@@ -534,7 +574,7 @@
       profit3year = investment * (roi3year / 100) * ((months - 24) / 12)
       profit = profit1year + profit2year + profit3year
     }
-    return Math.round(profit).toLocaleString()
+    return Math.round(profit)
   }
 
   function createInvestmentsArray(
@@ -581,4 +621,307 @@
   const marker1 = new mapboxgl.Marker()
     .setLngLat([longitude, latitude])
     .addTo(map)
+
+  // =================================== Inflation Graphs ===================================
+  const inflationSavingsSelectOptions = {
+    ba: 'Bosnia and Herzegovina',
+    tr: 'Turkiye'
+  }
+  let inflationURL =
+    'https://api.worldbank.org/v2/country/ba/indicator/NY.GDP.DEFL.KD.ZG?format=json'
+  let inflationChart = ''
+  const inflationSelecthWrap = document.getElementById(
+    'infaltion-trends-select'
+  )
+  const inflationSelect = inflationSelecthWrap.appendChild(
+    document.createElement('select')
+  )
+  inflationSelect.classList.add('select-js-elements')
+  inflationSelect.id = 'inflation-select'
+
+  // create options for select
+  for (const [key, value] of Object.entries(inflationSavingsSelectOptions)) {
+    const optionEl = inflationSelect.appendChild(
+      document.createElement('option')
+    )
+    optionEl.value = key
+    optionEl.textContent = value
+  }
+
+  inflationSelect.addEventListener('change', function () {
+    waitingSpinner('inflation-select')
+
+    inflationURL = `https://api.worldbank.org/v2/country/${this.value}/indicator/NY.GDP.DEFL.KD.ZG?format=json`
+
+    getInflationData().then((data) => {
+      let newData = parseWorldData(data)
+      inflationChart.data.labels = newData[0]
+      inflationChart.data.datasets[0].data = newData[1]
+      inflationChart.update()
+    })
+
+    waitingSpinner('inflation-select')
+  })
+
+  getInflationData().then((data) => {
+    renderInflationJSON(parseWorldData(data))
+  })
+
+  async function getInflationData() {
+    const response = await fetch(inflationURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      // handle error
+      console.error('HTTP error', response.status)
+    } else {
+      const apiJSON = await response.json()
+      return apiJSON
+    }
+  }
+
+  const inflationGraphWrap = document.getElementById('infaltion-trends-wrap')
+  const inflationCanvas = inflationGraphWrap.appendChild(
+    document.createElement('canvas')
+  )
+  inflationCanvas.id = 'inflation-chart'
+  inflationCanvas.width = '100%'
+  inflationCanvas.height = '400px'
+
+  const ctxInflation = document
+    .getElementById('inflation-chart')
+    .getContext('2d')
+
+  var gradient = ctxInflation.createLinearGradient(0, 0, 0, 400)
+
+  function parseWorldData(apiJSON) {
+    const inflationData = apiJSON[1].filter((item) => item.value !== null)
+    const inflationYears = inflationData.map((item) => item.date)
+    inflationYears.reverse()
+    const inflationValues = inflationData.map((item) => item.value)
+    inflationValues.reverse()
+    return [inflationYears, inflationValues]
+  }
+
+  async function renderInflationJSON(worldData) {
+    inflationChart = new Chart(ctxInflation, {
+      type: 'line',
+      data: {
+        labels: worldData[0],
+        datasets: [
+          {
+            data: worldData[1],
+            borderWidth: 2,
+            borderColor: ['#2efd53'],
+            borrderCapStyle: 'round',
+            fill: true,
+            backgroundColor: gradient,
+            pointRadius: 0, // hide points
+            arrowHeads: {
+              width: 10,
+              length: 10,
+              frequency: 'end'
+            }
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    })
+  }
+
+  // =================================== Savings Graphs ===================================
+  let savingsURL =
+    'https://api.worldbank.org/v2/country/ba/indicator/FR.INR.DPST?format=json'
+  let savingsChart = ''
+  const savingsSelecthWrap = document.getElementById('savings-select')
+  const savingsSelect = savingsSelecthWrap.appendChild(
+    document.createElement('select')
+  )
+  savingsSelect.classList.add('select-js-elements')
+
+  // create options for select
+  for (const [key, value] of Object.entries(inflationSavingsSelectOptions)) {
+    const optionEl = savingsSelect.appendChild(document.createElement('option'))
+    optionEl.value = key
+    optionEl.textContent = value
+  }
+
+  savingsSelect.addEventListener('change', function () {
+    waitingSpinner(this)
+    savingsURL = `https://api.worldbank.org/v2/country/${this.value}/indicator/FR.INR.DPST?format=json`
+
+    getSavingsData().then((data) => {
+      let newData = parseWorldData(data)
+      savingsChart.data.labels = newData[0]
+      savingsChart.data.datasets[0].data = newData[1]
+      savingsChart.update()
+    })
+    waitingSpinner(this)
+  })
+
+  getSavingsData().then((data) => {
+    renderSavingsJSON(parseWorldData(data))
+  })
+
+  async function getSavingsData() {
+    const response = await fetch(savingsURL, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      // handle error
+      console.error('HTTP error', response.status)
+    } else {
+      const apiJSON = await response.json()
+      return apiJSON
+    }
+  }
+
+  const savingsGraphWrap = document.getElementById('savings-wrap')
+  const savingsCanvas = savingsGraphWrap.appendChild(
+    document.createElement('canvas')
+  )
+  savingsCanvas.id = 'savings-chart'
+  savingsCanvas.width = '100%'
+  savingsCanvas.height = '400px'
+
+  const ctxSavings = document.getElementById('savings-chart').getContext('2d')
+
+  var gradient = ctxSavings.createLinearGradient(0, 0, 0, 400)
+
+  async function renderSavingsJSON(worldData) {
+    savingsChart = new Chart(ctxSavings, {
+      type: 'line',
+      data: {
+        labels: worldData[0],
+        datasets: [
+          {
+            data: worldData[1],
+            borderWidth: 2,
+            borderColor: ['#2efd53'],
+            borrderCapStyle: 'round',
+            fill: true,
+            backgroundColor: gradient,
+            pointRadius: 0, // hide points
+            arrowHeads: {
+              width: 10,
+              length: 10,
+              frequency: 'end'
+            }
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    })
+  }
+  // =================================== Savings vs Real eastateGraphs ===================================
+  const savingsVsRealEstateWrap = document.getElementById(
+    'tab-saving-vs-real-graph'
+  )
+  const savingsVsRealCanvas = savingsVsRealEstateWrap.appendChild(
+    document.createElement('canvas')
+  )
+  savingsVsRealCanvas.id = 'savingsVsReal-chart'
+  savingsVsRealCanvas.width = '100%'
+  savingsVsRealCanvas.height = '400px'
+
+  const ctxSavingsVsReal = document
+    .getElementById('savingsVsReal-chart')
+    .getContext('2d')
+
+  let savingsVsRealReal = parseInt(
+    calculateProfitROI(priceMin, 36, roi1year, roi2year, roi3year)
+  )
+  let savingsVsRealSavings = parseInt(priceMin * 1.14)
+  let savingsVsRealValues = [savingsVsRealReal, savingsVsRealSavings]
+  let savingsVsRealLabels = [
+    `Real estate investment - Profit: ${savingsVsRealReal.toLocaleString()}`,
+    `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`
+  ]
+  savingsVsRealChart = new Chart(ctxSavingsVsReal, {
+    type: 'bar',
+    data: {
+      labels: savingsVsRealLabels,
+      datasets: [
+        {
+          label: '',
+          data: savingsVsRealValues,
+          fill: true,
+          backgroundColor: ['#99FFB6', '#E8E9EB'],
+          color: '#000',
+          borderRadius: 20
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          ticks: {
+            mirror: true,
+            z: 1,
+            color: '#000',
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          },
+          position: 'center'
+        }
+      }
+    }
+  })
+
+  function waitingSpinner(t) {
+    if (typeof t === 'string') {
+      t = document.getElementById(t)
+    }
+    let p = t.parentElement
+
+    if (!p.classList.contains('dropload')) {
+      let w = document.createElement('div')
+      w.classList.add('dropload')
+      p.insertBefore(w, t)
+      w.appendChild(t)
+      p = t.parentElement
+    }
+
+    p.classList.toggle('show')
+    p.querySelector('select').disabled = p.classList.contains('show')
+  }
 </script>

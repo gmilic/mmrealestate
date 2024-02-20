@@ -872,13 +872,14 @@
             mirror: true,
             z: 1,
             color: '#000',
+            padding: 20,
             font: {
               size: 15,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
           },
-          position: 'center'
+          position: 'left'
         }
       }
     }
@@ -903,6 +904,31 @@
   }
 
   // =================================== Commons ===================================
+  // function calculateProfitROI(
+  //   investment,
+  //   months,
+  //   roi1year,
+  //   roi2year,
+  //   roi3year
+  // ) {
+  //   let profit = 0
+  //   let profit1year = 0
+  //   let profit2year = 0
+  //   let profit3year = 0
+  //   if (months <= 12) {
+  //     profit = investment * (roi1year / 100) * (months / 12)
+  //   } else if (months > 12 && months <= 24) {
+  //     profit1year = investment * (roi1year / 100)
+  //     profit2year = investment * (roi2year / 100) * ((months - 12) / 12)
+  //     profit = profit1year + profit2year
+  //   } else if (months > 24) {
+  //     profit1year = investment * (roi1year / 100)
+  //     profit2year = investment * (roi2year / 100)
+  //     profit3year = investment * (roi3year / 100) * ((months - 24) / 12)
+  //     profit = profit1year + profit2year + profit3year
+  //   }
+  //   return Math.round(profit)
+  // }
   function calculateProfitROI(
     investment,
     months,
@@ -910,22 +936,31 @@
     roi2year,
     roi3year
   ) {
-    let profit = 0
-    let profit1year = 0
-    let profit2year = 0
-    let profit3year = 0
-    if (months <= 12) {
-      profit = investment * (roi1year / 100) * (months / 12)
-    } else if (months > 12 && months <= 24) {
-      profit1year = investment * (roi1year / 100)
-      profit2year = investment * (roi2year / 100) * ((months - 12) / 12)
-      profit = profit1year + profit2year
-    } else if (months > 24) {
-      profit1year = investment * (roi1year / 100)
-      profit2year = investment * (roi2year / 100)
-      profit3year = investment * (roi3year / 100) * ((months - 24) / 12)
-      profit = profit1year + profit2year + profit3year
+    let profit = Math.round(investment)
+    let currentYearMonths = new Date().getMonth() + 1 // get current month (0-11, hence +1)
+    let remainingMonthsThisYear = 12 - currentYearMonths
+
+    if (months <= remainingMonthsThisYear) {
+      profit += investment * (roi1year / 100) * (months / 12)
+    } else if (months <= remainingMonthsThisYear + 12) {
+      let monthsNextYear = months - remainingMonthsThisYear
+      profit += Math.round(
+        investment * (roi1year / 100) * (remainingMonthsThisYear / 12)
+      ) // profit for remaining months this year
+      profit += Math.round(
+        investment * (roi2year / 100) * (monthsNextYear / 12)
+      ) // profit for months in next year
+    } else {
+      let monthsThirdYear = months - remainingMonthsThisYear - 12
+      profit += Math.round(
+        investment * (roi1year / 100) * (remainingMonthsThisYear / 12)
+      ) // profit for remaining months this year
+      profit += Math.round(investment * (roi2year / 100)) // profit for next full year
+      profit += Math.round(
+        investment * (roi3year / 100) * (monthsThirdYear / 12)
+      ) // profit for months in third year
     }
+
     return Math.round(profit)
   }
 </script>

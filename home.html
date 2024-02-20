@@ -76,6 +76,14 @@
     margin: 0;
     min-width: 260px;
   }
+  .roi-calc-button-result-main-home {
+    font-size: 3rem;
+    font-weight: bold;
+    line-height: 1.1;
+    margin: 0;
+    min-width: 260px;
+    color: #fff;
+  }
   .roi-calc-button-result-span {
     font-size: 0.9rem;
     font-weight: 400;
@@ -103,7 +111,11 @@
     padding: 4rem 2rem 4rem 0;
     position: relative;
   }
-  .slider-js-elements-wrap .slider {
+  .slider-js-elements-wrap-home {
+    padding: 0 0 5rem 0;
+    position: relative;
+  }
+  .slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
@@ -117,7 +129,7 @@
     -webkit-transition: 0.2s;
     transition: opacity 0.2s;
   }
-  .slider-js-elements-wrap .slider::-webkit-slider-thumb {
+  .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
     width: 8px;
@@ -126,7 +138,7 @@
     cursor: grab;
   }
 
-  .slider-js-elements-wrap .slider::-moz-range-thumb {
+  .slider::-moz-range-thumb {
     width: 8px;
     height: 25px;
     background: #fff;
@@ -145,6 +157,10 @@
     color: #fff;
     /* min-width: 2rem; */
   }
+  .slider-js-elements-wrap-home .sliderLabel {
+    top: 4.2rem;
+  }
+
   .sliderMinMaxLabels {
     display: flex;
     justify-content: space-between;
@@ -211,6 +227,9 @@
   /* END SPINNER */
 
   /********************** HOME **************************************/
+  .roi-calc-button-profit-label-home {
+    color: var(--secondary-color);
+  }
 </style>
 <script>
   const priceMin = 100000
@@ -491,13 +510,14 @@
             mirror: true,
             z: 1,
             color: '#000',
+            padding: 20,
             font: {
               size: 15,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
           },
-          position: 'center'
+          position: 'left'
         }
       }
     }
@@ -522,6 +542,7 @@
   }
 
   // =================================== Commons ===================================
+
   function calculateProfitROI(
     investment,
     months,
@@ -529,22 +550,213 @@
     roi2year,
     roi3year
   ) {
-    let profit = 0
-    let profit1year = 0
-    let profit2year = 0
-    let profit3year = 0
-    if (months <= 12) {
-      profit = investment * (roi1year / 100) * (months / 12)
-    } else if (months > 12 && months <= 24) {
-      profit1year = investment * (roi1year / 100)
-      profit2year = investment * (roi2year / 100) * ((months - 12) / 12)
-      profit = profit1year + profit2year
-    } else if (months > 24) {
-      profit1year = investment * (roi1year / 100)
-      profit2year = investment * (roi2year / 100)
-      profit3year = investment * (roi3year / 100) * ((months - 24) / 12)
-      profit = profit1year + profit2year + profit3year
+    let profit = Math.round(investment)
+    let currentYearMonths = new Date().getMonth() + 1 // get current month (0-11, hence +1)
+    let remainingMonthsThisYear = 12 - currentYearMonths
+
+    if (months <= remainingMonthsThisYear) {
+      profit += investment * (roi1year / 100) * (months / 12)
+    } else if (months <= remainingMonthsThisYear + 12) {
+      let monthsNextYear = months - remainingMonthsThisYear
+      profit += Math.round(
+        investment * (roi1year / 100) * (remainingMonthsThisYear / 12)
+      ) // profit for remaining months this year
+      profit += Math.round(
+        investment * (roi2year / 100) * (monthsNextYear / 12)
+      ) // profit for months in next year
+    } else {
+      let monthsThirdYear = months - remainingMonthsThisYear - 12
+      profit += Math.round(
+        investment * (roi1year / 100) * (remainingMonthsThisYear / 12)
+      ) // profit for remaining months this year
+      profit += Math.round(investment * (roi2year / 100)) // profit for next full year
+      profit += Math.round(
+        investment * (roi3year / 100) * (monthsThirdYear / 12)
+      ) // profit for months in third year
     }
+
     return Math.round(profit)
   }
+
+  // =================================== ROI calc home ===================================
+  const homeRoiCalcJs = document.getElementById('home-roi-calc-js')
+
+  const priceMinRoi = 0
+  const priceMaxRoi = 1000000
+
+  let monthsForCalc = 24
+  let roipercentage = 30
+
+  const roiCalcInner = homeRoiCalcJs.appendChild(document.createElement('div'))
+
+  roiCalcInner.innerHTML = `
+  <div class="roi-calc-slider-home-wrap">
+    <div class="roi-calc-single-slider">
+      <p class="roi-calc-button-profit-label-home">Investment:</p>
+      <div class="slider-js-elements-wrap-home">
+        <div class="sliderMinMaxLabels">
+          <div class="sliderMinMaxLabelsStart">
+            <p class="sliderMinMaxLabelsTitle">${priceMinRoi}</p>
+            <p class="sliderMinMaxLabelsSubTitle">Minimum</p>
+          </div>
+          <div class="sliderMinMaxLabelsEnd">
+            <p class="sliderMinMaxLabelsTitle">1M €</p>
+            <p class="sliderMinMaxLabelsSubTitle">Maximum</p>
+          </div>
+        </div>
+        <input
+          type="range"
+          min=${priceMinRoi}
+          max=1000000
+          step=1000
+          class="slider"
+          id="sliderPrice"
+        />
+        <label for="sliderPrice" class="sliderLabel" id="sliderPriceLabel"
+          >0</label
+        >
+      </div>
+    </div>
+    <div class="roi-calc-single-slider">
+      <p class="roi-calc-button-profit-label-home">Number of Years:</p>
+      <div class="slider-js-elements-wrap-home">
+        <div class="sliderMinMaxLabels">
+          <div class="sliderMinMaxLabelsStart">
+            <p class="sliderMinMaxLabelsTitle">1Y</p>
+            <p class="sliderMinMaxLabelsSubTitle">Start</p>
+          </div>
+          <div class="sliderMinMaxLabelsEnd">
+            <p class="sliderMinMaxLabelsTitle">3Y</p>
+            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
+          </div>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="3"
+          value="2"
+          class="slider"
+          id="sliderTime"
+        />
+        <label for="sliderPrice" class="sliderLabel" id="sliderTimeLabel"
+          >0</label
+        >
+      </div>
+    </div>
+    <div class="roi-calc-single-slider">
+      <p class="roi-calc-button-profit-label-home">ROI:</p>
+      <div class="slider-js-elements-wrap-home">
+        <div class="sliderMinMaxLabels">
+          <div class="sliderMinMaxLabelsStart">
+            <p class="sliderMinMaxLabelsTitle">0%</p>
+            <p class="sliderMinMaxLabelsSubTitle">Start</p>
+          </div>
+          <div class="sliderMinMaxLabelsEnd">
+            <p class="sliderMinMaxLabelsTitle">60%</p>
+            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
+          </div>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="60"
+          value="30"
+          class="slider"
+          id="sliderROI"
+        />
+        <label for="sliderROI" class="sliderLabel" id="sliderROILabel"
+          >0</label
+        >
+      </div>
+    </div>
+  </div>
+  <div class="roi-calc-home-results-wrap">
+    <p class="roi-calc-button-profit-label-home">Target Sales Price:</p>
+    <p class="roi-calc-button-result-main-home"><span>€</span><span id="roi-calc-profit"></span></p>
+  </div>
+
+
+  `
+
+  const roiCalcProfit = document.getElementById('roi-calc-profit')
+  const sliderPrice = document.getElementById('sliderPrice')
+  const sliderTime = document.getElementById('sliderTime')
+  const sliderROI = document.getElementById('sliderROI')
+  const sliderPriceLabel = document.getElementById('sliderPriceLabel')
+  const sliderTimeLabel = document.getElementById('sliderTimeLabel')
+  const sliderROILabel = document.getElementById('sliderROILabel')
+  const roiCalcButtonResultSpan = document.getElementById(
+    'roi-calc-button-result-span'
+  )
+  let investment = 500000
+
+  sliderPrice.addEventListener('input', () => {
+    const { value, min, max, offsetWidth } = sliderPrice
+    const percent = ((value - min) / (max - min)) * 100
+    if (percent > 90) {
+      sliderPriceLabel.style.left = '-6rem'
+    } else if (percent > 50) {
+      sliderPriceLabel.style.left = '-4rem'
+    } else if (percent > 10) {
+      sliderPriceLabel.style.left = '-2rem'
+    } else {
+      sliderPriceLabel.style.left = '-1rem'
+    }
+    const newPosition = percent * (offsetWidth / 100)
+    sliderPriceLabel.style.transform = `translateX(${newPosition}px)`
+    sliderPriceLabel.innerHTML =
+      value + ' <span class="labelSmallText">€</span>'
+    investment = value
+    roiCalcProfit.textContent = calculateProfitROI(
+      investment,
+      monthsForCalc,
+      roipercentage,
+      roipercentage,
+      roipercentage
+    ).toLocaleString()
+  })
+
+  sliderTime.addEventListener('input', () => {
+    const { value, min, max, offsetWidth } = sliderTime
+    const percent = ((value - min) / (max - min)) * 100
+    sliderTimeLabel.style.left = '-0.5rem'
+    const newPosition = percent * (offsetWidth / 100)
+    sliderTimeLabel.style.transform = `translateX(${newPosition}px)`
+    sliderTimeLabel.innerHTML =
+      value + ' <span class="labelSmallText">years</span>'
+    monthsForCalc = value * 12
+    roiCalcProfit.textContent = calculateProfitROI(
+      investment,
+      monthsForCalc,
+      roipercentage,
+      roipercentage,
+      roipercentage
+    ).toLocaleString()
+  })
+  sliderROI.addEventListener('input', () => {
+    const { value, min, max, offsetWidth } = sliderROI
+    const percent = ((value - min) / (max - min)) * 100
+    sliderROILabel.style.left = '-0.5rem'
+    const newPosition = percent * (offsetWidth / 100)
+    sliderROILabel.style.transform = `translateX(${newPosition}px)`
+    sliderROILabel.innerHTML = value + ' <span class="labelSmallText">%</span>'
+    roipercentage = value
+    roiCalcProfit.textContent = calculateProfitROI(
+      investment,
+      monthsForCalc,
+      roipercentage,
+      roipercentage,
+      roipercentage
+    ).toLocaleString()
+  })
+  sliderPrice.dispatchEvent(new Event('input', { bubbles: true }))
+  sliderTime.dispatchEvent(new Event('input', { bubbles: true }))
+  sliderROI.dispatchEvent(new Event('input', { bubbles: true }))
+  roiCalcProfit.textContent = calculateProfitROI(
+    investment,
+    monthsForCalc,
+    roipercentage,
+    roipercentage,
+    roipercentage
+  ).toLocaleString()
 </script>

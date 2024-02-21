@@ -963,4 +963,23 @@
 
     return Math.round(profit)
   }
+
+  // =================================== Time counter ===================================
+  const timeCounter = document.getElementById('time-counter')
+
+  // create time counter ticker in timeCounter element that count down to the end of the month
+  function timeCounterTicker() {
+    let now = new Date()
+    let endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+    let timeLeft = endOfMonth - now
+    let daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24))
+    let hoursLeft = Math.floor(
+      (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    )
+    let minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))
+    let secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000)
+    timeCounter.innerHTML = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`
+  }
+
+  setInterval(timeCounterTicker, 1000)
 </script>

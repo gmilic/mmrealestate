@@ -1,3 +1,187 @@
 <script>
-  console.log('investments.html')
+  // --------- GRAPH INFLATION
+  const graphWrapInflation = document.getElementById('graph-wrap-inflation')
+  const graphIflationCanvas = graphWrapInflation.appendChild(
+    document.createElement('canvas')
+  )
+  graphIflationCanvas.id = 'graphIflationCanvas'
+  graphIflationCanvas.width = '100%'
+  graphIflationCanvas.height = '400px'
+  const ctxGraphIflation = document
+    .getElementById('graphIflationCanvas')
+    .getContext('2d')
+
+  // get data for praph from table with ID  table-inflation
+  const tableInflation = document.getElementById('table-inflation')
+  const tableInflationRows = tableInflation.querySelectorAll('tr')
+  const tableInflationLabels = []
+  const tableInflationValues = []
+  tableInflationRows.forEach((row, index) => {
+    if (index > 0) {
+      const cells = row.querySelectorAll('td')
+      const year = cells[0].textContent
+      const inflation = cells[1].textContent
+      tableInflationValues.push(parseFloat(inflation))
+      tableInflationLabels.push(parseInt(year))
+    }
+  })
+
+  const graphIflationChart = new Chart(ctxGraphIflation, {
+    type: 'line',
+    data: {
+      labels: tableInflationLabels,
+      datasets: [
+        {
+          label: '',
+          data: tableInflationValues,
+          fill: true,
+          backgroundColor: ['#99FFB6', '#E8E9EB'],
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+  // --------- GRAPH Import/Export
+  const graphWrapImportExport = document.getElementById(
+    'graph-wrap-import-export'
+  )
+  const graphImportExportCanvas = graphWrapImportExport.appendChild(
+    document.createElement('canvas')
+  )
+  graphImportExportCanvas.id = 'graphImportExportCanvas'
+  graphImportExportCanvas.width = '100%'
+  graphImportExportCanvas.height = '400px'
+  const ctxGraphImportExport = document
+    .getElementById('graphImportExportCanvas')
+    .getContext('2d')
+  // get data for praph from table with ID  table-inflation
+  const tableImportExport = document.getElementById('table-export-import')
+  const tableImportExportRows = tableImportExport.querySelectorAll('tr')
+
+  const tableImportExportLabels = []
+  const tableImportExportnValues01 = []
+  const tableImportExportnValues02 = []
+  tableImportExportRows.forEach((row, index) => {
+    if (index > 0) {
+      const cells = row.querySelectorAll('td')
+      const year = cells[0].textContent + ' ' + cells[1].textContent
+      const exportData = cells[2].textContent
+      const importData = cells[3].textContent
+      tableImportExportnValues01.push(parseInt(exportData.replace(/,/g, '')))
+      tableImportExportnValues02.push(parseInt(importData.replace(/,/g, '')))
+      tableImportExportLabels.push(year)
+    }
+  })
+
+  const graphImportExportChart = new Chart(ctxGraphImportExport, {
+    type: 'line',
+    data: {
+      labels: tableImportExportLabels,
+      datasets: [
+        {
+          label: 'Import',
+          data: tableImportExportnValues01,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#9DEB8F',
+          color: '#fff'
+        },
+        {
+          label: 'Export',
+          data: tableImportExportnValues02,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
 </script>

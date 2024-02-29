@@ -96,7 +96,6 @@
   const ctxGraphImportExport = document
     .getElementById('graphImportExportCanvas')
     .getContext('2d')
-  // get data for praph from table with ID  table-inflation
   const tableImportExport = document.getElementById('table-export-import')
   const tableImportExportRows = tableImportExport.querySelectorAll('tr')
 
@@ -184,4 +183,123 @@
       }
     }
   })
+  // --------- GRAPH Import/Export
+  const graphWrapbdp = document.getElementById('graph-wrap-bdp')
+  const graphBDPCanvas = graphWrapbdp.appendChild(
+    document.createElement('canvas')
+  )
+  graphBDPCanvas.id = 'graphBDPCanvas'
+  graphBDPCanvas.width = '100%'
+  graphBDPCanvas.height = '400px'
+  const ctxGraphBdp = document.getElementById('graphBDPCanvas').getContext('2d')
+  const tableBdp = document.getElementById('table-bdp')
+  const tableBdpRows = tableBdp.querySelectorAll('tr')
+
+  const tableBdpLabels = []
+  const tableBdpValues01 = []
+  const tableBdpValues02 = []
+  const tableBdpValues03 = []
+  tableBdpRows.forEach((row, index) => {
+    if (index > 0) {
+      const cells = row.querySelectorAll('td')
+      const year = cells[0].textContent + ' ' + cells[1].textContent
+      const spendingData = cells[2].textContent
+      const investmentsData = cells[3].textContent
+      const bdpData = cells[4].textContent
+      tableBdpValues01.push(parseInt(spendingData.replace(/,/g, '')))
+      tableBdpValues02.push(parseInt(investmentsData.replace(/,/g, '')))
+      tableBdpValues03.push(parseInt(bdpData.replace(/,/g, '')))
+      tableBdpLabels.push(year)
+    }
+  })
+
+  const graphBdpChart = new Chart(ctxGraphBdp, {
+    type: 'line',
+    data: {
+      labels: tableBdpLabels,
+      datasets: [
+        {
+          label: 'Spending',
+          data: tableBdpValues01,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#9DEB8F',
+          color: '#fff'
+        },
+        {
+          label: 'Investments',
+          data: tableBdpValues02,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
+        },
+        {
+          label: 'BDP',
+          data: tableBdpValues03,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#D45D5D',
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  /*
+
+graph-wrap-construction
+tableConstruction
+
+graph-wrap-tourism
+table-tourism
+
+graph-wrap-interest
+table-tourism
+*/
 </script>

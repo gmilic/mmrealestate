@@ -183,7 +183,7 @@
       }
     }
   })
-  // --------- GRAPH Import/Export
+  // --------- GRAPH BDP
   const graphWrapbdp = document.getElementById('graph-wrap-bdp')
   const graphBDPCanvas = graphWrapbdp.appendChild(
     document.createElement('canvas')
@@ -290,16 +290,374 @@
       }
     }
   })
+  // --------- GRAPH Construction
+  const graphWrapContruction = document.getElementById(
+    'graph-wrap-construction'
+  )
+  const graphConstructionCanvas = graphWrapContruction.appendChild(
+    document.createElement('canvas')
+  )
+  graphConstructionCanvas.id = 'graphConstructionCanvas'
+  graphConstructionCanvas.width = '100%'
+  graphConstructionCanvas.height = '400px'
+  const ctxGraphConstruction = document
+    .getElementById('graphConstructionCanvas')
+    .getContext('2d')
+  const tableConstruction = document.getElementById('tableConstruction')
+  const tableConstructionRows = tableConstruction.querySelectorAll('tr')
 
-  /*
+  const tableConstructionLabels = ['2021.', '2022.']
 
-graph-wrap-construction
-tableConstruction
+  // --------- GRAPH Tourism Comon
+  const tourismLabels = ['2021.', '2022.', '2023.']
+  // --------- GRAPH Tourism 01
+  const graphWrapTourism01 = document.getElementById('graph-wrap-tourism-01')
+  const graphTourismCanvas01 = graphWrapTourism01.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas01.id = 'graphTourismCanvas01'
+  graphTourismCanvas01.width = '100%'
+  graphTourismCanvas01.height = '400px'
+  const ctxGraphTourism01 = document
+    .getElementById('graphTourismCanvas01')
+    .getContext('2d')
 
-graph-wrap-tourism
-table-tourism
+  const graphTourismChart01 = new Chart(ctxGraphTourism01, {
+    type: 'bar',
+    data: {
+      labels: tourismLabels,
+      datasets: [
+        {
+          label: 'Total - Tourist Arrivals',
+          data: [140501, 338083, 565139],
+          fill: true,
+          backgroundColor: '#DFBF80',
+          stack: 'Stack 0'
+        },
+        {
+          label: 'Total - Overnight Stays',
+          data: [286555, 797639, 1185115],
+          fill: true,
+          backgroundColor: '#F5A507',
+          stack: 'Stack 0'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
 
-graph-wrap-interest
-table-tourism
-*/
+  // --------- GRAPH Tourism 02
+  const graphWrapTourism02 = document.getElementById('graph-wrap-tourism-02')
+  const graphTourismCanvas02 = graphWrapTourism02.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas02.id = 'graphTourismCanvas02'
+  graphTourismCanvas02.width = '100%'
+  graphTourismCanvas02.height = '400px'
+  const ctxGraphTourism02 = document
+    .getElementById('graphTourismCanvas02')
+    .getContext('2d')
+
+  const graphTourismChart02 = new Chart(ctxGraphTourism02, {
+    type: 'bar',
+    data: {
+      labels: tourismLabels,
+      datasets: [
+        {
+          label: 'Hotels - Tourist Arrivals',
+          data: [136304, 329589, 547919],
+          fill: false,
+          backgroundColor: '#DD6A6A',
+          stack: 'Stack 1'
+        },
+        {
+          label: 'Hotels - Overnight Stays',
+          data: [274973, 769816, 1133942],
+          fill: false,
+          backgroundColor: '#ff0000',
+          stack: 'Stack 1'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Tourism 03
+  const graphWrapTourism03 = document.getElementById('graph-wrap-tourism-03')
+  const graphTourismCanvas03 = graphWrapTourism03.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas03.id = 'graphTourismCanvas03'
+  graphTourismCanvas03.width = '100%'
+  graphTourismCanvas03.height = '400px'
+  const ctxGraphTourism03 = document
+    .getElementById('graphTourismCanvas03')
+    .getContext('2d')
+
+  const graphTourismChart03 = new Chart(ctxGraphTourism03, {
+    type: 'bar',
+    data: {
+      labels: tourismLabels,
+      datasets: [
+        {
+          label: 'Resorts - Tourist Arrivals',
+          data: [3671, 5846, 12455],
+          fill: false,
+          backgroundColor: '#6CD98C',
+          stack: 'Stack 2'
+        },
+        {
+          label: 'Resorts - Overnight Stays',
+          data: [10416, 20148, 39848],
+          fill: false,
+          backgroundColor: '#00ff00',
+          stack: 'Stack 2'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Tourism 04
+  const graphWrapTourism04 = document.getElementById('graph-wrap-tourism-04')
+  const graphTourismCanvas04 = graphWrapTourism04.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas04.id = 'graphTourismCanvas04'
+  graphTourismCanvas04.width = '100%'
+  graphTourismCanvas04.height = '400px'
+  const ctxGraphTourism04 = document
+    .getElementById('graphTourismCanvas04')
+    .getContext('2d')
+
+  const graphTourismChart04 = new Chart(ctxGraphTourism04, {
+    type: 'bar',
+    data: {
+      labels: tourismLabels,
+      datasets: [
+        {
+          label: 'Kamps - Tourist Arrivals',
+          data: [526, 2648, 4765],
+          fill: false,
+          backgroundColor: '#46B2E1',
+          stack: 'Stack 3'
+        },
+        {
+          label: 'Kamps - Overnight Stays',
+          data: [1166, 7675, 11325],
+          fill: false,
+          backgroundColor: '#0000ff',
+          stack: 'Stack 3'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+  // --------- GRAPH Interest
+  const graphWrapInterest = document.getElementById('graph-wrap-interest')
+  const graphInterestCanvas = graphWrapInterest.appendChild(
+    document.createElement('canvas')
+  )
+  graphInterestCanvas.id = 'graphInterestCanvas'
+  graphInterestCanvas.width = '100%'
+  graphInterestCanvas.height = '400px'
+  const ctxGraphInterest = document
+    .getElementById('graphInterestCanvas')
+    .getContext('2d')
 </script>

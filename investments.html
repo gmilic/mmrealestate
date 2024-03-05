@@ -290,25 +290,330 @@
       }
     }
   })
-  // --------- GRAPH Construction
-  const graphWrapContruction = document.getElementById(
-    'graph-wrap-construction'
+
+  // --------- GRAPH Construction common
+  const tableConstructionLabels = ['2021.', '2022.']
+  // --------- GRAPH Construction 01
+  const graphWrapContruction01 = document.getElementById(
+    'graph-wrap-construction-01'
   )
-  const graphConstructionCanvas = graphWrapContruction.appendChild(
+  const graphConstructionCanvas01 = graphWrapContruction01.appendChild(
     document.createElement('canvas')
   )
-  graphConstructionCanvas.id = 'graphConstructionCanvas'
-  graphConstructionCanvas.width = '100%'
-  graphConstructionCanvas.height = '400px'
-  const ctxGraphConstruction = document
-    .getElementById('graphConstructionCanvas')
+  graphConstructionCanvas01.id = 'graphConstructionCanvas01'
+  graphConstructionCanvas01.width = '100%'
+  graphConstructionCanvas01.height = '400px'
+  const ctxGraphConstruction01 = document
+    .getElementById('graphConstructionCanvas01')
     .getContext('2d')
-  const tableConstruction = document.getElementById('tableConstruction')
-  const tableConstructionRows = tableConstruction.querySelectorAll('tr')
 
-  const tableConstructionLabels = ['2021.', '2022.']
+  const graphConstruction01 = new Chart(ctxGraphConstruction01, {
+    type: 'bar',
+    data: {
+      labels: tableConstructionLabels,
+      datasets: [
+        {
+          label: 'Residental',
+          data: [88371, 76306],
+          fill: false,
+          backgroundColor: '#F5A507'
+        },
+        {
+          label: 'Hotels',
+          data: [6510, 7091],
+          fill: false,
+          backgroundColor: '#00ff00'
+        },
+        {
+          label: 'Office',
+          data: [13311, 18782],
+          fill: false,
+          backgroundColor: '#46B2E1'
+        },
+        {
+          label: 'Industrial',
+          data: [28454, 16093],
+          fill: false,
+          backgroundColor: '#6CD98C'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Construction - Square meters built',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
 
-  // --------- GRAPH Tourism Comon
+  // --------- GRAPH Construction 02
+  const graphWrapContruction02 = document.getElementById(
+    'graph-wrap-construction-02'
+  )
+  const graphConstructionCanvas02 = graphWrapContruction02.appendChild(
+    document.createElement('canvas')
+  )
+  graphConstructionCanvas02.id = 'graphConstructionCanvas02'
+  graphConstructionCanvas02.width = '100%'
+  graphConstructionCanvas02.height = '400px'
+  const ctxGraphConstruction02 = document
+    .getElementById('graphConstructionCanvas02')
+    .getContext('2d')
+
+  const graphConstruction02 = new Chart(ctxGraphConstruction02, {
+    type: 'bar',
+    data: {
+      labels: tableConstructionLabels,
+      datasets: [
+        {
+          label: 'Residental',
+          data: [139944000, 118553000],
+          fill: false,
+          backgroundColor: '#F5A507'
+        },
+        {
+          label: 'Hotels',
+          data: [19663000, 14319000],
+          fill: false,
+          backgroundColor: '#00ff00'
+        },
+        {
+          label: 'Office',
+          data: [63733000, 79585000],
+          fill: false,
+          backgroundColor: '#46B2E1'
+        },
+        {
+          label: 'Industrial',
+          data: [45345000, 43990000],
+          fill: false,
+          backgroundColor: '#6CD98C'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Construction - total values (KM)',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Construction 03
+  const graphWrapContruction03 = document.getElementById(
+    'graph-wrap-construction-03'
+  )
+  const graphConstructionCanvas03 = graphWrapContruction03.appendChild(
+    document.createElement('canvas')
+  )
+  graphConstructionCanvas03.id = 'graphConstructionCanvas03'
+  graphConstructionCanvas03.width = '100%'
+  graphConstructionCanvas03.height = '400px'
+  const ctxGraphConstruction03 = document
+    .getElementById('graphConstructionCanvas03')
+    .getContext('2d')
+
+  const graphConstruction03 = new Chart(ctxGraphConstruction03, {
+    type: 'bar',
+    data: {
+      labels: tableConstructionLabels,
+      datasets: [
+        {
+          label: 'Residental',
+          data: [1584, 1554],
+          fill: false,
+          backgroundColor: '#F5A507'
+        },
+        {
+          label: 'Hotels',
+          data: [3020, 2019],
+          fill: false,
+          backgroundColor: '#00ff00'
+        },
+        {
+          label: 'Office',
+          data: [4788, 4237],
+          fill: false,
+          backgroundColor: '#46B2E1'
+        },
+        {
+          label: 'Industrial',
+          data: [1594, 2733],
+          fill: false,
+          backgroundColor: '#6CD98C'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Construction - Total units built',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+  // --------- GRAPH Tourism Common
   const tourismLabels = ['2021.', '2022.', '2023.']
   // --------- GRAPH Tourism 01
   const graphWrapTourism01 = document.getElementById('graph-wrap-tourism-01')
@@ -328,14 +633,14 @@
       labels: tourismLabels,
       datasets: [
         {
-          label: 'Total - Tourist Arrivals',
+          label: 'Tourist Arrivals',
           data: [140501, 338083, 565139],
           fill: true,
           backgroundColor: '#DFBF80',
           stack: 'Stack 0'
         },
         {
-          label: 'Total - Overnight Stays',
+          label: 'Overnight Stays',
           data: [286555, 797639, 1185115],
           fill: true,
           backgroundColor: '#F5A507',
@@ -345,6 +650,16 @@
     },
     options: {
       plugins: {
+        title: {
+          display: true,
+          text: 'Total',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
         legend: {
           // display: false
           labels: {
@@ -413,14 +728,14 @@
       labels: tourismLabels,
       datasets: [
         {
-          label: 'Hotels - Tourist Arrivals',
+          label: 'Tourist Arrivals',
           data: [136304, 329589, 547919],
           fill: false,
           backgroundColor: '#DD6A6A',
           stack: 'Stack 1'
         },
         {
-          label: 'Hotels - Overnight Stays',
+          label: 'Overnight Stays',
           data: [274973, 769816, 1133942],
           fill: false,
           backgroundColor: '#ff0000',
@@ -430,6 +745,16 @@
     },
     options: {
       plugins: {
+        title: {
+          display: true,
+          text: 'Hotels',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
         legend: {
           // display: false
           labels: {
@@ -498,14 +823,14 @@
       labels: tourismLabels,
       datasets: [
         {
-          label: 'Resorts - Tourist Arrivals',
+          label: 'Tourist Arrivals',
           data: [3671, 5846, 12455],
           fill: false,
           backgroundColor: '#6CD98C',
           stack: 'Stack 2'
         },
         {
-          label: 'Resorts - Overnight Stays',
+          label: 'Overnight Stays',
           data: [10416, 20148, 39848],
           fill: false,
           backgroundColor: '#00ff00',
@@ -515,6 +840,16 @@
     },
     options: {
       plugins: {
+        title: {
+          display: true,
+          text: 'Resorts',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
         legend: {
           // display: false
           labels: {
@@ -583,14 +918,14 @@
       labels: tourismLabels,
       datasets: [
         {
-          label: 'Kamps - Tourist Arrivals',
+          label: 'Tourist Arrivals',
           data: [526, 2648, 4765],
           fill: false,
           backgroundColor: '#46B2E1',
           stack: 'Stack 3'
         },
         {
-          label: 'Kamps - Overnight Stays',
+          label: 'Overnight Stays',
           data: [1166, 7675, 11325],
           fill: false,
           backgroundColor: '#0000ff',
@@ -600,6 +935,16 @@
     },
     options: {
       plugins: {
+        title: {
+          display: true,
+          text: 'Kamps',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
         legend: {
           // display: false
           labels: {
@@ -660,4 +1005,82 @@
   const ctxGraphInterest = document
     .getElementById('graphInterestCanvas')
     .getContext('2d')
+  const interesetLabels = [
+    'Q1-2022.',
+    'Q2-2022.',
+    'Q3-2022.',
+    'Q4-2022.',
+    'Q1-2023.',
+    'Q2-2023.'
+  ]
+  const graphInterest = new Chart(ctxGraphInterest, {
+    type: 'bar',
+    data: {
+      labels: interesetLabels,
+      datasets: [
+        {
+          label: 'Deposits - up to 1 year',
+          data: [0.3, 0.35, 0.48, 0.4, 0.5, 0.62],
+          fill: false,
+          backgroundColor: '#F5A507'
+        },
+        {
+          label: 'Deposits - from 1 to 2 years',
+          data: [1.2, 1.1, 1.43, 1.73, 1.7, 1.8],
+          fill: false,
+          backgroundColor: '#00ff00'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
 </script>

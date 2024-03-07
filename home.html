@@ -77,7 +77,7 @@
     min-width: 260px;
   }
   .roi-calc-button-result-main-home {
-    font-size: 3rem;
+    font-size: 1.6rem;
     font-weight: bold;
     line-height: 1.1;
     margin: 0;
@@ -112,7 +112,7 @@
     position: relative;
   }
   .slider-js-elements-wrap-home {
-    padding: 0 0 5rem 0;
+    padding: 0 0 1rem 0;
     position: relative;
   }
   .slider {
@@ -152,24 +152,30 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.6em;
+    font-size: 0.9em;
+    font-weight: 400;
     /* transition: 366ms cubic-bezier(0.3, 0.6, 0.4, 1.125); */
     color: #fff;
     /* min-width: 2rem; */
   }
   .slider-js-elements-wrap-home .sliderLabel {
-    top: 4.2rem;
+    top: -1.6rem;
+    background: #fff;
+    color: #000;
+    padding: 2px 10px;
+    border-radius: 10px;
   }
 
   .sliderMinMaxLabels {
     display: flex;
     justify-content: space-between;
+    margin-top: 6px;
   }
   .sliderMinMaxLabelsTitle {
     color: #fff;
     margin: 0;
-    font-size: 1.2rem;
-    font-weight: bold;
+    font-size: 0.9rem;
+    font-weight: 400;
   }
   .sliderMinMaxLabelsSubTitle {
     color: #fff;
@@ -181,10 +187,10 @@
     text-align: end;
   }
   .labelSmallText {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 400;
     position: relative;
-    top: 5px;
+    top: 2px;
   }
   #roi-calc-button-result-span {
     min-width: 90px;
@@ -229,6 +235,11 @@
   /********************** HOME **************************************/
   .roi-calc-button-profit-label-home {
     color: var(--secondary-color);
+    margin-bottom: 24px;
+  }
+  .roi-calc-button-profit-total-label-home {
+    color: var(--secondary-color);
+    margin-bottom: 4px;
   }
 </style>
 <script>
@@ -510,7 +521,7 @@
             mirror: true,
             z: 1,
             color: '#000',
-            padding: 20,
+            // padding: 20,
             font: {
               size: 15,
               family: "'Inter', 'Arial', sans-serif",
@@ -594,6 +605,17 @@
     <div class="roi-calc-single-slider">
       <p class="roi-calc-button-profit-label-home">Investment:</p>
       <div class="slider-js-elements-wrap-home">
+        <label for="sliderPrice" class="sliderLabel" id="sliderPriceLabel"
+          >0</label
+        >
+        <input
+          type="range"
+          min=${priceMinRoi}
+          max=1000000
+          step=1000
+          class="slider"
+          id="sliderPrice"
+        />
         <div class="sliderMinMaxLabels">
           <div class="sliderMinMaxLabelsStart">
             <p class="sliderMinMaxLabelsTitle">${priceMinRoi}</p>
@@ -604,32 +626,11 @@
             <p class="sliderMinMaxLabelsSubTitle">Maximum</p>
           </div>
         </div>
-        <input
-          type="range"
-          min=${priceMinRoi}
-          max=1000000
-          step=1000
-          class="slider"
-          id="sliderPrice"
-        />
-        <label for="sliderPrice" class="sliderLabel" id="sliderPriceLabel"
-          >0</label
-        >
       </div>
     </div>
     <div class="roi-calc-single-slider">
       <p class="roi-calc-button-profit-label-home">Number of Years:</p>
       <div class="slider-js-elements-wrap-home">
-        <div class="sliderMinMaxLabels">
-          <div class="sliderMinMaxLabelsStart">
-            <p class="sliderMinMaxLabelsTitle">1Y</p>
-            <p class="sliderMinMaxLabelsSubTitle">Start</p>
-          </div>
-          <div class="sliderMinMaxLabelsEnd">
-            <p class="sliderMinMaxLabelsTitle">3Y</p>
-            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
-          </div>
-        </div>
         <input
           type="range"
           min="1"
@@ -641,21 +642,21 @@
         <label for="sliderPrice" class="sliderLabel" id="sliderTimeLabel"
           >0</label
         >
+        <div class="sliderMinMaxLabels">
+          <div class="sliderMinMaxLabelsStart">
+            <p class="sliderMinMaxLabelsTitle">1Y</p>
+            <p class="sliderMinMaxLabelsSubTitle">Start</p>
+          </div>
+          <div class="sliderMinMaxLabelsEnd">
+            <p class="sliderMinMaxLabelsTitle">3Y</p>
+            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="roi-calc-single-slider">
       <p class="roi-calc-button-profit-label-home">ROI:</p>
       <div class="slider-js-elements-wrap-home">
-        <div class="sliderMinMaxLabels">
-          <div class="sliderMinMaxLabelsStart">
-            <p class="sliderMinMaxLabelsTitle">0%</p>
-            <p class="sliderMinMaxLabelsSubTitle">Start</p>
-          </div>
-          <div class="sliderMinMaxLabelsEnd">
-            <p class="sliderMinMaxLabelsTitle">60%</p>
-            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
-          </div>
-        </div>
         <input
           type="range"
           min="0"
@@ -667,11 +668,21 @@
         <label for="sliderROI" class="sliderLabel" id="sliderROILabel"
           >0</label
         >
+        <div class="sliderMinMaxLabels">
+          <div class="sliderMinMaxLabelsStart">
+            <p class="sliderMinMaxLabelsTitle">0%</p>
+            <p class="sliderMinMaxLabelsSubTitle">Start</p>
+          </div>
+          <div class="sliderMinMaxLabelsEnd">
+            <p class="sliderMinMaxLabelsTitle">60%</p>
+            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="roi-calc-home-results-wrap">
-    <p class="roi-calc-button-profit-label-home">Target Sales Price:</p>
+    <p class="roi-calc-button-profit-total-label-home">Target Sales Price:</p>
     <p class="roi-calc-button-result-main-home"><span>€</span><span id="roi-calc-profit"></span></p>
   </div>
 
@@ -694,8 +705,8 @@
     const { value, min, max, offsetWidth } = sliderPrice
     const percent = ((value - min) / (max - min)) * 100
     if (percent > 90) {
-      sliderPriceLabel.style.left = '-6rem'
-    } else if (percent > 50) {
+      sliderPriceLabel.style.left = '-5rem'
+    } else if (percent > 70) {
       sliderPriceLabel.style.left = '-4rem'
     } else if (percent > 10) {
       sliderPriceLabel.style.left = '-2rem'
@@ -719,7 +730,7 @@
   sliderTime.addEventListener('input', () => {
     const { value, min, max, offsetWidth } = sliderTime
     const percent = ((value - min) / (max - min)) * 100
-    sliderTimeLabel.style.left = '-0.5rem'
+    sliderTimeLabel.style.left = '-1.5rem'
     const newPosition = percent * (offsetWidth / 100)
     sliderTimeLabel.style.transform = `translateX(${newPosition}px)`
     sliderTimeLabel.innerHTML =
@@ -736,7 +747,7 @@
   sliderROI.addEventListener('input', () => {
     const { value, min, max, offsetWidth } = sliderROI
     const percent = ((value - min) / (max - min)) * 100
-    sliderROILabel.style.left = '-0.5rem'
+    sliderROILabel.style.left = '-20px'
     const newPosition = percent * (offsetWidth / 100)
     sliderROILabel.style.transform = `translateX(${newPosition}px)`
     sliderROILabel.innerHTML = value + ' <span class="labelSmallText">%</span>'

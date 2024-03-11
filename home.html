@@ -477,7 +477,7 @@
   )
   savingsVsRealCanvas.id = 'savingsVsReal-chart'
   savingsVsRealCanvas.width = '100%'
-  savingsVsRealCanvas.height = '100px'
+  savingsVsRealCanvas.height = '400px'
 
   const ctxSavingsVsReal = document
     .getElementById('savingsVsReal-chart')
@@ -493,42 +493,48 @@
     `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`
   ]
   savingsVsRealChart = new Chart(ctxSavingsVsReal, {
-    type: 'bar',
+    type: 'bar', // Možete promijeniti na 'line', 'pie', itd., ovisno o tipu grafikona koji želite.
     data: {
-      labels: savingsVsRealLabels,
+      labels: ['Real Estate Investment', 'Bank Savings'],
       datasets: [
         {
-          label: '',
-          data: savingsVsRealValues,
-          fill: true,
-          backgroundColor: ['#99FFB6', '#E8E9EB'],
-          color: '#000',
-          borderRadius: 20
+          data: [250000, 113999],
+          backgroundColor: [
+            'rgba(1, 255, 72, 0.2)', // Zelena sa prozirnošću
+            'rgba(255, 65, 77, 0.2)' // Komplementarna crvena sa prozirnošću
+          ],
+          borderColor: [
+            '#01FF48', // Zelena
+            '#FF414D' // Komplementarna crvena
+          ],
+          borderWidth: 1
         }
       ]
     },
     options: {
-      indexAxis: 'y',
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false
-        }
-      },
+      responsive: true, // Osigurava da je grafikon odzivan
+      maintainAspectRatio: false, // Možete postaviti na true ako želite zadržati omjer širine i visine
       scales: {
         y: {
+          beginAtZero: true,
           ticks: {
-            mirror: true,
-            z: 1,
-            color: '#000',
-            // padding: 20,
-            font: {
-              size: 15,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
+            callback: function (value, index, values) {
+              return value.toLocaleString() + ' €' // Dodaje € iza svake vrijednosti
             }
-          },
-          position: 'left'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false // Skriva legendu
+        },
+        datalabels: {
+          color: '#000000',
+          anchor: 'end',
+          align: 'top',
+          formatter: function (value, context) {
+            return value.toLocaleString() + ' €' // Formatira iznose kao brojeve u eurima
+          }
         }
       }
     }

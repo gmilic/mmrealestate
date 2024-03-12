@@ -136,6 +136,7 @@
     height: 25px;
     background: #fff;
     cursor: grab;
+    border-radius: 4px;
   }
 
   .slider::-moz-range-thumb {
@@ -143,6 +144,7 @@
     height: 25px;
     background: #fff;
     cursor: grab;
+    border-radius: 4px;
   }
 
   .sliderLabel {
@@ -345,7 +347,8 @@
             borrderCapStyle: 'round',
             fill: true,
             backgroundColor: gradient,
-            pointRadius: 0, // hide points
+            pointRadius: 4, // to hide points set to 0
+            pointStyle: 'circle',
             arrowHeads: {
               width: 10,
               length: 10,
@@ -445,12 +448,8 @@
             borrderCapStyle: 'round',
             fill: true,
             backgroundColor: gradient,
-            pointRadius: 0, // hide points
-            arrowHeads: {
-              width: 10,
-              length: 10,
-              frequency: 'end'
-            }
+            pointRadius: 4, // to hide points set to 0
+            pointStyle: 'circle'
           }
         ]
       },
@@ -492,8 +491,9 @@
     `Real estate investment - Profit: ${savingsVsRealReal.toLocaleString()}`,
     `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`
   ]
+
   savingsVsRealChart = new Chart(ctxSavingsVsReal, {
-    type: 'bar', // Možete promijeniti na 'line', 'pie', itd., ovisno o tipu grafikona koji želite.
+    type: 'bar',
     data: {
       labels: ['Real Estate Investment', 'Bank Savings'],
       datasets: [
@@ -511,9 +511,10 @@
         }
       ]
     },
+    plugins: [ChartDataLabels],
     options: {
-      responsive: true, // Osigurava da je grafikon odzivan
-      maintainAspectRatio: false, // Možete postaviti na true ako želite zadržati omjer širine i visine
+      responsive: true,
+      maintainAspectRatio: false,
       scales: {
         y: {
           beginAtZero: true,
@@ -529,9 +530,14 @@
           display: false // Skriva legendu
         },
         datalabels: {
-          color: '#000000',
-          anchor: 'end',
-          align: 'top',
+          color: '#333333',
+          anchor: 'start',
+          align: 'start',
+          offset: 0,
+          font: {
+            size: 16,
+            family: "'Inter', 'Arial', sans-serif"
+          },
           formatter: function (value, context) {
             return value.toLocaleString() + ' €' // Formatira iznose kao brojeve u eurima
           }

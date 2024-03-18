@@ -342,18 +342,10 @@
         datasets: [
           {
             data: worldData[1],
-            borderWidth: 2,
-            borderColor: ['#2efd53'],
-            borrderCapStyle: 'round',
-            fill: true,
-            backgroundColor: gradient,
-            pointRadius: 4, // to hide points set to 0
-            pointStyle: 'circle',
-            arrowHeads: {
-              width: 10,
-              length: 10,
-              frequency: 'end'
-            }
+            fill: false,
+            backgroundColor: '#fff',
+            borderColor: '#9DEB8F',
+            color: '#fff'
           }
         ]
       },
@@ -443,13 +435,10 @@
         datasets: [
           {
             data: worldData[1],
-            borderWidth: 2,
-            borderColor: ['#2efd53'],
-            borrderCapStyle: 'round',
-            fill: true,
-            backgroundColor: gradient,
-            pointRadius: 4, // to hide points set to 0
-            pointStyle: 'circle'
+            fill: false,
+            backgroundColor: '#fff',
+            borderColor: '#9DEB8F',
+            color: '#fff'
           }
         ]
       },
@@ -491,33 +480,55 @@
     `Real estate investment - Profit: ${savingsVsRealReal.toLocaleString()}`,
     `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`
   ]
+  let investmentArray = createInvestmentsArray(
+    100000, //investment
+    36, //months
+    30, // roi1year
+    40, // roi1year
+    20 // roi1year
+  )
+  let savingsArray = createInvestmentsArray(
+    100000, //investment
+    36, //months
+    6, // roi1year
+    8, // roi1year
+    10 // roi1year
+  )
+
+  labelsArrayTime = []
+  for (let i = 0; i <= 36; i++) {
+    labelsArrayTime.push(i + ' months')
+  }
 
   savingsVsRealChart = new Chart(ctxSavingsVsReal, {
-    type: 'bar',
+    type: 'line',
     data: {
-      labels: ['Real Estate Investment', 'Bank Savings'],
+      labels: labelsArrayTime,
       datasets: [
         {
-          data: [250000, 113999],
-          backgroundColor: [
-            'rgba(1, 255, 72, 0.2)', // Zelena sa prozirnošću
-            'rgba(255, 65, 77, 0.2)' // Komplementarna crvena sa prozirnošću
-          ],
-          borderColor: [
-            '#01FF48', // Zelena
-            '#FF414D' // Komplementarna crvena
-          ],
-          borderWidth: 1
+          label: 'Real Estate Investment',
+          data: investmentArray,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#9DEB8F',
+          color: '#fff'
+        },
+        {
+          label: 'Bank Savings',
+          data: savingsArray,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
         }
       ]
     },
-    plugins: [ChartDataLabels],
     options: {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
         y: {
-          beginAtZero: true,
+          beginAtZero: false,
           ticks: {
             callback: function (value, index, values) {
               return value.toLocaleString() + ' €' // Dodaje € iza svake vrijednosti
@@ -527,20 +538,7 @@
       },
       plugins: {
         legend: {
-          display: false // Skriva legendu
-        },
-        datalabels: {
-          color: '#333333',
-          anchor: 'start',
-          align: 'start',
-          offset: 0,
-          font: {
-            size: 16,
-            family: "'Inter', 'Arial', sans-serif"
-          },
-          formatter: function (value, context) {
-            return value.toLocaleString() + ' €' // Formatira iznose kao brojeve u eurima
-          }
+          display: true // Skriva legendu
         }
       }
     }
@@ -599,6 +597,35 @@
     }
 
     return Math.round(profit)
+  }
+
+  function createInvestmentsArray(
+    investment,
+    period,
+    roi1year,
+    roi2year,
+    roi3year
+  ) {
+    let investmentArray = []
+    let currentGain = investment
+    for (let i = 0; i <= period; i++) {
+      let currentROI
+      if (i <= 12) {
+        currentROI = roi1year / 12
+      } else if (i <= 24) {
+        currentROI = roi2year / 12
+      } else {
+        currentROI = roi3year / 12
+      }
+
+      let monthlyGain = parseInt(investment * (currentROI / 100))
+
+      currentGain = parseInt(currentGain) + parseInt(monthlyGain)
+
+      investmentArray.push(currentGain)
+    }
+
+    return investmentArray
   }
 
   // =================================== ROI calc home ===================================

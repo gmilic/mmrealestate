@@ -813,36 +813,18 @@
 
 <!-- Card Slider Config -->
 <script>
-  $(document).ready(function () {
-    // Initialize Slick slider
-    function initSlickSlider() {
-      $('#cms-slider').slick({
-        arrows: false,
-        infinite: false,
-        autoplay: false,
-        autoplaySpeed: 8000,
-        speed: 300,
-        slidesToScroll: 1,
-        variableWidth: true
-      })
+  const slides = document.querySelectorAll('.swiper-slide')
+  slides.forEach((slide) => {
+    slide.style = 'width: 350px !important'
+  })
+  const swiper = new Swiper('.swiper-home-roi', {
+    effect: 'slide',
+    slidesPerView: 'auto',
+    visibilityFullFit: true,
+    autoResize: false,
+    navigation: {
+      nextEl: '#cms-slider-right',
+      prevEl: '#cms-slider-left'
     }
-
-    window.fsAttributes = window.fsAttributes || []
-    window.fsAttributes.push([
-      'cmsfilter',
-      (filterInstances) => {
-        console.log('cmsfilter Successfully loaded!')
-        initSlickSlider()
-        // The callback passes a `filterInstances` array with all the `CMSFilters` instances on the page.
-        const [filterInstance] = filterInstances
-
-        // The `renderitems` event runs whenever the list renders items after filtering.
-        filterInstance.listInstance.on('renderitems', (renderedItems) => {
-          console.log(renderedItems)
-          $('#cms-slider').slick('unslick')
-          initSlickSlider()
-        })
-      }
-    ])
   })
 </script>

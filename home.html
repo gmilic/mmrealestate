@@ -813,10 +813,6 @@
 
 <!-- Card Slider Config -->
 <script>
-  const slides = document.querySelectorAll('.swiper-slide')
-  slides.forEach((slide) => {
-    slide.style = 'width: 350px !important'
-  })
   const swiper = new Swiper('.swiper-home-roi', {
     effect: 'slide',
     slidesPerView: 'auto',
@@ -828,3 +824,5 @@
     }
   })
 </script>
+
+.section_home-high_roi .swiper-slide { max-width: 350px !important }

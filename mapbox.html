@@ -293,3 +293,49 @@
     countriesHeaderWrap.style.display = 'none'
   })
 </script>
+
+<style>
+  /* .swiper-pagination {
+    --swiper-pagination-color: #ff0000;
+    --swiper-pagination-left: auto;
+    --swiper-pagination-right: 8px;
+    --swiper-pagination-bottom: 8px;
+    --swiper-pagination-top: auto;
+    --swiper-pagination-fraction-color: inherit;
+    --swiper-pagination-progressbar-bg-color: rgba(0, 0, 0, 0.25);
+    --swiper-pagination-progressbar-size: 4px;
+    --swiper-pagination-bullet-size: 8px;
+    --swiper-pagination-bullet-width: 8px;
+    --swiper-pagination-bullet-height: 8px;
+    --swiper-pagination-bullet-inactive-color: #000;
+    --swiper-pagination-bullet-inactive-opacity: 0.2;
+    --swiper-pagination-bullet-opacity: 1;
+    --swiper-pagination-bullet-horizontal-gap: 4px;
+    --swiper-pagination-bullet-vertical-gap: 6px;
+  }
+  .swiper-pagination {
+    position: absolute;
+    display: block;
+    text-align: center;
+    transition: 300ms opacity;
+    transform: translate3d(0, 0, 0);
+    z-index: 2;
+    top: 97%;
+  } */
+</style>
+
+<script>
+  console.log('slider')
+  const swiper = new Swiper('.swiper-mini-gallery', {
+    effect: 'slide',
+    slidesPerView: 'auto',
+    visibilityFullFit: true,
+    autoResize: false,
+    loop: true,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      type: 'bullets'
+    }
+  })
+</script>

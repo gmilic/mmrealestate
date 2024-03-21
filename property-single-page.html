@@ -22,14 +22,14 @@
   }
 
   .h5-js-elements {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--primary-color);
     margin: 0;
     line-height: 1.1;
     font-family: 'Inter', sans-serif;
   }
   .h6-js-elements {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: normal;
     color: var(--primary-color);
     margin: 0 0 0.25rem 0;
@@ -37,7 +37,7 @@
     font-family: 'Inter', sans-serif;
   }
   .payment-plan_items {
-    margin-bottom: 2rem;
+    margin-bottom: 1.4rem;
   }
   .label-js-elements {
     font-size: 1rem;
@@ -857,43 +857,66 @@
     `Real estate investment - Profit: ${savingsVsRealReal.toLocaleString()}`,
     `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`
   ]
+
+  let investmentArraySavingsVsReal = createInvestmentsArray(
+    priceMin, //investment
+    36, //months
+    roi1year, // roi1year
+    roi2year, // roi1year
+    roi3year // roi1year
+  )
+  let savingsArray = createInvestmentsArray(
+    priceMin, //investment
+    36, //months
+    6, // roi1year
+    8, // roi1year
+    10 // roi1year
+  )
+
+  labelsArrayTime = []
+  for (let i = 0; i <= 36; i++) {
+    labelsArrayTime.push(i + ' months')
+  }
+
   savingsVsRealChart = new Chart(ctxSavingsVsReal, {
-    type: 'bar',
+    type: 'line',
     data: {
-      labels: savingsVsRealLabels,
+      labels: labelsArrayTime,
       datasets: [
         {
-          label: '',
-          data: savingsVsRealValues,
-          fill: true,
-          backgroundColor: ['#99FFB6', '#E8E9EB'],
-          color: '#000',
-          borderRadius: 5
+          label: 'Real Estate Investment',
+          data: investmentArraySavingsVsReal,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#9DEB8F',
+          color: '#fff'
+        },
+        {
+          label: 'Bank Savings',
+          data: savingsArray,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
         }
       ]
     },
     options: {
-      indexAxis: 'y',
+      responsive: true,
       maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          display: false
-        }
-      },
       scales: {
         y: {
+          beginAtZero: false,
           ticks: {
-            mirror: true,
-            z: 1,
-            color: '#000',
-            // padding: 20,
-            font: {
-              size: 15,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
+            callback: function (value, index, values) {
+              return value.toLocaleString() + ' €' // Dodaje € iza svake vrijednosti
             }
-          },
-          position: 'left'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true // Skriva legendu
         }
       }
     }

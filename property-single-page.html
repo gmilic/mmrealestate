@@ -278,12 +278,24 @@
       <h5 class="h5-js-elements">${euro.format(loan)}</h5>
       </div>
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">Monthly payment percentage:</h6>
-      <h5 class="h5-js-elements">${monthlyPaymentPercentage}%</h5>
+      <h6 class="h6-js-elements">3-monthly payment percentage:</h6>
+      <h5 class="h5-js-elements">${(monthlyPaymentPercentage * 3)
+        .toFixed(2)
+        .toLocaleString()}%</h5>
       </div>
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">Monthly payment:</h6>
-      <h5 class="h5-js-elements">${euro.format(monthlyPayment)}</h5>
+      <h6 class="h6-js-elements">3-monthly payment:</h6>
+      <h5 class="h5-js-elements">${euro.format(monthlyPayment * 3)}</h5>
+      </div>
+      <div class="payment-plan_items">
+      <h6 class="h6-js-elements">6-monthly payment percentage:</h6>
+      <h5 class="h5-js-elements">${(monthlyPaymentPercentage * 6)
+        .toFixed(2)
+        .toLocaleString()}%</h5>
+      </div>
+      <div class="payment-plan_items">
+      <h6 class="h6-js-elements">6-monthly payment:</h6>
+      <h5 class="h5-js-elements">${euro.format(monthlyPayment * 6)}</h5>
       </div>
       <div class="payment-plan_items">
       <h6 class="h6-js-elements">Last payment:</h6>

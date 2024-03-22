@@ -1028,3 +1028,18 @@
 
   setInterval(timeCounterTicker, 1000)
 </script>
+<script>
+  console.log('slider2222')
+  const swiper = new Swiper('.swiper-property-gallery', {
+    effect: 'slide',
+    slidesPerView: 'auto',
+    visibilityFullFit: true,
+    autoResize: false,
+    loop: true,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      type: 'bullets'
+    }
+  })
+</script>

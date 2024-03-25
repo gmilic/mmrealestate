@@ -85,20 +85,7 @@
     margin-left: 0.4rem;
     font-style: italic;
   }
-  .button-js-elements-black {
-    background-color: var(--secondary-color);
-    border: 1px solid var(--secondary-color);
-    color: var(--primary-color);
-    padding: 0 3rem;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
-  .button-js-elements-black:hover {
-    background-color: var(--primary-color);
-    border: 1px solid var(--secondary-color);
-    color: var(--secondary-color);
-  }
+
   .slider-js-elements-wrap {
     width: 100%;
     padding: 4rem 2rem 4rem 0;
@@ -222,32 +209,48 @@
     style: 'currency',
     currency: 'EUR'
   })
+  // parse date from text in .data-start-date if exists
+  const startDate = new Date(
+    document.querySelector('.data-start-date').innerHTML
+  )
+  const finishDate = new Date(
+    document.querySelector('.data-finish-date').innerHTML
+  )
+
   const paymentPlanWrap = document.getElementById('property-payment-plan-wrap')
   // create optinos for period
-  const monthsLabel = paymentPlanWrap.appendChild(
-    document.createElement('label')
-  )
-  monthsLabel.classList.add('label-js-elements')
-  monthsLabel.htmlFor = 'months'
-  monthsLabel.textContent = 'Period'
-  const months = paymentPlanWrap.appendChild(document.createElement('select'))
-  months.id = 'months'
-  months.classList.add('select-js-elements')
-  const monthsOptions = ['12', '24', '36']
-  monthsOptions.forEach((option) => {
-    const optionEl = months.appendChild(document.createElement('option'))
-    optionEl.value = option
-    optionEl.textContent = `${option / 12} ${
-      option / 12 > 1 ? 'years' : 'year'
-    }`
-  })
-  // add label for period
-  // on change period call calculate
-  months.addEventListener('change', calculate)
+  // const monthsLabel = paymentPlanWrap.appendChild(
+  //   document.createElement('label')
+  // )
+  // monthsLabel.classList.add('label-js-elements')
+  // monthsLabel.htmlFor = 'months'
+  // monthsLabel.textContent = 'Period'
+  // const months = paymentPlanWrap.appendChild(document.createElement('select'))
+  // months.id = 'months'
+  // months.classList.add('select-js-elements')
+  // const monthsOptions = ['12', '24', '36']
+  // monthsOptions.forEach((option) => {
+  //   const optionEl = months.appendChild(document.createElement('option'))
+  //   optionEl.value = option
+  //   optionEl.textContent = `${option / 12} ${
+  //     option / 12 > 1 ? 'years' : 'year'
+  //   }`
+  // })
+  // months.addEventListener('change', calculate)
 
   const paymentPlan = paymentPlanWrap.appendChild(document.createElement('div'))
   paymentPlan.classList.add('property-payment-plan')
-
+  let months
+  if (finishDate && finishDate > new Date()) {
+    // calculate number of months from today to finishDate
+    months =
+      Math.ceil(
+        (finishDate.getTime() - new Date().getTime()) /
+          (1000 * 60 * 60 * 24 * 30)
+      ) - 1
+  } else {
+    months = 36
+  }
   calculate()
 
   function calculate() {
@@ -255,7 +258,11 @@
     const downpaymentPercentage = document.getElementById(
       'downpayment-percentage'
     ).textContent
-    const months = document.getElementById('months').value
+
+    // if finishDate exists and is later than current month
+    // then set months to finishDate - current month
+
+    // const months = document.getElementById('months').value
 
     const downpayment = (price * (downpaymentPercentage / 100))
       .toFixed(2)
@@ -332,7 +339,7 @@
     // create array of months and years for range starting of current month
     const lastMonthPaymentDate = new Date()
     const lastMonthPaymentDateArr = []
-    for (let i = 0; i <= months; i++) {
+    for (let i = 0; i < months; i++) {
       lastMonthPaymentDate.setMonth(lastMonthPaymentDate.getMonth() + 1)
       lastMonthPaymentDateArr.push(
         lastMonthPaymentDate.toLocaleDateString('en-DE', {
@@ -351,19 +358,19 @@
   const priceMin = document.getElementById('data-price-min').textContent
   const priceMax = document.getElementById('data-price-max').textContent
 
-  let monthsForCalc = 24
+  let monthsForCalc = months
   let investment = document.getElementById('main-price').textContent
   let roi1year = document.getElementById('data-roi').textContent
   let roi2year = document.getElementById('data-roi-2year').textContent
   let roi3year = document.getElementById('data-roi-3year').textContent
   const roiCalcInner = roiCalcWrap.appendChild(document.createElement('div'))
-  const firstMonthROI = lastMonthOfPayment(0, 'short')
-  const lastMonthROI = lastMonthOfPayment(36, 'short')
-  let monthsArray = lastMonthOfPaymentRange(24)
+  const firstMonthROI = lastMonthOfPayment(1, 'short')
+  const lastMonthROI = lastMonthOfPayment(monthsForCalc, 'short')
+  let monthsArray = lastMonthOfPaymentRange(monthsForCalc)
 
   let investmentArray = createInvestmentsArray(
     priceMin,
-    24,
+    monthsForCalc,
     roi1year,
     roi2year,
     roi3year
@@ -425,8 +432,8 @@
         <input
           type="range"
           min="1"
-          max="36"
-          value="24"
+          max=${monthsForCalc}
+          value=${monthsForCalc}
           class="slider"
           id="sliderTime"
         />
@@ -436,17 +443,6 @@
       </div>
     </div>
   </div>
-
-      <div class="roi-calc-buttons-wrap">
-        <button class="roi-calc-button-result">
-          <p class="roi-calc-button-profit-label">PROFIT:</p>
-          <div class="roi-calc-button-result-wrap">
-            <p class="roi-calc-button-result-main"><span id="roi-calc-profit"></span><span id="roi-calc-button-result-span" class="roi-calc-button-result-span">in 22 months</span></p>
-          </div>
-        </button>
-        <button class="button-js-elements-black">Schedule a call
-        </button>
-      </div>
 
 
   `
@@ -561,6 +557,7 @@
       roi3year
     )
     roiChart.data.datasets[0].data = investmentArray
+    roiChart.data.labels = monthsArray
     roiChart.update()
     roiCalcProfit.textContent = calculateProfitROI(
       investment,
@@ -1028,8 +1025,8 @@
 
   setInterval(timeCounterTicker, 1000)
 </script>
+
 <script>
-  console.log('slider2222')
   const swiper = new Swiper('.swiper-property-gallery', {
     effect: 'slide',
     slidesPerView: 'auto',
@@ -1040,6 +1037,10 @@
       el: '.swiper-pagination',
       clickable: true,
       type: 'bullets'
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
     }
   })
 </script>

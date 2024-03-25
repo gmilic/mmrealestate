@@ -326,7 +326,28 @@
 </style>
 
 <script>
-  console.log('slider')
+  // slider - countries
+  // const swiperCountries = new Swiper('.swiper-countries', {
+  //   effect: 'slide',
+  //   slidesPerView: 'auto',
+  //   visibilityFullFit: true,
+  //   autoResize: false,
+  //   loop: true,
+  //   slidesPerGroup: 3,
+  //   pagination: {
+  //     el: '.swiper-pagination-countries',
+  //     clickable: true,
+  //     type: 'bullets'
+  //   },
+  //   navigation: {
+  //     nextEl: '.swiper-button-next-countries',
+  //     prevEl: '.swiper-button-prev-countries'
+  //   }
+  // })
+</script>
+
+<script>
+  // slider - in card
   const swiper = new Swiper('.swiper-mini-gallery', {
     effect: 'slide',
     slidesPerView: 'auto',
@@ -337,6 +358,10 @@
       el: '.swiper-pagination',
       clickable: true,
       type: 'bullets'
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
     }
   })
 </script>

@@ -855,3 +855,38 @@
     }, 5000)
   })
 </script>
+
+<script>
+  $(document).ready(function () {
+    var swiperNodesMarkets = ''
+    var paginationMarkets = '<div class="swiper-pagination-markets"></div>'
+    var next_prev_buttonsMarkets =
+      '<div class="swiper-button-prev-markets"></div><div class="swiper-button-next-markets"></div>'
+    var swiperNodesMarkets = swiperNodesMarkets.concat(
+      paginationMarkets,
+      next_prev_buttonsMarkets
+    )
+    /* loop throw all swipers on the page */
+    $('.swiper-home-markets').each(function (index) {
+      $(this).append(swiperNodesMarkets)
+    })
+
+    const swiperHomeMarkets = new Swiper('.swiper-home-markets', {
+      effect: 'slide',
+      slidesPerView: 'auto',
+      visibilityFullFit: true,
+      autoResize: false,
+      loop: true,
+      slidesPerGroup: 3,
+      pagination: {
+        el: '.swiper-pagination-markets',
+        clickable: true,
+        type: 'bullets'
+      },
+      navigation: {
+        nextEl: '.swiper-button-next-markets',
+        prevEl: '.swiper-button-prev-markets'
+      }
+    })
+  })
+</script>

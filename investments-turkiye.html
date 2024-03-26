@@ -1,0 +1,1176 @@
+<script>
+  // --------- GRAPH INFLATION
+  const graphWrapInflation = document.getElementById('graph-wrap-inflation')
+  const graphIflationCanvas = graphWrapInflation.appendChild(
+    document.createElement('canvas')
+  )
+  graphIflationCanvas.id = 'graphIflationCanvas'
+  graphIflationCanvas.width = '100%'
+  graphIflationCanvas.height = '400px'
+  const ctxGraphIflation = document
+    .getElementById('graphIflationCanvas')
+    .getContext('2d')
+
+  // get data for praph from table with ID  table-inflation
+  const tableInflation = document.getElementById('table-inflation')
+  const tableInflationRows = tableInflation.querySelectorAll('tr')
+  const tableInflationLabels = []
+  const tableInflationValues = []
+  tableInflationRows.forEach((row, index) => {
+    if (index > 0) {
+      const cells = row.querySelectorAll('td')
+      const year = cells[0].textContent
+      const inflation = cells[1].textContent
+      tableInflationValues.push(parseFloat(inflation))
+      tableInflationLabels.push(parseInt(year))
+    }
+  })
+
+  const graphIflationChart = new Chart(ctxGraphIflation, {
+    type: 'line',
+    data: {
+      labels: tableInflationLabels,
+      datasets: [
+        {
+          label: '',
+          data: tableInflationValues,
+          fill: true,
+          backgroundColor: ['#99FFB6', '#E8E9EB'],
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+  // --------- GRAPH Import/Export
+  const graphWrapImportExport = document.getElementById(
+    'graph-wrap-import-export'
+  )
+  const graphImportExportCanvas = graphWrapImportExport.appendChild(
+    document.createElement('canvas')
+  )
+  graphImportExportCanvas.id = 'graphImportExportCanvas'
+  graphImportExportCanvas.width = '100%'
+  graphImportExportCanvas.height = '400px'
+  const ctxGraphImportExport = document
+    .getElementById('graphImportExportCanvas')
+    .getContext('2d')
+  const tableImportExport = document.getElementById('table-export-import')
+  const tableImportExportRows = tableImportExport.querySelectorAll('tr')
+
+  const tableImportExportLabels = []
+  const tableImportExportnValues01 = []
+  const tableImportExportnValues02 = []
+  tableImportExportRows.forEach((row, index) => {
+    if (index > 0) {
+      const cells = row.querySelectorAll('td')
+      const year = cells[0].textContent + ' ' + cells[1].textContent
+      const exportData = cells[2].textContent
+      const importData = cells[3].textContent
+      tableImportExportnValues01.push(parseInt(exportData.replace(/,/g, '')))
+      tableImportExportnValues02.push(parseInt(importData.replace(/,/g, '')))
+      tableImportExportLabels.push(year)
+    }
+  })
+
+  const graphImportExportChart = new Chart(ctxGraphImportExport, {
+    type: 'line',
+    data: {
+      labels: tableImportExportLabels,
+      datasets: [
+        {
+          label: 'Import',
+          data: tableImportExportnValues01,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#9DEB8F',
+          color: '#fff'
+        },
+        {
+          label: 'Export',
+          data: tableImportExportnValues02,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+  // --------- GRAPH BDP
+  const graphWrapbdp = document.getElementById('graph-wrap-bdp')
+  const graphBDPCanvas = graphWrapbdp.appendChild(
+    document.createElement('canvas')
+  )
+  graphBDPCanvas.id = 'graphBDPCanvas'
+  graphBDPCanvas.width = '100%'
+  graphBDPCanvas.height = '400px'
+  const ctxGraphBdp = document.getElementById('graphBDPCanvas').getContext('2d')
+  const tableBdp = document.getElementById('table-bdp')
+  const tableBdpRows = tableBdp.querySelectorAll('tr')
+
+  const tableBdpLabels = []
+  const tableBdpValues01 = []
+  const tableBdpValues02 = []
+  const tableBdpValues03 = []
+  tableBdpRows.forEach((row, index) => {
+    if (index > 0) {
+      const cells = row.querySelectorAll('td')
+      const year = cells[0].textContent + ' ' + cells[1].textContent
+      const spendingData = cells[2].textContent
+      const investmentsData = cells[3].textContent
+      const bdpData = cells[4].textContent
+      tableBdpValues01.push(parseInt(spendingData.replace(/,/g, '')))
+      tableBdpValues02.push(parseInt(investmentsData.replace(/,/g, '')))
+      tableBdpValues03.push(parseInt(bdpData.replace(/,/g, '')))
+      tableBdpLabels.push(year)
+    }
+  })
+
+  const graphBdpChart = new Chart(ctxGraphBdp, {
+    type: 'line',
+    data: {
+      labels: tableBdpLabels,
+      datasets: [
+        {
+          label: 'Spending',
+          data: tableBdpValues01,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#9DEB8F',
+          color: '#fff'
+        },
+        {
+          label: 'Investments',
+          data: tableBdpValues02,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
+        },
+        {
+          label: 'BDP',
+          data: tableBdpValues03,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#D45D5D',
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Construction common
+  const tableConstructionLabels = ['2021.', '2022.']
+  // --------- GRAPH Construction 01
+  const graphWrapContruction01 = document.getElementById(
+    'graph-wrap-construction-01'
+  )
+  const graphConstructionCanvas01 = graphWrapContruction01.appendChild(
+    document.createElement('canvas')
+  )
+  graphConstructionCanvas01.id = 'graphConstructionCanvas01'
+  graphConstructionCanvas01.width = '100%'
+  graphConstructionCanvas01.height = '400px'
+  const ctxGraphConstruction01 = document
+    .getElementById('graphConstructionCanvas01')
+    .getContext('2d')
+
+  const graphConstruction01 = new Chart(ctxGraphConstruction01, {
+    type: 'bar',
+    data: {
+      labels: tableConstructionLabels,
+      datasets: [
+        {
+          label: 'Residental',
+          data: [88371, 76306],
+          fill: false,
+          backgroundColor: '#F5A507'
+        },
+        {
+          label: 'Hotels',
+          data: [6510, 7091],
+          fill: false,
+          backgroundColor: '#00ff00'
+        },
+        {
+          label: 'Office',
+          data: [13311, 18782],
+          fill: false,
+          backgroundColor: '#46B2E1'
+        },
+        {
+          label: 'Industrial',
+          data: [28454, 16093],
+          fill: false,
+          backgroundColor: '#6CD98C'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Construction - Square meters built',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Construction 02
+  const graphWrapContruction02 = document.getElementById(
+    'graph-wrap-construction-02'
+  )
+  const graphConstructionCanvas02 = graphWrapContruction02.appendChild(
+    document.createElement('canvas')
+  )
+  graphConstructionCanvas02.id = 'graphConstructionCanvas02'
+  graphConstructionCanvas02.width = '100%'
+  graphConstructionCanvas02.height = '400px'
+  const ctxGraphConstruction02 = document
+    .getElementById('graphConstructionCanvas02')
+    .getContext('2d')
+
+  const graphConstruction02 = new Chart(ctxGraphConstruction02, {
+    type: 'bar',
+    data: {
+      labels: tableConstructionLabels,
+      datasets: [
+        {
+          label: 'Residental',
+          data: [139944000, 118553000],
+          fill: false,
+          backgroundColor: '#F5A507'
+        },
+        {
+          label: 'Hotels',
+          data: [19663000, 14319000],
+          fill: false,
+          backgroundColor: '#00ff00'
+        },
+        {
+          label: 'Office',
+          data: [63733000, 79585000],
+          fill: false,
+          backgroundColor: '#46B2E1'
+        },
+        {
+          label: 'Industrial',
+          data: [45345000, 43990000],
+          fill: false,
+          backgroundColor: '#6CD98C'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Construction - total values (KM)',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Construction 03
+  const graphWrapContruction03 = document.getElementById(
+    'graph-wrap-construction-03'
+  )
+  const graphConstructionCanvas03 = graphWrapContruction03.appendChild(
+    document.createElement('canvas')
+  )
+  graphConstructionCanvas03.id = 'graphConstructionCanvas03'
+  graphConstructionCanvas03.width = '100%'
+  graphConstructionCanvas03.height = '400px'
+  const ctxGraphConstruction03 = document
+    .getElementById('graphConstructionCanvas03')
+    .getContext('2d')
+
+  const graphConstruction03 = new Chart(ctxGraphConstruction03, {
+    type: 'bar',
+    data: {
+      labels: tableConstructionLabels,
+      datasets: [
+        {
+          label: 'Residental',
+          data: [1584, 1554],
+          fill: false,
+          backgroundColor: '#F5A507'
+        },
+        {
+          label: 'Hotels',
+          data: [3020, 2019],
+          fill: false,
+          backgroundColor: '#00ff00'
+        },
+        {
+          label: 'Office',
+          data: [4788, 4237],
+          fill: false,
+          backgroundColor: '#46B2E1'
+        },
+        {
+          label: 'Industrial',
+          data: [1594, 2733],
+          fill: false,
+          backgroundColor: '#6CD98C'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Construction - Total units built',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+  // --------- GRAPH Tourism Common
+  const tourismLabels = ['2021.', '2022.', '2023.']
+  // --------- GRAPH Tourism 01
+  const graphWrapTourism01 = document.getElementById('graph-wrap-tourism-01')
+  const graphTourismCanvas01 = graphWrapTourism01.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas01.id = 'graphTourismCanvas01'
+  graphTourismCanvas01.width = '100%'
+  graphTourismCanvas01.height = '400px'
+  const ctxGraphTourism01 = document
+    .getElementById('graphTourismCanvas01')
+    .getContext('2d')
+
+  const graphTourismChart01 = new Chart(ctxGraphTourism01, {
+    type: 'bar',
+    data: {
+      labels: tourismLabels,
+      datasets: [
+        {
+          label: 'Tourist Arrivals',
+          data: [140501, 338083, 565139],
+          fill: true,
+          backgroundColor: '#DFBF80',
+          stack: 'Stack 0'
+        },
+        {
+          label: 'Overnight Stays',
+          data: [286555, 797639, 1185115],
+          fill: true,
+          backgroundColor: '#F5A507',
+          stack: 'Stack 0'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Total',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Tourism 02
+  const graphWrapTourism02 = document.getElementById('graph-wrap-tourism-02')
+  const graphTourismCanvas02 = graphWrapTourism02.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas02.id = 'graphTourismCanvas02'
+  graphTourismCanvas02.width = '100%'
+  graphTourismCanvas02.height = '400px'
+  const ctxGraphTourism02 = document
+    .getElementById('graphTourismCanvas02')
+    .getContext('2d')
+
+  const graphTourismChart02 = new Chart(ctxGraphTourism02, {
+    type: 'bar',
+    data: {
+      labels: tourismLabels,
+      datasets: [
+        {
+          label: 'Tourist Arrivals',
+          data: [136304, 329589, 547919],
+          fill: false,
+          backgroundColor: '#DD6A6A',
+          stack: 'Stack 1'
+        },
+        {
+          label: 'Overnight Stays',
+          data: [274973, 769816, 1133942],
+          fill: false,
+          backgroundColor: '#ff0000',
+          stack: 'Stack 1'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Hotels',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Tourism 03
+  const graphWrapTourism03 = document.getElementById('graph-wrap-tourism-03')
+  const graphTourismCanvas03 = graphWrapTourism03.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas03.id = 'graphTourismCanvas03'
+  graphTourismCanvas03.width = '100%'
+  graphTourismCanvas03.height = '400px'
+  const ctxGraphTourism03 = document
+    .getElementById('graphTourismCanvas03')
+    .getContext('2d')
+
+  const graphTourismChart03 = new Chart(ctxGraphTourism03, {
+    type: 'bar',
+    data: {
+      labels: tourismLabels,
+      datasets: [
+        {
+          label: 'Tourist Arrivals',
+          data: [3671, 5846, 12455],
+          fill: false,
+          backgroundColor: '#6CD98C',
+          stack: 'Stack 2'
+        },
+        {
+          label: 'Overnight Stays',
+          data: [10416, 20148, 39848],
+          fill: false,
+          backgroundColor: '#00ff00',
+          stack: 'Stack 2'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Resorts',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+
+  // --------- GRAPH Tourism 04
+  const graphWrapTourism04 = document.getElementById('graph-wrap-tourism-04')
+  const graphTourismCanvas04 = graphWrapTourism04.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas04.id = 'graphTourismCanvas04'
+  graphTourismCanvas04.width = '100%'
+  graphTourismCanvas04.height = '400px'
+  const ctxGraphTourism04 = document
+    .getElementById('graphTourismCanvas04')
+    .getContext('2d')
+
+  const graphTourismChart04 = new Chart(ctxGraphTourism04, {
+    type: 'bar',
+    data: {
+      labels: tourismLabels,
+      datasets: [
+        {
+          label: 'Tourist Arrivals',
+          data: [526, 2648, 4765],
+          fill: false,
+          backgroundColor: '#46B2E1',
+          stack: 'Stack 3'
+        },
+        {
+          label: 'Overnight Stays',
+          data: [1166, 7675, 11325],
+          fill: false,
+          backgroundColor: '#0000ff',
+          stack: 'Stack 3'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Kamps',
+          color: '#fff',
+          font: {
+            size: 18,
+            family: "'Inter', 'Arial', sans-serif",
+            weight: 'normal'
+          }
+        },
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+  // --------- GRAPH Interest
+  const graphWrapInterest = document.getElementById('graph-wrap-interest')
+  const graphInterestCanvas = graphWrapInterest.appendChild(
+    document.createElement('canvas')
+  )
+  graphInterestCanvas.id = 'graphInterestCanvas'
+  graphInterestCanvas.width = '100%'
+  graphInterestCanvas.height = '400px'
+  const ctxGraphInterest = document
+    .getElementById('graphInterestCanvas')
+    .getContext('2d')
+  const interesetLabels = [
+    'Q1-2022.',
+    'Q2-2022.',
+    'Q3-2022.',
+    'Q4-2022.',
+    'Q1-2023.',
+    'Q2-2023.'
+  ]
+  const graphInterest = new Chart(ctxGraphInterest, {
+    type: 'bar',
+    data: {
+      labels: interesetLabels,
+      datasets: [
+        {
+          label: 'Deposits - up to 1 year',
+          data: [0.3, 0.35, 0.48, 0.4, 0.5, 0.62],
+          fill: false,
+          backgroundColor: '#F5A507'
+        },
+        {
+          label: 'Deposits - from 1 to 2 years',
+          data: [1.2, 1.1, 1.43, 1.73, 1.7, 1.8],
+          fill: false,
+          backgroundColor: '#00ff00'
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff'
+          }
+        }
+      },
+      indexAxis: 'x',
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        // mode: 'index',
+        intersect: true
+      },
+      scales: {
+        x: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            color: '#fff',
+            font: {
+              size: 12,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        },
+        y: {
+          grid: {
+            display: true,
+            color: '#1B3C35'
+          },
+          ticks: {
+            // mirror: true,
+            // z: 1,
+            color: '#fff',
+            // padding: 20,
+            font: {
+              size: 15,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'bold'
+            }
+          }
+          // position: 'left'
+        }
+      }
+    }
+  })
+  // --------- Investments Calculations -----------------------
+  const investmentsCalculations = document.getElementById(
+    'investments-calculators-wrap'
+  )
+  let investment = 500000
+  investmentsCalculations.innerHTML = `
+    <div class="roi-calc-single-slider">
+      <div class="slider-js-elements-wrap-home">
+        <div class="sliderMinMaxLabels">
+          <div class="sliderMinMaxLabelsStart">
+            <p class="sliderMinMaxLabelsTitle">100.000</p>
+            <p class="sliderMinMaxLabelsSubTitle">Minimum</p>
+          </div>
+          <div class="sliderMinMaxLabelsEnd">
+            <p class="sliderMinMaxLabelsTitle">1M €</p>
+            <p class="sliderMinMaxLabelsSubTitle">Maximum</p>
+          </div>
+        </div>
+        <input
+          type="range"
+          min=100000
+          max=1000000
+          step=1000
+          value=${investment}
+          class="slider"
+          id="sliderPrice"
+        />
+        <label for="sliderPrice" class="sliderLabel" id="sliderPriceLabel"
+          >0</label
+        >
+      </div>
+    </div>
+  `
+
+  const inflation = [2.99, 5.68, 8.19, 10.2]
+  const realEstatePricesGrow = [8.0, 7.0, 15.0, 21.0]
+  const fixedROI = 20.0
+
+  let tableRows = document.querySelectorAll('#invest-calc-results tr')
+  sliderPrice.addEventListener('input', () => {
+    const { value, min, max, offsetWidth } = sliderPrice
+    const percent = ((value - min) / (max - min)) * 100
+    if (percent > 90) {
+      sliderPriceLabel.style.left = '-6rem'
+    } else if (percent > 50) {
+      sliderPriceLabel.style.left = '-4rem'
+    } else if (percent > 10) {
+      sliderPriceLabel.style.left = '-2rem'
+    } else {
+      sliderPriceLabel.style.left = '-1rem'
+    }
+    const newPosition = percent * (offsetWidth / 100)
+    sliderPriceLabel.style.transform = `translateX(${newPosition}px)`
+    sliderPriceLabel.innerHTML =
+      value + ' <span class="labelSmallText">€</span>'
+    investment = value
+
+    tableRows.forEach((row, index) => {
+      let cells = row.querySelectorAll('td:not(:first-child)')
+      let cellValue = 0
+      cells.forEach((cell, cellIndex) => {
+        if (index === 1) {
+          // Perform operation for first row
+          cellValue = Math.round(
+            investment - (investment * inflation[cellIndex]) / 100
+          )
+
+          cell.textContent = '€' + cellValue.toLocaleString()
+        } else if (index === 2) {
+          // Perform operation for second row
+          cellValue = Math.round(
+            Number(investment) +
+              (Number(investment) * Number(inflation[cellIndex])) / 100 +
+              (Number(investment) * Number(realEstatePricesGrow[cellIndex])) /
+                100
+          )
+          cell.textContent = '€' + cellValue.toLocaleString()
+        } else if (index === 3) {
+          // Perform operation for third row
+          // calculate value of investment with fixedROI for 4 years and fill 4 cells
+          cellValue = Math.round(
+            Number(investment) +
+              ((Number(investment) * Number(fixedROI)) / 100) * (cellIndex + 1)
+          )
+          cell.textContent = '€' + cellValue.toLocaleString()
+        }
+      })
+    })
+  })
+  sliderPrice.dispatchEvent(new Event('input', { bubbles: true }))
+</script>

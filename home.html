@@ -252,7 +252,18 @@
   // =================================== Inflation Graphs ===================================
   const inflationSavingsSelectOptions = {
     ba: 'Bosnia and Herzegovina',
-    tr: 'Turkiye'
+    tr: 'Turkiye',
+    cy: 'Cyprus',
+    jo: 'Jordan',
+    lb: 'Lebanon',
+    me: 'Montenegro',
+    id: 'Indonesia',
+    gb: 'United Kingdom',
+    qa: 'Qatar',
+    sa: 'Saudi Arabia',
+    es: 'Spain',
+    ae: 'United Arab Emirates'
+    // cyprus, saudi arabia, united arab emirates, spain
   }
   let inflationURL =
     'https://api.worldbank.org/v2/country/ba/indicator/NY.GDP.DEFL.KD.ZG?format=json'
@@ -365,6 +376,17 @@
   }
 
   // =================================== Savings Graphs ===================================
+  const savingsSelectOptions = {
+    ba: 'Bosnia and Herzegovina',
+    tr: 'Turkiye',
+    jo: 'Jordan',
+    lb: 'Lebanon',
+    me: 'Montenegro',
+    id: 'Indonesia',
+    gb: 'United Kingdom',
+    qa: 'Qatar'
+  }
+
   let savingsURL =
     'https://api.worldbank.org/v2/country/ba/indicator/FR.INR.DPST?format=json'
   let savingsChart = ''
@@ -375,7 +397,7 @@
   savingsSelect.classList.add('select-js-elements')
 
   // create options for select
-  for (const [key, value] of Object.entries(inflationSavingsSelectOptions)) {
+  for (const [key, value] of Object.entries(savingsSelectOptions)) {
     const optionEl = savingsSelect.appendChild(document.createElement('option'))
     optionEl.value = key
     optionEl.textContent = value

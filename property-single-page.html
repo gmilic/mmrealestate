@@ -56,22 +56,23 @@
   }
   .roi-calc-buttons-wrap {
     display: flex;
+    align-items: flex-start;
   }
   .roi-calc-button-result {
     background-color: var(--light-black);
     color: #fff;
-    border-radius: 10px;
+    border-radius: 100px;
     text-align: left;
-    padding: 0.8rem 0.8rem 0.4rem 1rem;
+    padding: 8px 16px;
     margin-right: 0.6rem;
     cursor: default;
   }
   .roi-calc-button-profit-label {
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 10px;
   }
   .roi-calc-button-result-main {
-    font-size: 1.5rem;
+    font-size: 1.1rem;
     font-weight: bold;
     line-height: 1.1;
     margin: 0;
@@ -108,19 +109,23 @@
   .slider-js-elements-wrap .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 8px;
-    height: 25px;
-    background: #fff;
+    width: 24px;
+    height: 24px;
+    background: transparent;
     cursor: grab;
-    border-radius: 4px;
+    background-image: url('https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/6602ee9c354449f54a55974c_mmslider.svg ');
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
   }
 
   .slider-js-elements-wrap .slider::-moz-range-thumb {
-    width: 8px;
-    height: 25px;
-    background: #fff;
+    width: 24px;
+    height: 24px;
+    background: transparent;
     cursor: grab;
-    border-radius: 4px;
+    background-image: url('https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/6602ee9c354449f54a55974c_mmslider.svg ');
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
   }
 
   .sliderLabel {
@@ -142,13 +147,13 @@
   .sliderMinMaxLabelsTitle {
     color: #fff;
     margin: 0;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 400;
   }
   .sliderMinMaxLabelsSubTitle {
     color: #fff;
     margin: 0;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 400;
   }
   .sliderMinMaxLabelsEnd {

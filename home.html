@@ -722,7 +722,7 @@
       </div>
     </div>
     <div class="roi-calc-single-slider">
-      <p class="roi-calc-button-profit-label-home">ROI:</p>
+      <p class="roi-calc-button-profit-label-home">Annual ROI:</p>
       <div class="slider-js-elements-wrap-home">
         <input
           type="range"
@@ -895,4 +895,27 @@
       }
     })
   })
+</script>
+
+<script>
+  document
+    .getElementById('home-submit-widget')
+    .addEventListener('click', function (e) {
+      e.preventDefault()
+      // window.location.href = '/investment-opportunities'
+
+      // give me value of select with id="Markets"
+      let selectedMarket = document.getElementById('Market').value
+      let selectedBudget = document.getElementById('Budget').value
+      console.log(selectedMarket, selectedBudget)
+
+      // is checkbox Personal-Use checked
+      let personalUse = document.getElementById('Personal-Use').checked
+      let investOnly = document.getElementById('Invest-Only').checked
+      let rental = document.getElementById('Rental').checked
+
+      console.log('personalUse: ', personalUse)
+      console.log('investOnly: ', investOnly)
+      console.log('rental: ', rental)
+    })
 </script>

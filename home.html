@@ -902,7 +902,6 @@
     .getElementById('home-submit-widget')
     .addEventListener('click', function (e) {
       e.preventDefault()
-      // window.location.href = '/investment-opportunities'
 
       // give me value of select with id="Markets"
       let selectedMarket = document.getElementById('Market').value
@@ -914,8 +913,13 @@
       let investOnly = document.getElementById('Invest-Only').checked
       let rental = document.getElementById('Rental').checked
 
-      console.log('personalUse: ', personalUse)
-      console.log('investOnly: ', investOnly)
-      console.log('rental: ', rental)
+      // construct url with selected values
+      let url = `/investment-opportunities?market=${selectedMarket}&budget=${selectedBudget}&personalUse=${personalUse}&investOnly=${investOnly}&rental=${rental}`
+
+      console.log(selectedBudget)
+
+      console.log(url)
+
+      window.location.href = url
     })
 </script>

@@ -500,8 +500,114 @@
     }
   })
 
+  // ***************************************************************************
+  // =================================== Savings vs Real eastateGraphs ===================================
+  const savingsVsRealEstateWrap = document.getElementById(
+    'tab-saving-vs-real-graph'
+  )
+  const savingsVsRealCanvas = savingsVsRealEstateWrap.appendChild(
+    document.createElement('canvas')
+  )
+  savingsVsRealCanvas.id = 'savingsVsReal-chart'
+  savingsVsRealCanvas.width = '100%'
+  savingsVsRealCanvas.height = '400px'
+
+  const ctxSavingsVsReal = document
+    .getElementById('savingsVsReal-chart')
+    .getContext('2d')
+
+  let savingsVsRealReal = parseInt(
+    calculateProfitROI(priceMin, 36, roi1year, roi2year, roi3year)
+  )
+  let savingsVsRealSavings = parseInt(priceMin * 1.14)
+  let savingsVsRealValues = [savingsVsRealReal, savingsVsRealSavings]
+  let savingsVsRealLabels = [
+    `Real estate investment - Profit: ${savingsVsRealReal.toLocaleString()}`,
+    `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`
+  ]
+
+  let investmentArraySavingsVsReal = createInvestmentsArray(
+    priceMin, //investment
+    36, //months
+    roi1year, // roi1year
+    roi2year, // roi1year
+    roi3year // roi1year
+  )
+  let savingsArray = createInvestmentsArray(
+    priceMin, //investment
+    36, //months
+    6, // roi1year
+    8, // roi1year
+    10 // roi1year
+  )
+
+  labelsArrayTime = []
+  for (let i = 0; i <= 36; i++) {
+    labelsArrayTime.push(i + ' months')
+  }
+
+  savingsVsRealChart = new Chart(ctxSavingsVsReal, {
+    type: 'line',
+    data: {
+      labels: labelsArrayTime,
+      datasets: [
+        {
+          label: 'Real Estate Investment',
+          data: investmentArraySavingsVsReal,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#9DEB8F',
+          color: '#fff'
+        },
+        {
+          label: 'Bank Savings',
+          data: savingsArray,
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: false,
+          ticks: {
+            callback: function (value, index, values) {
+              return value.toLocaleString() + ' €' // Dodaje € iza svake vrijednosti
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true // Skriva legendu
+        }
+      }
+    }
+  })
+
   sliderPrice.addEventListener('input', () => {
-    const { value, min, max, offsetWidth } = sliderPrice
+    let { value, min, max, offsetWidth } = sliderPrice
+    let investment = value
+
+    // Add snap effect
+    let snapValues = [
+      100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000
+    ]
+    let closest = snapValues.reduce((a, b) => {
+      return Math.abs(b - investment) < Math.abs(a - investment) ? b : a
+    })
+
+    if (Math.abs(investment - closest) <= 20000) {
+      sliderPrice.value = closest
+      investment = closest
+      value = closest
+    }
+
     const percent = ((value - min) / (max - min)) * 100
     if (percent > 90) {
       sliderPriceLabel.style.left = '-6rem'
@@ -515,7 +621,6 @@
     const newPosition = percent * (offsetWidth / 100)
     sliderPriceLabel.style.transform = `translateX(${newPosition}px)`
     sliderPriceLabel.textContent = value
-    investment = value
     investmentArray = createInvestmentsArray(
       investment,
       monthsForCalc,
@@ -525,6 +630,11 @@
     )
     roiChart.data.datasets[0].data = investmentArray
     roiChart.update()
+
+    // Update savingsVsRealChart data
+    savingsVsRealChart.data.datasets[0].data = investmentArray
+    savingsVsRealChart.update()
+
     roiCalcProfit.textContent = calculateProfitROI(
       investment,
       monthsForCalc,
@@ -843,94 +953,6 @@
       }
     })
   }
-  // =================================== Savings vs Real eastateGraphs ===================================
-  const savingsVsRealEstateWrap = document.getElementById(
-    'tab-saving-vs-real-graph'
-  )
-  const savingsVsRealCanvas = savingsVsRealEstateWrap.appendChild(
-    document.createElement('canvas')
-  )
-  savingsVsRealCanvas.id = 'savingsVsReal-chart'
-  savingsVsRealCanvas.width = '100%'
-  savingsVsRealCanvas.height = '400px'
-
-  const ctxSavingsVsReal = document
-    .getElementById('savingsVsReal-chart')
-    .getContext('2d')
-
-  let savingsVsRealReal = parseInt(
-    calculateProfitROI(priceMin, 36, roi1year, roi2year, roi3year)
-  )
-  let savingsVsRealSavings = parseInt(priceMin * 1.14)
-  let savingsVsRealValues = [savingsVsRealReal, savingsVsRealSavings]
-  let savingsVsRealLabels = [
-    `Real estate investment - Profit: ${savingsVsRealReal.toLocaleString()}`,
-    `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`
-  ]
-
-  let investmentArraySavingsVsReal = createInvestmentsArray(
-    priceMin, //investment
-    36, //months
-    roi1year, // roi1year
-    roi2year, // roi1year
-    roi3year // roi1year
-  )
-  let savingsArray = createInvestmentsArray(
-    priceMin, //investment
-    36, //months
-    6, // roi1year
-    8, // roi1year
-    10 // roi1year
-  )
-
-  labelsArrayTime = []
-  for (let i = 0; i <= 36; i++) {
-    labelsArrayTime.push(i + ' months')
-  }
-
-  savingsVsRealChart = new Chart(ctxSavingsVsReal, {
-    type: 'line',
-    data: {
-      labels: labelsArrayTime,
-      datasets: [
-        {
-          label: 'Real Estate Investment',
-          data: investmentArraySavingsVsReal,
-          fill: false,
-          backgroundColor: '#fff',
-          borderColor: '#9DEB8F',
-          color: '#fff'
-        },
-        {
-          label: 'Bank Savings',
-          data: savingsArray,
-          fill: false,
-          backgroundColor: '#fff',
-          borderColor: '#5AB8D5',
-          color: '#fff'
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: false,
-          ticks: {
-            callback: function (value, index, values) {
-              return value.toLocaleString() + ' €' // Dodaje € iza svake vrijednosti
-            }
-          }
-        }
-      },
-      plugins: {
-        legend: {
-          display: true // Skriva legendu
-        }
-      }
-    }
-  })
 
   function waitingSpinner(t) {
     if (typeof t === 'string') {

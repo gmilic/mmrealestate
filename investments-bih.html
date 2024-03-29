@@ -1,4 +1,13 @@
 <script>
+  console.log('Investments BIH')
+  // --------- Get JSON ROI DATA
+  const roiJsonData = document.querySelector(
+    '#rois-calc-invest-data .w-embed'
+  ).textContent
+  const roiData = JSON.parse(roiJsonData)
+  console.log(roiData)
+  console.log(roiData['2024'])
+
   // --------- GRAPH INFLATION
   const graphWrapInflation = document.getElementById('graph-wrap-inflation')
   const graphIflationCanvas = graphWrapInflation.appendChild(
@@ -1139,6 +1148,28 @@
     sliderPriceLabel.innerHTML =
       value + ' <span class="labelSmallText">€</span>'
     investment = value
+
+    // Add snap effect
+    let snapValues = [
+      200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000, 1000000
+    ]
+    let closest = snapValues.reduce((a, b) => {
+      return Math.abs(b - investment) < Math.abs(a - investment) ? b : a
+    })
+
+    if (Math.abs(investment - closest) <= 10000) {
+      sliderPrice.value = closest
+      investment = closest
+
+      // Update label position and value
+      const newPercent = ((closest - min) / (max - min)) * 100
+      const newPosition = newPercent * (offsetWidth / 100)
+      sliderPriceLabel.style.transform = `translateX(${newPosition}px)`
+      sliderPriceLabel.innerHTML =
+        closest + ' <span class="labelSmallText">€</span>'
+    }
+
+    // Add snap effect - END
 
     tableRows.forEach((row, index) => {
       let cells = row.querySelectorAll('td:not(:first-child)')

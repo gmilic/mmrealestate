@@ -770,7 +770,22 @@
 
   sliderPrice.addEventListener('input', () => {
     const { value, min, max, offsetWidth } = sliderPrice
-    const percent = ((value - min) / (max - min)) * 100
+    let investment = value
+
+    // Add snap effect
+    let snapValues = [
+      100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000
+    ]
+    let closest = snapValues.reduce((a, b) => {
+      return Math.abs(b - investment) < Math.abs(a - investment) ? b : a
+    })
+
+    if (Math.abs(investment - closest) <= 10000) {
+      sliderPrice.value = closest
+      investment = closest
+    }
+
+    const percent = ((investment - min) / (max - min)) * 100
     if (percent > 90) {
       sliderPriceLabel.style.left = '-5rem'
     } else if (percent > 70) {
@@ -783,8 +798,8 @@
     const newPosition = percent * (offsetWidth / 100)
     sliderPriceLabel.style.transform = `translateX(${newPosition}px)`
     sliderPriceLabel.innerHTML =
-      value + ' <span class="labelSmallText">€</span>'
-    investment = value
+      investment + ' <span class="labelSmallText">€</span>'
+
     roiCalcProfit.textContent = calculateProfitROI(
       investment,
       monthsForCalc,

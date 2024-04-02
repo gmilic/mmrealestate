@@ -854,64 +854,6 @@
   ).toLocaleString()
 </script>
 
-<!-- Card Slider Config -->
-<script>
-  const swiper = new Swiper('.swiper-home-roi', {
-    effect: 'slide',
-    slidesPerView: 'auto',
-    visibilityFullFit: true,
-    autoResize: false,
-    loop: true,
-    slidesPerGroup: 3,
-    navigation: {
-      nextEl: '#cms-slider-right',
-      prevEl: '#cms-slider-left'
-    }
-  })
-</script>
-<script>
-  // Start Una after 5 seconds
-  // $(document).ready(function () {
-  //   setTimeout(() => {
-  //     document.getElementById('chatbase-bubble-button').click()
-  //   }, 5000)
-  // })
-</script>
-<script>
-  $(document).ready(function () {
-    var swiperNodesMarkets = ''
-    var paginationMarkets = '<div class="swiper-pagination-markets"></div>'
-    var next_prev_buttonsMarkets =
-      '<div class="swiper-button-prev-markets"></div><div class="swiper-button-next-markets"></div>'
-    var swiperNodesMarkets = swiperNodesMarkets.concat(
-      paginationMarkets,
-      next_prev_buttonsMarkets
-    )
-    /* loop throw all swipers on the page */
-    $('.swiper-home-markets').each(function (index) {
-      $(this).append(swiperNodesMarkets)
-    })
-
-    const swiperHomeMarkets = new Swiper('.swiper-home-markets', {
-      effect: 'slide',
-      slidesPerView: 'auto',
-      visibilityFullFit: true,
-      autoResize: false,
-      loop: true,
-      slidesPerGroup: 3,
-      pagination: {
-        el: '.swiper-pagination-markets1111',
-        clickable: true,
-        type: 'bullets'
-      },
-      navigation: {
-        nextEl: '.swiper-button-next-markets',
-        prevEl: '.swiper-button-prev-markets'
-      }
-    })
-  })
-</script>
-
 <script>
   document
     .getElementById('home-submit-widget')
@@ -937,4 +879,68 @@
 
       window.location.href = url
     })
+</script>
+
+<script>
+  // Swiper Home Markets
+  $(document).ready(function () {
+    var swiperNodesMarkets = ''
+    var paginationMarkets = '<div class="swiper-pagination-markets"></div>'
+    var next_prev_buttonsMarkets =
+      '<div class="swiper-button-prev-markets"></div><div class="swiper-button-next-markets"></div>'
+    var swiperNodesMarkets = swiperNodesMarkets.concat(
+      paginationMarkets,
+      next_prev_buttonsMarkets
+    )
+    /* loop throw all swipers on the page */
+    $('.swiper-home-markets').each(function (index) {
+      $(this).append(swiperNodesMarkets)
+    })
+
+    const swiperHomeMarkets = new Swiper('.swiper-home-markets', {
+      effect: 'slide',
+      slidesPerView: 4,
+      visibilityFullFit: true,
+      autoResize: false,
+      loop: false,
+      slidesPerGroup: 4,
+      pagination: {
+        el: '.swiper-pagination-markets',
+        clickable: true,
+        type: 'bullets'
+      },
+      navigation: {
+        nextEl: '.swiper-button-next-markets',
+        prevEl: '.swiper-button-prev-markets'
+      }
+    })
+
+    // Swiper Home ROI
+    const swiperHomeRoi = new Swiper('.swiper-home-roi', {
+      effect: 'slide',
+      slidesPerView: 4,
+      visibilityFullFit: true,
+      autoResize: false,
+      loop: false,
+      slidesPerGroup: 4,
+      navigation: {
+        nextEl: '#cms-slider-right',
+        prevEl: '#cms-slider-left'
+      }
+    })
+    //
+
+    const swiperHomeCitizenship = new Swiper('.swiper-home-citizenship', {
+      effect: 'slide',
+      slidesPerView: 4,
+      visibilityFullFit: true,
+      autoResize: false,
+      loop: false,
+      slidesPerGroup: 4,
+      navigation: {
+        nextEl: '#cms-slider-right',
+        prevEl: '#cms-slider-left'
+      }
+    })
+  })
 </script>

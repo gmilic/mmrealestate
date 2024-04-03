@@ -904,15 +904,15 @@
       autoResize: false,
       loop: false,
       slidesPerGroup: 4,
-      pagination: {
-        el: '.swiper-pagination-markets',
-        clickable: true,
-        type: 'bullets'
-      },
+      spaceBetween: 20,
+      pauseOnMouseEnter: true,
       navigation: {
         nextEl: '#home-markets-right',
         prevEl: '#home-markets-left'
-      }
+      },
+      autoplay: {
+   delay: 7000
+ }
     })
 
     // Swiper Home ROI
@@ -923,12 +923,18 @@
       autoResize: false,
       loop: false,
       slidesPerGroup: 4,
+      spaceBetween: 20,
+      pauseOnMouseEnter: true,
       navigation: {
         nextEl: '#home-high-roi-right',
         prevEl: '#home-high-roi-left'
-      }
+      },
+      autoplay: {
+   delay: 10000
+ }
     })
-    //
+
+    //Swiper home citizenship 
 
     const swiperHomeCitizenship = new Swiper('.swiper-home-citizenship', {
       effect: 'slide',
@@ -937,10 +943,15 @@
       autoResize: false,
       loop: false,
       slidesPerGroup: 4,
+      spaceBetween: 20,
+      pauseOnMouseEnter: true,
       navigation: {
         nextEl: '#home-citizenship-right',
         prevEl: '#home-citizenship-left'
-      }
+      },
+      autoplay: {
+   delay: 7000
+ }
     })
   })
 </script>

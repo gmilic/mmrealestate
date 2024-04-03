@@ -1,12 +1,12 @@
 <script>
-  console.log('Investments BIH')
+  // Data from Mjesecni kalkulatori i 6 - Kalkulatori Scenario... za pojedinacnu zemlju
+  const inflation = [2.99, 5.68, 8.19, 10.2]
+  const realEstatePricesGrow = [8.0, 7.0, 15.0, 21.0]
   // --------- Get JSON ROI DATA
   const roiJsonData = document.querySelector(
     '#rois-calc-invest-data .w-embed'
   ).textContent
   const roiData = JSON.parse(roiJsonData)
-  console.log(roiData)
-  console.log(roiData['2024'])
 
   // --------- GRAPH INFLATION
   const graphWrapInflation = document.getElementById('graph-wrap-inflation')
@@ -1126,10 +1126,6 @@
     </div>
   `
 
-  const inflation = [2.99, 5.68, 8.19, 10.2]
-  const realEstatePricesGrow = [8.0, 7.0, 15.0, 21.0]
-  const fixedROI = 20.0
-
   let tableRows = document.querySelectorAll('#invest-calc-results tr')
   sliderPrice.addEventListener('input', () => {
     const { value, min, max, offsetWidth } = sliderPrice
@@ -1173,7 +1169,7 @@
 
     tableRows.forEach((row, index) => {
       let cells = row.querySelectorAll('td:not(:first-child)')
-      let cellValue = 0
+      let cellValue = Number(investment)
       cells.forEach((cell, cellIndex) => {
         if (index === 1) {
           // Perform operation for first row
@@ -1193,11 +1189,17 @@
           cell.textContent = '€' + cellValue.toLocaleString()
         } else if (index === 3) {
           // Perform operation for third row
-          // calculate value of investment with fixedROI for 4 years and fill 4 cells
-          cellValue = Math.round(
-            Number(investment) +
-              ((Number(investment) * Number(fixedROI)) / 100) * (cellIndex + 1)
-          )
+          let currentYear = 2024 + cellIndex // calculate the year
+
+          if (roiData[currentYear.toString()]) {
+            // if there is data for this year
+            for (let month = 1; month <= 12; month++) {
+              // calculate ROI for each month
+              cellValue *= roiData[currentYear.toString()][month.toString()]
+            }
+          }
+
+          cellValue = Math.round(cellValue)
           cell.textContent = '€' + cellValue.toLocaleString()
         }
       })

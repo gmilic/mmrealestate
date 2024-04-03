@@ -628,11 +628,19 @@
       roi2year,
       roi3year
     )
+    savingsArray = createInvestmentsArray(
+      investment, //investment
+      monthsForCalc, //months
+      6, // roi1year
+      8, // roi1year
+      10 // roi1year
+    )
     roiChart.data.datasets[0].data = investmentArray
     roiChart.update()
 
     // Update savingsVsRealChart data
     savingsVsRealChart.data.datasets[0].data = investmentArray
+    savingsVsRealChart.data.datasets[1].data = savingsArray
     savingsVsRealChart.update()
 
     roiCalcProfit.textContent = calculateProfitROI(

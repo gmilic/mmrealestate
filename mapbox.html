@@ -13,7 +13,7 @@
   // Initialize map and load in #map wrapper
   let map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mmrealestatetech/clpwonvpb01id01pa4n307r5n',
+    style: 'mapbox://styles/mmrealestatetech/clq0swlza01qe01p9db3j1fbk',
     center: [17.929102, 43.808274],
     // minZoom: 1,
     // maxZoom: 20
@@ -93,7 +93,7 @@
       paint: {
         'circle-radius': 8,
         'circle-stroke-width': 1,
-        'circle-color': '#2efd51',
+        'circle-color': '#fff',
         'circle-opacity': 1,
         'circle-stroke-color': 'white'
       }
@@ -105,7 +105,7 @@
       source: 'locations',
       filter: ['has', 'point_count'],
       paint: {
-        'circle-color': '#2efd51',
+        'circle-color': '#fff',
         'circle-radius': 20
       }
     })

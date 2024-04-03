@@ -739,45 +739,13 @@
     .addTo(map)
 
   // =================================== Inflation Graphs ===================================
-  const inflationSavingsSelectOptions = {
-    ba: 'Bosnia and Herzegovina',
-    tr: 'Turkiye'
-  }
-  let inflationURL =
-    'https://api.worldbank.org/v2/country/ba/indicator/NY.GDP.DEFL.KD.ZG?format=json'
+
+  const countryCode = document
+    .querySelector('.data-country-code')
+    .textContent.trim()
+
+  let inflationURL = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GDP.DEFL.KD.ZG?format=json`
   let inflationChart = ''
-  const inflationSelecthWrap = document.getElementById(
-    'infaltion-trends-select'
-  )
-  const inflationSelect = inflationSelecthWrap.appendChild(
-    document.createElement('select')
-  )
-  inflationSelect.classList.add('select-js-elements')
-  inflationSelect.id = 'inflation-select'
-
-  // create options for select
-  for (const [key, value] of Object.entries(inflationSavingsSelectOptions)) {
-    const optionEl = inflationSelect.appendChild(
-      document.createElement('option')
-    )
-    optionEl.value = key
-    optionEl.textContent = value
-  }
-
-  inflationSelect.addEventListener('change', function () {
-    waitingSpinner('inflation-select')
-
-    inflationURL = `https://api.worldbank.org/v2/country/${this.value}/indicator/NY.GDP.DEFL.KD.ZG?format=json`
-
-    getInflationData().then((data) => {
-      let newData = parseWorldData(data)
-      inflationChart.data.labels = newData[0]
-      inflationChart.data.datasets[0].data = newData[1]
-      inflationChart.update()
-    })
-
-    waitingSpinner('inflation-select')
-  })
 
   getInflationData().then((data) => {
     renderInflationJSON(parseWorldData(data))
@@ -862,34 +830,8 @@
   }
 
   // =================================== Savings Graphs ===================================
-  let savingsURL =
-    'https://api.worldbank.org/v2/country/ba/indicator/FR.INR.DPST?format=json'
+  let savingsURL = `https://api.worldbank.org/v2/country/${countryCode}/indicator/FR.INR.DPST?format=json`
   let savingsChart = ''
-  const savingsSelecthWrap = document.getElementById('savings-select')
-  const savingsSelect = savingsSelecthWrap.appendChild(
-    document.createElement('select')
-  )
-  savingsSelect.classList.add('select-js-elements')
-
-  // create options for select
-  for (const [key, value] of Object.entries(inflationSavingsSelectOptions)) {
-    const optionEl = savingsSelect.appendChild(document.createElement('option'))
-    optionEl.value = key
-    optionEl.textContent = value
-  }
-
-  savingsSelect.addEventListener('change', function () {
-    waitingSpinner(this)
-    savingsURL = `https://api.worldbank.org/v2/country/${this.value}/indicator/FR.INR.DPST?format=json`
-
-    getSavingsData().then((data) => {
-      let newData = parseWorldData(data)
-      savingsChart.data.labels = newData[0]
-      savingsChart.data.datasets[0].data = newData[1]
-      savingsChart.update()
-    })
-    waitingSpinner(this)
-  })
 
   getSavingsData().then((data) => {
     renderSavingsJSON(parseWorldData(data))

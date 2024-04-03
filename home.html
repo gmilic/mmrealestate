@@ -658,6 +658,9 @@
 
   // =================================== ROI calc home ===================================
   const homeRoiCalcJs = document.getElementById('home-roi-calc-js')
+  const homeRoiCalcCountrySelect = document.getElementById(
+    'select-country-roi-calc'
+  )
 
   const priceMinRoi = 0
   const priceMaxRoi = 1000000
@@ -768,9 +771,44 @@
   )
   let investment = 500000
 
+  // homeRoiCalcCountrySelect.addEventListener('change', function () {
+  //   let annularROIforCOuntry =
+  //     document.getElementById('roi-for-country').innerText
+
+  //   console.log(annularROIforCOuntry)
+  //   console.log('Country changed')
+  // })
+
+  // Finesweet CMS Filter config, events, and callbacks
+  window.fsAttributes = window.fsAttributes || []
+  window.fsAttributes.push([
+    'cmsfilter',
+    (filterInstances) => {
+      // console.log('cmsfilter Successfully loaded!')
+
+      // The callback passes a `filterInstances` array with all the `CMSFilters` instances on the page.
+      const [filterInstance] = filterInstances
+
+      // The `renderitems` event runs whenever the list renders items after filtering.
+      filterInstance.listInstance.on('renderitems', (renderedItems) => {
+        // console.log('renderedItems', renderedItems)
+        let annularROIforCOuntry =
+          document.getElementById('roi-for-country').innerText
+
+        if (!annularROIforCOuntry) {
+          annularROIforCOuntry = 60
+        }
+
+        // add value  annularROIforCOuntry to slider sliderROI and update the value
+        sliderROI.value = annularROIforCOuntry
+        sliderROI.dispatchEvent(new Event('input', { bubbles: true }))
+      })
+    }
+  ])
+
   sliderPrice.addEventListener('input', () => {
     const { value, min, max, offsetWidth } = sliderPrice
-    let investment = value
+    investment = value
 
     // Add snap effect
     let snapValues = [

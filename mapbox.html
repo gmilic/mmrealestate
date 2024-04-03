@@ -255,17 +255,17 @@
   ])
 
   // resize map on left panel toggle
-  const sidebarLeftToggle = document.getElementById('sidebar-left_icon')
-  let waitForAnimation = null
+  // const sidebarLeftToggle = document.getElementById('sidebar-left_icon')
+  // let waitForAnimation = null
 
-  sidebarLeftToggle.addEventListener('click', () => {
-    if (waitForAnimation) {
-      clearTimeout(waitForAnimation)
-    }
-    waitForAnimation = setTimeout(() => {
-      map.resize()
-    }, 500)
-  })
+  // sidebarLeftToggle.addEventListener('click', () => {
+  //   if (waitForAnimation) {
+  //     clearTimeout(waitForAnimation)
+  //   }
+  //   waitForAnimation = setTimeout(() => {
+  //     map.resize()
+  //   }, 500)
+  // })
 </script>
 <script>
   const filterCountriesWrap = document.getElementById('filter-countries-wrap')

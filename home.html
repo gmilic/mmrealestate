@@ -251,6 +251,19 @@
   }
 </style>
 <script>
+  // Spacing Between Legend and Chart
+  const plugin = {
+    beforeInit(chart) {
+      // Get a reference to the original fit function
+      const origFit = chart.legend.fit
+      chart.legend.fit = function fit() {
+        origFit.bind(chart.legend)()
+        // Change the height to any desired value
+        this.height += 20
+      }
+    }
+  }
+
   const priceMin = 100000
   let roi1year = 50
   let roi2year = 50
@@ -551,6 +564,7 @@
         }
       ]
     },
+    plugins: [plugin],
     options: {
       responsive: true,
       maintainAspectRatio: false,

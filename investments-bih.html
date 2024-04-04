@@ -1,4 +1,47 @@
+<style>
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    cursor: grab;
+    border-radius: 4px;
+    background-image: url('https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/6602ee9c354449f54a55974c_mmslider.svg ');
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+  }
+
+  .slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    cursor: grab;
+    border-radius: 4px;
+    background-image: url('https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/6602ee9c354449f54a55974c_mmslider.svg ');
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+  }
+</style>
 <script>
+  const colorRed = '#D45D5D'
+  const colorGreen = '#76AB74'
+  const colorBlue = '#5AB8D5'
+  const colorYellow = '#FDFD96'
+  const colorRedSecondary = '#D98E6E'
+  const colorGreenSecondary = '#ACD1B7'
+  const colorBlueSecondary = '#A9D7E5'
+  const colorYellowSecondary = '#EBD889'
+
+  // Navigation
+  const nav = document.querySelector('#select-country-investment')
+  nav.addEventListener('change', () => {
+    const value = nav.value
+    window.location.href = `/investments/${value
+      .toLowerCase()
+      .replace(/ /g, '-')}`
+  })
+
   // Data from Mjesecni kalkulatori i 6 - Kalkulatori Scenario... za pojedinacnu zemlju
   const inflation = [2.99, 5.68, 8.19, 10.2]
   const realEstatePricesGrow = [8.0, 7.0, 15.0, 21.0]
@@ -44,7 +87,7 @@
           label: '',
           data: tableInflationValues,
           fill: true,
-          backgroundColor: ['#99FFB6', '#E8E9EB'],
+          backgroundColor: [colorGreen, colorGreenSecondary],
           color: '#fff'
         }
       ]
@@ -82,7 +125,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -133,7 +176,7 @@
           data: tableImportExportnValues01,
           fill: false,
           backgroundColor: '#fff',
-          borderColor: '#9DEB8F',
+          borderColor: colorGreen,
           color: '#fff'
         },
         {
@@ -141,7 +184,7 @@
           data: tableImportExportnValues02,
           fill: false,
           backgroundColor: '#fff',
-          borderColor: '#5AB8D5',
+          borderColor: colorBlue,
           color: '#fff'
         }
       ]
@@ -151,7 +194,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 14,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -182,7 +229,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -232,7 +279,7 @@
           data: tableBdpValues01,
           fill: false,
           backgroundColor: '#fff',
-          borderColor: '#9DEB8F',
+          borderColor: colorBlue,
           color: '#fff'
         },
         {
@@ -240,7 +287,7 @@
           data: tableBdpValues02,
           fill: false,
           backgroundColor: '#fff',
-          borderColor: '#5AB8D5',
+          borderColor: colorGreen,
           color: '#fff'
         },
         {
@@ -248,7 +295,7 @@
           data: tableBdpValues03,
           fill: false,
           backgroundColor: '#fff',
-          borderColor: '#D45D5D',
+          borderColor: colorRed,
           color: '#fff'
         }
       ]
@@ -258,7 +305,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 14,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -289,7 +340,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 11,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -325,25 +376,25 @@
           label: 'Residental',
           data: [88371, 76306],
           fill: false,
-          backgroundColor: '#F5A507'
+          backgroundColor: colorGreen
         },
         {
           label: 'Hotels',
           data: [6510, 7091],
           fill: false,
-          backgroundColor: '#00ff00'
+          backgroundColor: colorBlue
         },
         {
           label: 'Office',
           data: [13311, 18782],
           fill: false,
-          backgroundColor: '#46B2E1'
+          backgroundColor: colorRed
         },
         {
           label: 'Industrial',
           data: [28454, 16093],
           fill: false,
-          backgroundColor: '#6CD98C'
+          backgroundColor: colorYellow
         }
       ]
     },
@@ -362,7 +413,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 14,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -398,7 +453,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -432,25 +487,25 @@
           label: 'Residental',
           data: [139944000, 118553000],
           fill: false,
-          backgroundColor: '#F5A507'
+          backgroundColor: colorGreen
         },
         {
           label: 'Hotels',
           data: [19663000, 14319000],
           fill: false,
-          backgroundColor: '#00ff00'
+          backgroundColor: colorBlue
         },
         {
           label: 'Office',
           data: [63733000, 79585000],
           fill: false,
-          backgroundColor: '#46B2E1'
+          backgroundColor: colorRed
         },
         {
           label: 'Industrial',
           data: [45345000, 43990000],
           fill: false,
-          backgroundColor: '#6CD98C'
+          backgroundColor: colorYellow
         }
       ]
     },
@@ -469,7 +524,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 14,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -505,7 +564,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -539,25 +598,25 @@
           label: 'Residental',
           data: [1584, 1554],
           fill: false,
-          backgroundColor: '#F5A507'
+          backgroundColor: colorGreen
         },
         {
           label: 'Hotels',
           data: [3020, 2019],
           fill: false,
-          backgroundColor: '#00ff00'
+          backgroundColor: colorBlue
         },
         {
           label: 'Office',
           data: [4788, 4237],
           fill: false,
-          backgroundColor: '#46B2E1'
+          backgroundColor: colorRed
         },
         {
           label: 'Industrial',
           data: [1594, 2733],
           fill: false,
-          backgroundColor: '#6CD98C'
+          backgroundColor: colorYellow
         }
       ]
     },
@@ -576,7 +635,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 14,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -612,7 +675,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -645,14 +708,14 @@
           label: 'Tourist Arrivals',
           data: [140501, 338083, 565139],
           fill: true,
-          backgroundColor: '#DFBF80',
+          backgroundColor: colorYellowSecondary,
           stack: 'Stack 0'
         },
         {
           label: 'Overnight Stays',
           data: [286555, 797639, 1185115],
           fill: true,
-          backgroundColor: '#F5A507',
+          backgroundColor: colorYellow,
           stack: 'Stack 0'
         }
       ]
@@ -672,7 +735,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 11,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -708,7 +775,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -740,14 +807,14 @@
           label: 'Tourist Arrivals',
           data: [136304, 329589, 547919],
           fill: false,
-          backgroundColor: '#DD6A6A',
+          backgroundColor: colorRedSecondary,
           stack: 'Stack 1'
         },
         {
           label: 'Overnight Stays',
           data: [274973, 769816, 1133942],
           fill: false,
-          backgroundColor: '#ff0000',
+          backgroundColor: colorRed,
           stack: 'Stack 1'
         }
       ]
@@ -767,7 +834,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 11,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -803,7 +874,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -835,14 +906,14 @@
           label: 'Tourist Arrivals',
           data: [3671, 5846, 12455],
           fill: false,
-          backgroundColor: '#6CD98C',
+          backgroundColor: colorGreenSecondary,
           stack: 'Stack 2'
         },
         {
           label: 'Overnight Stays',
           data: [10416, 20148, 39848],
           fill: false,
-          backgroundColor: '#00ff00',
+          backgroundColor: colorGreen,
           stack: 'Stack 2'
         }
       ]
@@ -862,7 +933,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 11,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -898,7 +973,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -930,14 +1005,14 @@
           label: 'Tourist Arrivals',
           data: [526, 2648, 4765],
           fill: false,
-          backgroundColor: '#46B2E1',
+          backgroundColor: colorBlueSecondary,
           stack: 'Stack 3'
         },
         {
           label: 'Overnight Stays',
           data: [1166, 7675, 11325],
           fill: false,
-          backgroundColor: '#0000ff',
+          backgroundColor: colorBlue,
           stack: 'Stack 3'
         }
       ]
@@ -957,7 +1032,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 11,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -993,7 +1072,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }
@@ -1031,13 +1110,13 @@
           label: 'Deposits - up to 1 year',
           data: [0.3, 0.35, 0.48, 0.4, 0.5, 0.62],
           fill: false,
-          backgroundColor: '#F5A507'
+          backgroundColor: colorYellow
         },
         {
           label: 'Deposits - from 1 to 2 years',
           data: [1.2, 1.1, 1.43, 1.73, 1.7, 1.8],
           fill: false,
-          backgroundColor: '#00ff00'
+          backgroundColor: colorGreen
         }
       ]
     },
@@ -1046,7 +1125,11 @@
         legend: {
           // display: false
           labels: {
-            color: '#fff'
+            color: '#fff',
+            font: {
+              size: 14,
+              family: "'Inter', 'Arial', sans-serif"
+            }
           }
         }
       },
@@ -1082,7 +1165,7 @@
             color: '#fff',
             // padding: 20,
             font: {
-              size: 15,
+              size: 12,
               family: "'Inter', 'Arial', sans-serif",
               weight: 'bold'
             }

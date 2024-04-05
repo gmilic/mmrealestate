@@ -922,12 +922,33 @@
       let investOnly = document.getElementById('Invest-Only').checked
       let rental = document.getElementById('Rental').checked
 
-      // construct url with selected values
-      let url = `/investment-opportunities?countries=${selectedMarket}&budget=${selectedBudget}&personalUse=${personalUse}&investOnly=${investOnly}&rental=${rental}`
+      let url = `/investment-opportunities?`
 
-      console.log(selectedBudget)
+      if (selectedBudget && selectedBudget !== '1.000.000-100.000.000') {
+        selectedBudget = selectedBudget
+          .replace(/\./g, '')
+          .replace(/M/g, '000000')
+        let budgetValues = selectedBudget.split('-')
+        url += `price=${budgetValues.join('%2C')}`
+      }
 
-      console.log(url)
+      let purpose = []
+
+      if (personalUse) {
+        purpose.push('Personal+use')
+      }
+
+      if (investOnly) {
+        purpose.push('Invest+only')
+      }
+
+      if (rental) {
+        purpose.push('Rental')
+      }
+
+      if (purpose.length > 0) {
+        url += `&purpose=${purpose.join('%2C')}`
+      }
 
       window.location.href = url
     })

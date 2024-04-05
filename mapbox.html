@@ -269,30 +269,30 @@
   // })
 </script>
 <script>
-  const filterCountriesWrap = document.getElementById('filter-countries-wrap')
-  const countriesHeaderWrap = document.getElementById('countries-header-wrap')
-  const backToAllCountries = document.getElementById('back-to-all-countries')
+  // const filterCountriesWrap = document.getElementById('filter-countries-wrap')
+  // const countriesHeaderWrap = document.getElementById('countries-header-wrap')
+  // const backToAllCountries = document.getElementById('back-to-all-countries')
 
-  // select all checkboxes in the filter countries wrap
-  const checkboxes = filterCountriesWrap.querySelectorAll(
-    'input[type="checkbox"]'
-  )
-  // add event listener to each checkbox
-  checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener('click', function () {
-      filterCountriesWrap.style.display = 'none'
-      countriesHeaderWrap.style.display = 'block'
-    })
-  })
+  // // select all checkboxes in the filter countries wrap
+  // const checkboxes = filterCountriesWrap.querySelectorAll(
+  //   'input[type="checkbox"]'
+  // )
+  // // add event listener to each checkbox
+  // checkboxes.forEach((checkbox) => {
+  //   checkbox.addEventListener('click', function () {
+  //     filterCountriesWrap.style.display = 'none'
+  //     countriesHeaderWrap.style.display = 'block'
+  //   })
+  // })
 
-  backToAllCountries.addEventListener('click', function () {
-    //set to unchecked all checkboxes
-    checkboxes.forEach((checkbox) => {
-      checkbox.checked = false
-    })
-    filterCountriesWrap.style.display = 'block'
-    countriesHeaderWrap.style.display = 'none'
-  })
+  // backToAllCountries.addEventListener('click', function () {
+  //   //set to unchecked all checkboxes
+  //   checkboxes.forEach((checkbox) => {
+  //     checkbox.checked = false
+  //   })
+  //   filterCountriesWrap.style.display = 'block'
+  //   countriesHeaderWrap.style.display = 'none'
+  // })
 </script>
 
 <script>

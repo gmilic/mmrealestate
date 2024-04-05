@@ -915,7 +915,6 @@
       // give me value of select with id="Markets"
       let selectedMarket = document.getElementById('Market').value
       let selectedBudget = document.getElementById('Budget').value
-      console.log(selectedMarket, selectedBudget)
 
       // is checkbox Personal-Use checked
       let personalUse = document.getElementById('Personal-Use').checked
@@ -923,6 +922,10 @@
       let rental = document.getElementById('Rental').checked
 
       let url = `/investment-opportunities?`
+
+      if (selectedMarket) {
+        url += `countries=${encodeURIComponent(selectedMarket)}`
+      }
 
       if (selectedBudget && selectedBudget !== '1.000.000-100.000.000') {
         selectedBudget = selectedBudget
@@ -950,6 +953,7 @@
         url += `&purpose=${purpose.join('%2C')}`
       }
 
+      console.log(url)
       window.location.href = url
     })
 </script>

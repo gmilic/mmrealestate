@@ -36,6 +36,32 @@
     margin-bottom: 2rem;
     color: #fff;
   }
+  table tr {
+    border-bottom: 1px solid rgba(0, 255, 74, 0.25);
+  }
+
+  table tr:first-child {
+    background-color: #1a3c35;
+  }
+  table td {
+    padding: 6px 10px;
+  }
+
+  table tr:hover {
+    background-color: rgba(0, 255, 74, 0.1);
+  }
+
+  #market-inflation table td {
+    /*center text in empty-cells */
+    text-align: center;
+  }
+
+  /* #market-import-export
+    #market-bdp
+    #market-credit
+    #market-construction
+    #market-tourism
+    #market-interest-rate */
 </style>
 <script>
   const colorRed = '#D45D5D'
@@ -51,9 +77,7 @@
   const nav = document.querySelector('#select-country-investment')
   nav.addEventListener('change', () => {
     const value = nav.value
-    window.location.href = `/investments/${value
-      .toLowerCase()
-      .replace(/ /g, '-')}`
+    window.location.href = `/markets/${value.toLowerCase().replace(/ /g, '-')}`
   })
 
   // Spacing Between Legend and Chart

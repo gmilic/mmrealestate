@@ -924,7 +924,9 @@
       let url = `/investment-opportunities?`
 
       if (selectedMarket) {
-        url += `countries=${encodeURIComponent(selectedMarket)}`
+        // in selectedMarket change spaces with +
+        selectedMarket = selectedMarket.replace(/\s/g, '+')
+        url += `countries=${selectedMarket}`
       }
 
       if (selectedBudget && selectedBudget !== '1.000.000-100.000.000') {
@@ -932,7 +934,7 @@
           .replace(/\./g, '')
           .replace(/M/g, '000000')
         let budgetValues = selectedBudget.split('-')
-        url += `price=${budgetValues.join('%2C')}`
+        url += `&price=${budgetValues.join('%2C')}`
       }
 
       let purpose = []

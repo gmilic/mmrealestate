@@ -40,8 +40,13 @@
     border-bottom: 1px solid rgba(0, 255, 74, 0.25);
   }
 
-  table tr:first-child {
+  table tr:first-child,
+  table th {
     background-color: #1a3c35;
+    padding: 14px 10px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
   table td {
     padding: 6px 10px;
@@ -257,7 +262,9 @@
   const ctxGraphImportExport = document
     .getElementById('graphImportExportCanvas')
     .getContext('2d')
-  const tableImportExport = document.getElementById('table-export-import')
+  const tableImportExport = document.querySelector(
+    '#market-import-export table'
+  )
   const tableImportExportRows = tableImportExport.querySelectorAll('tr')
 
   const tableImportExportLabels = []
@@ -358,7 +365,7 @@
   graphBDPCanvas.width = '100%'
   graphBDPCanvas.height = '400px'
   const ctxGraphBdp = document.getElementById('graphBDPCanvas').getContext('2d')
-  const tableBdp = document.getElementById('table-bdp')
+  const tableBdp = document.querySelector('#market-bdp table')
   const tableBdpRows = tableBdp.querySelectorAll('tr')
 
   const tableBdpLabels = []
@@ -368,10 +375,10 @@
   tableBdpRows.forEach((row, index) => {
     if (index > 0) {
       const cells = row.querySelectorAll('td')
-      const year = cells[0].textContent + ' ' + cells[1].textContent
-      const spendingData = cells[2].textContent
-      const investmentsData = cells[3].textContent
-      const bdpData = cells[4].textContent
+      const year = cells[0].textContent
+      const spendingData = cells[1].textContent
+      const investmentsData = cells[2].textContent
+      const bdpData = cells[3].textContent
       tableBdpValues01.push(parseInt(spendingData.replace(/,/g, '')))
       tableBdpValues02.push(parseInt(investmentsData.replace(/,/g, '')))
       tableBdpValues03.push(parseInt(bdpData.replace(/,/g, '')))
@@ -801,6 +808,75 @@
   })
   // --------- GRAPH Tourism Common
   const tourismLabels = ['2021.', '2022.', '2023.']
+  const tourismTable = document.querySelector(' #market-tourism table')
+
+  const tourismDataXXXXX = [
+    {
+      id: 'graph-wrap-tourism-01',
+      title: 'Total',
+      data: [
+        { year: '2021.', arrivals: 140501, stays: 286555 },
+        { year: '2022.', arrivals: 338083, stays: 797639 },
+        { year: '2023.', arrivals: 565139, stays: 1185115 }
+      ],
+      color: colorYellow,
+      colorSecondary: colorYellowSecondary
+    }
+    // Add more categories here...
+  ]
+
+  // Define the order of the categories
+  const categories = ['totals', 'hotels', 'resorts', 'camps']
+
+  // Initialize an array to store the data for the graphs
+  const tourismDataGraphs = categories.map((category, index) => ({
+    id: `graph-wrap-tourism-0${index + 1}`,
+    title: category.charAt(0).toUpperCase() + category.slice(1),
+    labels: [],
+    data: [],
+    color: colorYellow,
+    colorSecondary: colorYellowSecondary
+  }))
+
+  // Initialize a variable to store the current year
+  let currentYear = ''
+  // Loop through each row in the table
+  for (let i = 1; i < tourismTable.rows.length; i++) {
+    const row = tourismTable.rows[i]
+
+    // if row.cells[0].textContent is a year, update the current year
+    if (row.cells[0].textContent.trim().match(/\d{4}/)) {
+      currentYear = row.cells[0].textContent.trim()
+      let value = parseInt(row.cells[1].textContent.replace(/,/g, ''), 10)
+      tourismDataGraphs
+        .find((graph) => graph.title.toLowerCase() === 'totals')
+        .data.push(value)
+      // push currentYear to labels
+      tourismDataGraphs.forEach((graph) => graph.labels.push(currentYear))
+    }
+
+    if (row.cells[0].textContent.trim().toLowerCase() === 'hotels') {
+      let value = parseInt(row.cells[1].textContent.replace(/,/g, ''), 10)
+      tourismDataGraphs
+        .find((graph) => graph.title.toLowerCase() === 'hotels')
+        .data.push(value)
+    }
+    if (row.cells[0].textContent.trim().toLowerCase() === 'resorts') {
+      let value = parseInt(row.cells[1].textContent.replace(/,/g, ''), 10)
+      tourismDataGraphs
+        .find((graph) => graph.title.toLowerCase() === 'resorts')
+        .data.push(value)
+    }
+    if (row.cells[0].textContent.trim().toLowerCase() === 'camps') {
+      let value = parseInt(row.cells[1].textContent.replace(/,/g, ''), 10)
+      tourismDataGraphs
+        .find((graph) => graph.title.toLowerCase() === 'camps')
+        .data.push(value)
+    }
+  }
+
+  console.log(tourismDataGraphs)
+
   // --------- GRAPH Tourism 01
   const graphWrapTourism01 = document.getElementById('graph-wrap-tourism-01')
   const graphTourismCanvas01 = graphWrapTourism01.appendChild(
@@ -812,7 +888,66 @@
   const ctxGraphTourism01 = document
     .getElementById('graphTourismCanvas01')
     .getContext('2d')
+  // --------- GRAPH Tourism 02
+  const graphWrapTourism02 = document.getElementById('graph-wrap-tourism-02')
+  const graphTourismCanvas02 = graphWrapTourism02.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas02.id = 'graphTourismCanvas02'
+  graphTourismCanvas02.width = '100%'
+  graphTourismCanvas02.height = '400px'
+  const ctxGraphTourism02 = document
+    .getElementById('graphTourismCanvas02')
+    .getContext('2d')
+  // --------- GRAPH Tourism 03
+  const graphWrapTourism03 = document.getElementById('graph-wrap-tourism-03')
+  const graphTourismCanvas03 = graphWrapTourism03.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas03.id = 'graphTourismCanvas03'
+  graphTourismCanvas03.width = '100%'
+  graphTourismCanvas03.height = '400px'
+  const ctxGraphTourism03 = document
+    .getElementById('graphTourismCanvas03')
+    .getContext('2d')
+  // --------- GRAPH Tourism 04
+  const graphWrapTourism04 = document.getElementById('graph-wrap-tourism-04')
+  const graphTourismCanvas04 = graphWrapTourism04.appendChild(
+    document.createElement('canvas')
+  )
+  graphTourismCanvas04.id = 'graphTourismCanvas04'
+  graphTourismCanvas04.width = '100%'
+  graphTourismCanvas04.height = '400px'
+  const ctxGraphTourism04 = document
+    .getElementById('graphTourismCanvas04')
+    .getContext('2d')
 
+  // ***********************************************************************************
+  // Tourism graphs
+
+  // tourismDataGraphs.forEach((graph) => {
+  //   const ctx = document.getElementById(graph.id).getContext('2d')
+  //   new Chart(ctx, {
+  //     type: 'bar', // or 'line', 'pie', etc.
+  //     data: {
+  //       labels: graph.labels,
+  //       datasets: [
+  //         {
+  //           label: graph.title,
+  //           data: graph.data,
+  //           backgroundColor: graph.color,
+  //           borderColor: graph.colorSecondary,
+  //           borderWidth: 1
+  //         }
+  //       ]
+  //     },
+  //     options: {
+  //       // options here
+  //     }
+  //   })
+  // })
+
+  /*
   const graphTourismChart01 = new Chart(ctxGraphTourism01, {
     type: 'bar',
     data: {
@@ -902,18 +1037,6 @@
     }
   })
 
-  // --------- GRAPH Tourism 02
-  const graphWrapTourism02 = document.getElementById('graph-wrap-tourism-02')
-  const graphTourismCanvas02 = graphWrapTourism02.appendChild(
-    document.createElement('canvas')
-  )
-  graphTourismCanvas02.id = 'graphTourismCanvas02'
-  graphTourismCanvas02.width = '100%'
-  graphTourismCanvas02.height = '400px'
-  const ctxGraphTourism02 = document
-    .getElementById('graphTourismCanvas02')
-    .getContext('2d')
-
   const graphTourismChart02 = new Chart(ctxGraphTourism02, {
     type: 'bar',
     data: {
@@ -1001,18 +1124,6 @@
       }
     }
   })
-
-  // --------- GRAPH Tourism 03
-  const graphWrapTourism03 = document.getElementById('graph-wrap-tourism-03')
-  const graphTourismCanvas03 = graphWrapTourism03.appendChild(
-    document.createElement('canvas')
-  )
-  graphTourismCanvas03.id = 'graphTourismCanvas03'
-  graphTourismCanvas03.width = '100%'
-  graphTourismCanvas03.height = '400px'
-  const ctxGraphTourism03 = document
-    .getElementById('graphTourismCanvas03')
-    .getContext('2d')
 
   const graphTourismChart03 = new Chart(ctxGraphTourism03, {
     type: 'bar',
@@ -1102,18 +1213,6 @@
     }
   })
 
-  // --------- GRAPH Tourism 04
-  const graphWrapTourism04 = document.getElementById('graph-wrap-tourism-04')
-  const graphTourismCanvas04 = graphWrapTourism04.appendChild(
-    document.createElement('canvas')
-  )
-  graphTourismCanvas04.id = 'graphTourismCanvas04'
-  graphTourismCanvas04.width = '100%'
-  graphTourismCanvas04.height = '400px'
-  const ctxGraphTourism04 = document
-    .getElementById('graphTourismCanvas04')
-    .getContext('2d')
-
   const graphTourismChart04 = new Chart(ctxGraphTourism04, {
     type: 'bar',
     data: {
@@ -1201,7 +1300,47 @@
       }
     }
   })
+  
+  
+  
+*/
+
   // --------- GRAPH Interest
+  let interestTable = document.querySelector('#market-interest-rate table')
+  // Initialize arrays to hold the data
+  let interestPeriods = []
+  let interestDeposits1Year = []
+  let interestDepositsOver1Year = []
+
+  // Loop through each row in the table
+  for (let i = 2; i < interestTable.rows.length; i++) {
+    let row = interestTable.rows[i]
+
+    // Add the data to the arrays
+    interestPeriods.push(row.cells[0].innerText)
+    interestDeposits1Year.push(parseFloat(row.cells[1].innerText))
+    interestDepositsOver1Year.push(parseFloat(row.cells[2].innerText))
+  }
+
+  // Create the data structure for Chart.js
+  let interestData = {
+    labels: interestPeriods,
+    datasets: [
+      {
+        label: 'Deposits - up to 1 year',
+        data: interestDeposits1Year,
+        fill: false,
+        backgroundColor: colorYellow
+      },
+      {
+        label: 'Deposits - from 1 to 2 years',
+        data: interestDepositsOver1Year,
+        fill: false,
+        backgroundColor: colorGreen
+      }
+    ]
+  }
+
   const graphWrapInterest = document.getElementById('graph-wrap-interest')
   const graphInterestCanvas = graphWrapInterest.appendChild(
     document.createElement('canvas')
@@ -1212,33 +1351,10 @@
   const ctxGraphInterest = document
     .getElementById('graphInterestCanvas')
     .getContext('2d')
-  const interesetLabels = [
-    'Q1-2022.',
-    'Q2-2022.',
-    'Q3-2022.',
-    'Q4-2022.',
-    'Q1-2023.',
-    'Q2-2023.'
-  ]
+
   const graphInterest = new Chart(ctxGraphInterest, {
     type: 'bar',
-    data: {
-      labels: interesetLabels,
-      datasets: [
-        {
-          label: 'Deposits - up to 1 year',
-          data: [0.3, 0.35, 0.48, 0.4, 0.5, 0.62],
-          fill: false,
-          backgroundColor: colorYellow
-        },
-        {
-          label: 'Deposits - from 1 to 2 years',
-          data: [1.2, 1.1, 1.43, 1.73, 1.7, 1.8],
-          fill: false,
-          backgroundColor: colorGreen
-        }
-      ]
-    },
+    data: interestData,
     plugins: [plugin],
     options: {
       plugins: {
@@ -1253,45 +1369,10 @@
           }
         }
       },
-      indexAxis: 'x',
       maintainAspectRatio: true,
       responsive: true,
       interaction: {
-        // mode: 'index',
         intersect: true
-      },
-      scales: {
-        x: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            color: '#fff',
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        },
-        y: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            // mirror: true,
-            // z: 1,
-            color: '#fff',
-            // padding: 20,
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
-            }
-          }
-          // position: 'left'
-        }
       }
     }
   })

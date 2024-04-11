@@ -470,6 +470,9 @@
   })
 
   // --------- GRAPH Construction
+  // Labels for all graphs
+  const colorsConstruction = [colorBlue, colorGreen]
+
   // Function to create a canvas and return its context
   function createCanvas(parentId, canvasId) {
     const parent = document.getElementById(parentId)
@@ -480,192 +483,73 @@
     return document.getElementById(canvasId).getContext('2d')
   }
 
-  // Function to create a chart
-  function createChart(ctx, labels, datasets, title) {
-    return new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: datasets
-      },
-      plugins: [plugin],
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: title,
-            color: '#fff',
-            font: {
-              size: 18,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'normal'
-            }
-          },
-          legend: {
-            labels: {
-              color: '#fff',
-              font: {
-                size: 14,
-                family: "'Inter', 'Arial', sans-serif"
-              }
-            }
-          }
-        },
-        indexAxis: 'x',
-        maintainAspectRatio: true,
-        responsive: true,
-        interaction: {
-          intersect: true
-        },
-        scales: {
-          x: {
-            grid: {
-              display: true,
-              color: '#1B3C35'
-            },
-            ticks: {
-              color: '#fff',
-              font: {
-                size: 12,
-                family: "'Inter', 'Arial', sans-serif"
-              }
-            }
-          },
-          y: {
-            grid: {
-              display: true,
-              color: '#1B3C35'
-            },
-            ticks: {
-              color: '#fff',
-              font: {
-                size: 12,
-                family: "'Inter', 'Arial', sans-serif",
-                weight: 'bold'
-              }
-            }
-          }
-        }
-      }
+  // Get the table
+  const tableConstruction = document.querySelector('#market-construction table')
+
+  // Get the table rows
+  const rows = Array.from(tableConstruction.querySelectorAll('tr'))
+
+  // Get the headers from the first row
+  const years = Array.from(rows[0].querySelectorAll('td'))
+    .slice(1)
+    .map((td) => td.textContent.trim())
+
+  // Get the data rows
+  const dataRows = rows.slice(1)
+
+  // Initialize an array to store the data for the graphs
+  const graphData = []
+
+  // Loop through each data row
+  dataRows.forEach((row, index) => {
+    // Get the cells in the row
+    const cells = Array.from(row.querySelectorAll('td'))
+
+    // Get the label from the first cell
+    const label = cells[0].textContent.trim()
+
+    // Get the data from the remaining cells
+    const data = cells
+      .slice(1)
+      .map((cell) => parseFloat(cell.textContent.trim().replace(',', '')))
+
+    // Remove the "Price per m2 - " prefix from the label to get the category
+    const category = label.toLowerCase().replace('price per m2 - ', '')
+
+    // Add the data to the graph data array
+    graphData.push({
+      label: label,
+      data: data,
+      backgroundColor: colorsConstruction[category] // Use the category as the key to get the color
     })
-  }
+  })
 
-  // Labels for all graphs
-  const tableConstructionLabels = ['2021.', '2022.']
-
-  // Data for each graph
-  const datasets1 = [
-    {
-      label: 'Residental',
-      data: [88371, 76306],
-      fill: false,
-      backgroundColor: colorGreen
-    },
-    {
-      label: 'Hotels',
-      data: [6510, 7091],
-      fill: false,
-      backgroundColor: colorBlue
-    },
-    {
-      label: 'Office',
-      data: [13311, 18782],
-      fill: false,
-      backgroundColor: colorRed
-    },
-    {
-      label: 'Industrial',
-      data: [28454, 16093],
-      fill: false,
-      backgroundColor: colorYellow
-    }
-  ]
-  const datasets2 = [
-    {
-      label: 'Residental',
-      data: [139944000, 118553000],
-      fill: false,
-      backgroundColor: colorGreen
-    },
-    {
-      label: 'Hotels',
-      data: [19663000, 14319000],
-      fill: false,
-      backgroundColor: colorBlue
-    },
-    {
-      label: 'Office',
-      data: [63733000, 79585000],
-      fill: false,
-      backgroundColor: colorRed
-    },
-    {
-      label: 'Industrial',
-      data: [45345000, 43990000],
-      fill: false,
-      backgroundColor: colorYellow
-    }
-  ]
-  const datasets3 = [
-    {
-      label: 'Residental',
-      data: [1584, 1554],
-      fill: false,
-      backgroundColor: colorGreen
-    },
-    {
-      label: 'Hotels',
-      data: [3020, 2019],
-      fill: false,
-      backgroundColor: colorBlue
-    },
-    {
-      label: 'Office',
-      data: [4788, 4237],
-      fill: false,
-      backgroundColor: colorRed
-    },
-    {
-      label: 'Industrial',
-      data: [1594, 2733],
-      fill: false,
-      backgroundColor: colorYellow
-    }
-  ]
-
-  // Create each graph
-  const ctx1 = createCanvas(
+  // Create the chart
+  const ctx = createCanvas(
     'graph-wrap-construction-01',
     'graphConstructionCanvas01'
   )
-  const graph1 = createChart(
-    ctx1,
-    tableConstructionLabels,
-    datasets1,
-    'Construction - Square meters built'
-  )
-
-  const ctx2 = createCanvas(
-    'graph-wrap-construction-02',
-    'graphConstructionCanvas02'
-  )
-  const graph2 = createChart(
-    ctx2,
-    tableConstructionLabels,
-    datasets2,
-    'Construction - total values (KM)'
-  )
-
-  const ctx3 = createCanvas(
-    'graph-wrap-construction-03',
-    'graphConstructionCanvas03'
-  )
-  const graph3 = createChart(
-    ctx3,
-    tableConstructionLabels,
-    datasets3,
-    'Construction - Total units built'
-  )
+  const graph = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: graphData.map((dataset) => dataset.label),
+      datasets: years.map((year, i) => ({
+        label: year,
+        data: graphData.map((dataset) => dataset.data[i]),
+        backgroundColor: colorsConstruction[i % colorsConstruction.length] // Use the year index to get the color
+      }))
+    },
+    options: {
+      scales: {
+        x: {
+          beginAtZero: true
+        },
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  })
 
   // --------- GRAPH Tourism Common
   const tourismLabels = ['2021.', '2022.', '2023.']
@@ -743,9 +627,6 @@
         .datasets[0].backgroundColor.push(colors.camps)
     }
   }
-
-  console.log(tourismDataGraphs)
-  console.log(tourismDataGraphs[1].datasets[0].data)
 
   // --------- GRAPH Tourism 01
   const graphWrapTourism01 = document.getElementById('graph-wrap-tourism-01')

@@ -1,0 +1,18 @@
+<script>
+  console.log('helou')
+  // Navigation
+  const nav = document.querySelector('#select-residency')
+  nav.addEventListener('change', () => {
+    const value = nav.value
+    window.location.href = `/citizenships-and-residencies/${value
+      .toLowerCase()
+      .replace(/ /g, '-')}`
+  })
+  const nav2 = document.querySelector('#select-citizenship')
+  nav2.addEventListener('change', () => {
+    const value = nav2.value
+    window.location.href = `/citizenships-and-residencies/${value
+      .toLowerCase()
+      .replace(/ /g, '-')}`
+  })
+</script>

@@ -172,7 +172,7 @@
   )
   graphIflationCanvas.id = 'graphIflationCanvas'
   graphIflationCanvas.width = '100%'
-  graphIflationCanvas.height = '400px'
+  graphIflationCanvas.height = 400
   const ctxGraphIflation = document
     .getElementById('graphIflationCanvas')
     .getContext('2d')
@@ -258,7 +258,7 @@
   )
   graphImportExportCanvas.id = 'graphImportExportCanvas'
   graphImportExportCanvas.width = '100%'
-  graphImportExportCanvas.height = '400px'
+  graphImportExportCanvas.height = 400
   const ctxGraphImportExport = document
     .getElementById('graphImportExportCanvas')
     .getContext('2d')
@@ -363,7 +363,7 @@
   )
   graphBDPCanvas.id = 'graphBDPCanvas'
   graphBDPCanvas.width = '100%'
-  graphBDPCanvas.height = '400px'
+  graphBDPCanvas.height = 400
   const ctxGraphBdp = document.getElementById('graphBDPCanvas').getContext('2d')
   const tableBdp = document.querySelector('#market-bdp table')
   const tableBdpRows = tableBdp.querySelectorAll('tr')
@@ -469,373 +469,230 @@
     }
   })
 
-  // --------- GRAPH Construction common
+  // --------- GRAPH Construction
+  // Function to create a canvas and return its context
+  function createCanvas(parentId, canvasId) {
+    const parent = document.getElementById(parentId)
+    const canvas = parent.appendChild(document.createElement('canvas'))
+    canvas.id = canvasId
+    canvas.width = '100%'
+    canvas.height = 400
+    return document.getElementById(canvasId).getContext('2d')
+  }
+
+  // Function to create a chart
+  function createChart(ctx, labels, datasets, title) {
+    return new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      plugins: [plugin],
+      options: {
+        plugins: {
+          title: {
+            display: true,
+            text: title,
+            color: '#fff',
+            font: {
+              size: 18,
+              family: "'Inter', 'Arial', sans-serif",
+              weight: 'normal'
+            }
+          },
+          legend: {
+            labels: {
+              color: '#fff',
+              font: {
+                size: 14,
+                family: "'Inter', 'Arial', sans-serif"
+              }
+            }
+          }
+        },
+        indexAxis: 'x',
+        maintainAspectRatio: true,
+        responsive: true,
+        interaction: {
+          intersect: true
+        },
+        scales: {
+          x: {
+            grid: {
+              display: true,
+              color: '#1B3C35'
+            },
+            ticks: {
+              color: '#fff',
+              font: {
+                size: 12,
+                family: "'Inter', 'Arial', sans-serif"
+              }
+            }
+          },
+          y: {
+            grid: {
+              display: true,
+              color: '#1B3C35'
+            },
+            ticks: {
+              color: '#fff',
+              font: {
+                size: 12,
+                family: "'Inter', 'Arial', sans-serif",
+                weight: 'bold'
+              }
+            }
+          }
+        }
+      }
+    })
+  }
+
+  // Labels for all graphs
   const tableConstructionLabels = ['2021.', '2022.']
-  // --------- GRAPH Construction 01
-  const graphWrapContruction01 = document.getElementById(
-    'graph-wrap-construction-01'
-  )
-  const graphConstructionCanvas01 = graphWrapContruction01.appendChild(
-    document.createElement('canvas')
-  )
-  graphConstructionCanvas01.id = 'graphConstructionCanvas01'
-  graphConstructionCanvas01.width = '100%'
-  graphConstructionCanvas01.height = '400px'
-  const ctxGraphConstruction01 = document
-    .getElementById('graphConstructionCanvas01')
-    .getContext('2d')
 
-  const graphConstruction01 = new Chart(ctxGraphConstruction01, {
-    type: 'bar',
-    data: {
-      labels: tableConstructionLabels,
-      datasets: [
-        {
-          label: 'Residental',
-          data: [88371, 76306],
-          fill: false,
-          backgroundColor: colorGreen
-        },
-        {
-          label: 'Hotels',
-          data: [6510, 7091],
-          fill: false,
-          backgroundColor: colorBlue
-        },
-        {
-          label: 'Office',
-          data: [13311, 18782],
-          fill: false,
-          backgroundColor: colorRed
-        },
-        {
-          label: 'Industrial',
-          data: [28454, 16093],
-          fill: false,
-          backgroundColor: colorYellow
-        }
-      ]
+  // Data for each graph
+  const datasets1 = [
+    {
+      label: 'Residental',
+      data: [88371, 76306],
+      fill: false,
+      backgroundColor: colorGreen
     },
-    plugins: [plugin],
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Construction - Square meters built',
-          color: '#fff',
-          font: {
-            size: 18,
-            family: "'Inter', 'Arial', sans-serif",
-            weight: 'normal'
-          }
-        },
-        legend: {
-          // display: false
-          labels: {
-            color: '#fff',
-            font: {
-              size: 14,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        }
-      },
-      indexAxis: 'x',
-      maintainAspectRatio: true,
-      responsive: true,
-      interaction: {
-        // mode: 'index',
-        intersect: true
-      },
-      scales: {
-        x: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            color: '#fff',
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        },
-        y: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            // mirror: true,
-            // z: 1,
-            color: '#fff',
-            // padding: 20,
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
-            }
-          }
-          // position: 'left'
-        }
-      }
-    }
-  })
-
-  // --------- GRAPH Construction 02
-  const graphWrapContruction02 = document.getElementById(
-    'graph-wrap-construction-02'
-  )
-  const graphConstructionCanvas02 = graphWrapContruction02.appendChild(
-    document.createElement('canvas')
-  )
-  graphConstructionCanvas02.id = 'graphConstructionCanvas02'
-  graphConstructionCanvas02.width = '100%'
-  graphConstructionCanvas02.height = '400px'
-  const ctxGraphConstruction02 = document
-    .getElementById('graphConstructionCanvas02')
-    .getContext('2d')
-
-  const graphConstruction02 = new Chart(ctxGraphConstruction02, {
-    type: 'bar',
-    data: {
-      labels: tableConstructionLabels,
-      datasets: [
-        {
-          label: 'Residental',
-          data: [139944000, 118553000],
-          fill: false,
-          backgroundColor: colorGreen
-        },
-        {
-          label: 'Hotels',
-          data: [19663000, 14319000],
-          fill: false,
-          backgroundColor: colorBlue
-        },
-        {
-          label: 'Office',
-          data: [63733000, 79585000],
-          fill: false,
-          backgroundColor: colorRed
-        },
-        {
-          label: 'Industrial',
-          data: [45345000, 43990000],
-          fill: false,
-          backgroundColor: colorYellow
-        }
-      ]
+    {
+      label: 'Hotels',
+      data: [6510, 7091],
+      fill: false,
+      backgroundColor: colorBlue
     },
-    plugins: [plugin],
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Construction - total values (KM)',
-          color: '#fff',
-          font: {
-            size: 18,
-            family: "'Inter', 'Arial', sans-serif",
-            weight: 'normal'
-          }
-        },
-        legend: {
-          // display: false
-          labels: {
-            color: '#fff',
-            font: {
-              size: 14,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        }
-      },
-      indexAxis: 'x',
-      maintainAspectRatio: true,
-      responsive: true,
-      interaction: {
-        // mode: 'index',
-        intersect: true
-      },
-      scales: {
-        x: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            color: '#fff',
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        },
-        y: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            // mirror: true,
-            // z: 1,
-            color: '#fff',
-            // padding: 20,
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
-            }
-          }
-          // position: 'left'
-        }
-      }
-    }
-  })
-
-  // --------- GRAPH Construction 03
-  const graphWrapContruction03 = document.getElementById(
-    'graph-wrap-construction-03'
-  )
-  const graphConstructionCanvas03 = graphWrapContruction03.appendChild(
-    document.createElement('canvas')
-  )
-  graphConstructionCanvas03.id = 'graphConstructionCanvas03'
-  graphConstructionCanvas03.width = '100%'
-  graphConstructionCanvas03.height = '400px'
-  const ctxGraphConstruction03 = document
-    .getElementById('graphConstructionCanvas03')
-    .getContext('2d')
-
-  const graphConstruction03 = new Chart(ctxGraphConstruction03, {
-    type: 'bar',
-    data: {
-      labels: tableConstructionLabels,
-      datasets: [
-        {
-          label: 'Residental',
-          data: [1584, 1554],
-          fill: false,
-          backgroundColor: colorGreen
-        },
-        {
-          label: 'Hotels',
-          data: [3020, 2019],
-          fill: false,
-          backgroundColor: colorBlue
-        },
-        {
-          label: 'Office',
-          data: [4788, 4237],
-          fill: false,
-          backgroundColor: colorRed
-        },
-        {
-          label: 'Industrial',
-          data: [1594, 2733],
-          fill: false,
-          backgroundColor: colorYellow
-        }
-      ]
+    {
+      label: 'Office',
+      data: [13311, 18782],
+      fill: false,
+      backgroundColor: colorRed
     },
-    plugins: [plugin],
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Construction - Total units built',
-          color: '#fff',
-          font: {
-            size: 18,
-            family: "'Inter', 'Arial', sans-serif",
-            weight: 'normal'
-          }
-        },
-        legend: {
-          // display: false
-          labels: {
-            color: '#fff',
-            font: {
-              size: 14,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        }
-      },
-      indexAxis: 'x',
-      maintainAspectRatio: true,
-      responsive: true,
-      interaction: {
-        // mode: 'index',
-        intersect: true
-      },
-      scales: {
-        x: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            color: '#fff',
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        },
-        y: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            // mirror: true,
-            // z: 1,
-            color: '#fff',
-            // padding: 20,
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
-            }
-          }
-          // position: 'left'
-        }
-      }
+    {
+      label: 'Industrial',
+      data: [28454, 16093],
+      fill: false,
+      backgroundColor: colorYellow
     }
-  })
+  ]
+  const datasets2 = [
+    {
+      label: 'Residental',
+      data: [139944000, 118553000],
+      fill: false,
+      backgroundColor: colorGreen
+    },
+    {
+      label: 'Hotels',
+      data: [19663000, 14319000],
+      fill: false,
+      backgroundColor: colorBlue
+    },
+    {
+      label: 'Office',
+      data: [63733000, 79585000],
+      fill: false,
+      backgroundColor: colorRed
+    },
+    {
+      label: 'Industrial',
+      data: [45345000, 43990000],
+      fill: false,
+      backgroundColor: colorYellow
+    }
+  ]
+  const datasets3 = [
+    {
+      label: 'Residental',
+      data: [1584, 1554],
+      fill: false,
+      backgroundColor: colorGreen
+    },
+    {
+      label: 'Hotels',
+      data: [3020, 2019],
+      fill: false,
+      backgroundColor: colorBlue
+    },
+    {
+      label: 'Office',
+      data: [4788, 4237],
+      fill: false,
+      backgroundColor: colorRed
+    },
+    {
+      label: 'Industrial',
+      data: [1594, 2733],
+      fill: false,
+      backgroundColor: colorYellow
+    }
+  ]
+
+  // Create each graph
+  const ctx1 = createCanvas(
+    'graph-wrap-construction-01',
+    'graphConstructionCanvas01'
+  )
+  const graph1 = createChart(
+    ctx1,
+    tableConstructionLabels,
+    datasets1,
+    'Construction - Square meters built'
+  )
+
+  const ctx2 = createCanvas(
+    'graph-wrap-construction-02',
+    'graphConstructionCanvas02'
+  )
+  const graph2 = createChart(
+    ctx2,
+    tableConstructionLabels,
+    datasets2,
+    'Construction - total values (KM)'
+  )
+
+  const ctx3 = createCanvas(
+    'graph-wrap-construction-03',
+    'graphConstructionCanvas03'
+  )
+  const graph3 = createChart(
+    ctx3,
+    tableConstructionLabels,
+    datasets3,
+    'Construction - Total units built'
+  )
+
   // --------- GRAPH Tourism Common
   const tourismLabels = ['2021.', '2022.', '2023.']
+  const colors = {
+    totals: colorYellow,
+    hotels: colorGreen,
+    resorts: colorBlue,
+    camps: colorRed
+  }
   const tourismTable = document.querySelector(' #market-tourism table')
-
-  const tourismDataXXXXX = [
-    {
-      id: 'graph-wrap-tourism-01',
-      title: 'Total',
-      data: [
-        { year: '2021.', arrivals: 140501, stays: 286555 },
-        { year: '2022.', arrivals: 338083, stays: 797639 },
-        { year: '2023.', arrivals: 565139, stays: 1185115 }
-      ],
-      color: colorYellow,
-      colorSecondary: colorYellowSecondary
-    }
-    // Add more categories here...
-  ]
 
   // Define the order of the categories
   const categories = ['totals', 'hotels', 'resorts', 'camps']
 
   // Initialize an array to store the data for the graphs
   const tourismDataGraphs = categories.map((category, index) => ({
-    id: `graph-wrap-tourism-0${index + 1}`,
+    id: `graphTourismCanvas0${index + 1}`,
     title: category.charAt(0).toUpperCase() + category.slice(1),
     labels: [],
-    data: [],
-    color: colorYellow,
-    colorSecondary: colorYellowSecondary
+    datasets: [
+      {
+        data: [],
+        backgroundColor: []
+      }
+    ]
+    // color: colorYellow,
+    // colorSecondary: colorYellowSecondary
   }))
 
   // Initialize a variable to store the current year
@@ -850,7 +707,10 @@
       let value = parseInt(row.cells[1].textContent.replace(/,/g, ''), 10)
       tourismDataGraphs
         .find((graph) => graph.title.toLowerCase() === 'totals')
-        .data.push(value)
+        .datasets[0].data.push(value)
+      tourismDataGraphs
+        .find((graph) => graph.title.toLowerCase() === 'totals')
+        .datasets[0].backgroundColor.push(colors.totals)
       // push currentYear to labels
       tourismDataGraphs.forEach((graph) => graph.labels.push(currentYear))
     }
@@ -859,23 +719,33 @@
       let value = parseInt(row.cells[1].textContent.replace(/,/g, ''), 10)
       tourismDataGraphs
         .find((graph) => graph.title.toLowerCase() === 'hotels')
-        .data.push(value)
+        .datasets[0].data.push(value)
+      tourismDataGraphs
+        .find((graph) => graph.title.toLowerCase() === 'hotels')
+        .datasets[0].backgroundColor.push(colors.hotels)
     }
     if (row.cells[0].textContent.trim().toLowerCase() === 'resorts') {
       let value = parseInt(row.cells[1].textContent.replace(/,/g, ''), 10)
       tourismDataGraphs
         .find((graph) => graph.title.toLowerCase() === 'resorts')
-        .data.push(value)
+        .datasets[0].data.push(value)
+      tourismDataGraphs
+        .find((graph) => graph.title.toLowerCase() === 'resorts')
+        .datasets[0].backgroundColor.push(colors.resorts)
     }
     if (row.cells[0].textContent.trim().toLowerCase() === 'camps') {
       let value = parseInt(row.cells[1].textContent.replace(/,/g, ''), 10)
       tourismDataGraphs
         .find((graph) => graph.title.toLowerCase() === 'camps')
-        .data.push(value)
+        .datasets[0].data.push(value)
+      tourismDataGraphs
+        .find((graph) => graph.title.toLowerCase() === 'camps')
+        .datasets[0].backgroundColor.push(colors.camps)
     }
   }
 
   console.log(tourismDataGraphs)
+  console.log(tourismDataGraphs[1].datasets[0].data)
 
   // --------- GRAPH Tourism 01
   const graphWrapTourism01 = document.getElementById('graph-wrap-tourism-01')
@@ -884,7 +754,7 @@
   )
   graphTourismCanvas01.id = 'graphTourismCanvas01'
   graphTourismCanvas01.width = '100%'
-  graphTourismCanvas01.height = '400px'
+  graphTourismCanvas01.height = 400
   const ctxGraphTourism01 = document
     .getElementById('graphTourismCanvas01')
     .getContext('2d')
@@ -895,7 +765,7 @@
   )
   graphTourismCanvas02.id = 'graphTourismCanvas02'
   graphTourismCanvas02.width = '100%'
-  graphTourismCanvas02.height = '400px'
+  graphTourismCanvas02.height = 400
   const ctxGraphTourism02 = document
     .getElementById('graphTourismCanvas02')
     .getContext('2d')
@@ -906,7 +776,7 @@
   )
   graphTourismCanvas03.id = 'graphTourismCanvas03'
   graphTourismCanvas03.width = '100%'
-  graphTourismCanvas03.height = '400px'
+  graphTourismCanvas03.height = 400
   const ctxGraphTourism03 = document
     .getElementById('graphTourismCanvas03')
     .getContext('2d')
@@ -917,7 +787,7 @@
   )
   graphTourismCanvas04.id = 'graphTourismCanvas04'
   graphTourismCanvas04.width = '100%'
-  graphTourismCanvas04.height = '400px'
+  graphTourismCanvas04.height = 400
   const ctxGraphTourism04 = document
     .getElementById('graphTourismCanvas04')
     .getContext('2d')
@@ -925,385 +795,42 @@
   // ***********************************************************************************
   // Tourism graphs
 
-  // tourismDataGraphs.forEach((graph) => {
-  //   const ctx = document.getElementById(graph.id).getContext('2d')
-  //   new Chart(ctx, {
-  //     type: 'bar', // or 'line', 'pie', etc.
-  //     data: {
-  //       labels: graph.labels,
-  //       datasets: [
-  //         {
-  //           label: graph.title,
-  //           data: graph.data,
-  //           backgroundColor: graph.color,
-  //           borderColor: graph.colorSecondary,
-  //           borderWidth: 1
-  //         }
-  //       ]
-  //     },
-  //     options: {
-  //       // options here
-  //     }
-  //   })
-  // })
-
-  /*
-  const graphTourismChart01 = new Chart(ctxGraphTourism01, {
-    type: 'bar',
-    data: {
-      labels: tourismLabels,
-      datasets: [
-        {
-          label: 'Tourist Arrivals',
-          data: [140501, 338083, 565139],
-          fill: true,
-          backgroundColor: colorYellowSecondary,
-          stack: 'Stack 0'
-        },
-        {
-          label: 'Overnight Stays',
-          data: [286555, 797639, 1185115],
-          fill: true,
-          backgroundColor: colorYellow,
-          stack: 'Stack 0'
-        }
-      ]
-    },
-    plugins: [plugin],
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Total',
-          color: '#fff',
-          font: {
-            size: 18,
-            family: "'Inter', 'Arial', sans-serif",
-            weight: 'normal'
+  tourismDataGraphs.forEach((graph) => {
+    const ctx = document.getElementById(graph.id)
+    new Chart(ctx, {
+      type: 'bar', // or 'line', 'pie', etc.
+      data: {
+        labels: graph.labels,
+        datasets: [
+          {
+            label: 'Tourist overnights',
+            data: graph.datasets[0].data,
+            backgroundColor: graph.datasets[0].backgroundColor,
+            borderColor: graph.colorSecondary,
+            borderWidth: 1
           }
-        },
-        legend: {
-          // display: false
-
-          labels: {
-            color: '#fff',
-            font: {
-              size: 11,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        }
+        ]
       },
-      indexAxis: 'x',
-      maintainAspectRatio: true,
-      responsive: true,
-      interaction: {
-        // mode: 'index',
-        intersect: true
-      },
-      scales: {
-        x: {
-          grid: {
+      plugins: [plugin],
+      options: {
+        plugins: {
+          title: {
             display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
+            text: 'Tourist overnights - ' + graph.title,
             color: '#fff',
             font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        },
-        y: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            // mirror: true,
-            // z: 1,
-            color: '#fff',
-            // padding: 20,
-            font: {
-              size: 12,
+              size: 18,
               family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
+              weight: 'normal'
             }
+          },
+          legend: {
+            display: false
           }
-          // position: 'left'
         }
       }
-    }
+    })
   })
-
-  const graphTourismChart02 = new Chart(ctxGraphTourism02, {
-    type: 'bar',
-    data: {
-      labels: tourismLabels,
-      datasets: [
-        {
-          label: 'Tourist Arrivals',
-          data: [136304, 329589, 547919],
-          fill: false,
-          backgroundColor: colorRedSecondary,
-          stack: 'Stack 1'
-        },
-        {
-          label: 'Overnight Stays',
-          data: [274973, 769816, 1133942],
-          fill: false,
-          backgroundColor: colorRed,
-          stack: 'Stack 1'
-        }
-      ]
-    },
-    plugins: [plugin],
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Hotels',
-          color: '#fff',
-          font: {
-            size: 18,
-            family: "'Inter', 'Arial', sans-serif",
-            weight: 'normal'
-          }
-        },
-        legend: {
-          // display: false
-          labels: {
-            color: '#fff',
-            font: {
-              size: 11,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        }
-      },
-      indexAxis: 'x',
-      maintainAspectRatio: true,
-      responsive: true,
-      interaction: {
-        // mode: 'index',
-        intersect: true
-      },
-      scales: {
-        x: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            color: '#fff',
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        },
-        y: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            // mirror: true,
-            // z: 1,
-            color: '#fff',
-            // padding: 20,
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
-            }
-          }
-          // position: 'left'
-        }
-      }
-    }
-  })
-
-  const graphTourismChart03 = new Chart(ctxGraphTourism03, {
-    type: 'bar',
-    data: {
-      labels: tourismLabels,
-      datasets: [
-        {
-          label: 'Tourist Arrivals',
-          data: [3671, 5846, 12455],
-          fill: false,
-          backgroundColor: colorGreenSecondary,
-          stack: 'Stack 2'
-        },
-        {
-          label: 'Overnight Stays',
-          data: [10416, 20148, 39848],
-          fill: false,
-          backgroundColor: colorGreen,
-          stack: 'Stack 2'
-        }
-      ]
-    },
-    plugins: [plugin],
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Resorts',
-          color: '#fff',
-          font: {
-            size: 18,
-            family: "'Inter', 'Arial', sans-serif",
-            weight: 'normal'
-          }
-        },
-        legend: {
-          // display: false
-          labels: {
-            color: '#fff',
-            font: {
-              size: 11,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        }
-      },
-      indexAxis: 'x',
-      maintainAspectRatio: true,
-      responsive: true,
-      interaction: {
-        // mode: 'index',
-        intersect: true
-      },
-      scales: {
-        x: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            color: '#fff',
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        },
-        y: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            // mirror: true,
-            // z: 1,
-            color: '#fff',
-            // padding: 20,
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
-            }
-          }
-          // position: 'left'
-        }
-      }
-    }
-  })
-
-  const graphTourismChart04 = new Chart(ctxGraphTourism04, {
-    type: 'bar',
-    data: {
-      labels: tourismLabels,
-      datasets: [
-        {
-          label: 'Tourist Arrivals',
-          data: [526, 2648, 4765],
-          fill: false,
-          backgroundColor: colorBlueSecondary,
-          stack: 'Stack 3'
-        },
-        {
-          label: 'Overnight Stays',
-          data: [1166, 7675, 11325],
-          fill: false,
-          backgroundColor: colorBlue,
-          stack: 'Stack 3'
-        }
-      ]
-    },
-    plugins: [plugin],
-    options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Camps',
-          color: '#fff',
-          font: {
-            size: 18,
-            family: "'Inter', 'Arial', sans-serif",
-            weight: 'normal'
-          }
-        },
-        legend: {
-          // display: false
-          labels: {
-            color: '#fff',
-            font: {
-              size: 11,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        }
-      },
-      indexAxis: 'x',
-      maintainAspectRatio: true,
-      responsive: true,
-      interaction: {
-        // mode: 'index',
-        intersect: true
-      },
-      scales: {
-        x: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            color: '#fff',
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif"
-            }
-          }
-        },
-        y: {
-          grid: {
-            display: true,
-            color: '#1B3C35'
-          },
-          ticks: {
-            // mirror: true,
-            // z: 1,
-            color: '#fff',
-            // padding: 20,
-            font: {
-              size: 12,
-              family: "'Inter', 'Arial', sans-serif",
-              weight: 'bold'
-            }
-          }
-          // position: 'left'
-        }
-      }
-    }
-  })
-  
-  
-  
-*/
 
   // --------- GRAPH Interest
   let interestTable = document.querySelector('#market-interest-rate table')
@@ -1347,7 +874,7 @@
   )
   graphInterestCanvas.id = 'graphInterestCanvas'
   graphInterestCanvas.width = '100%'
-  graphInterestCanvas.height = '400px'
+  graphInterestCanvas.height = 400
   const ctxGraphInterest = document
     .getElementById('graphInterestCanvas')
     .getContext('2d')

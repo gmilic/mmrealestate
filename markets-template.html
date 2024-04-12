@@ -139,8 +139,10 @@
   // Navigation
   const nav = document.querySelector('#select-country-investment')
   nav.addEventListener('change', () => {
-    const value = nav.value
-    window.location.href = `/markets/${value.toLowerCase().replace(/ /g, '-')}`
+    let value = nav.value
+    // remove spaces and replace with dash, remove dots
+    value = value.replace(/\./g, '').toLowerCase().replace(/\s/g, '-')
+    window.location.href = `/markets/${value}`
   })
 
   // Spacing Between Legend and Chart

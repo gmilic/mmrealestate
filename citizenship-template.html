@@ -1,18 +1,16 @@
 <script>
-  console.log('helou')
+  console.log()
   // Navigation
   const nav = document.querySelector('#select-residency')
   nav.addEventListener('change', () => {
-    const value = nav.value
-    window.location.href = `/citizenships-and-residencies/${value
-      .toLowerCase()
-      .replace(/ /g, '-')}`
+    let value = nav.value
+    value = value.replace(/\./g, '').toLowerCase().replace(/\s/g, '-')
+    window.location.href = `/citizenships-and-residencies/${value}`
   })
   const nav2 = document.querySelector('#select-citizenship')
   nav2.addEventListener('change', () => {
-    const value = nav2.value
-    window.location.href = `/citizenships-and-residencies/${value
-      .toLowerCase()
-      .replace(/ /g, '-')}`
+    let value = nav2.value
+    value = value.replace(/\./g, '').toLowerCase().replace(/\s/g, '-')
+    window.location.href = `/citizenships-and-residencies/${value}`
   })
 </script>

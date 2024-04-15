@@ -117,12 +117,15 @@
     text-align: right;
   }
 
-  #market-interest-rate td:nth-child(1) {
+  #market-interest-rate td:nth-child(1),
+  #market-interest-rate-loans td:nth-child(1) {
     text-align: left;
   }
 
   #market-interest-rate td:nth-child(2),
-  #market-interest-rate td:nth-child(3) {
+  #market-interest-rate td:nth-child(3),
+  #market-interest-rate-loans td:nth-child(2),
+  #market-interest-rate-loans td:nth-child(3) {
     text-align: right;
   }
 </style>
@@ -723,7 +726,7 @@
   let interestDepositsOver1Year = []
 
   // Loop through each row in the table
-  for (let i = 2; i < interestTable.rows.length; i++) {
+  for (let i = 1; i < interestTable.rows.length; i++) {
     let row = interestTable.rows[i]
 
     // Add the data to the arrays
@@ -900,4 +903,80 @@
     })
   })
   sliderPrice.dispatchEvent(new Event('input', { bubbles: true }))
+
+  // --------- GRAPH Interest - LOANS
+  let interestLoansTable = document.querySelector(
+    '#market-interest-rate-loans table'
+  )
+  // Initialize arrays to hold the data
+  let interestLoansPeriods = []
+  let interestLoansDeposits1Year = []
+  let interestLoansDepositsOver1Year = []
+
+  // Loop through each row in the table
+  for (let i = 1; i < interestLoansTable.rows.length; i++) {
+    let row = interestLoansTable.rows[i]
+
+    // Add the data to the arrays
+    interestLoansPeriods.push(row.cells[0].innerText)
+    interestLoansDeposits1Year.push(parseFloat(row.cells[1].innerText))
+    interestLoansDepositsOver1Year.push(parseFloat(row.cells[2].innerText))
+  }
+
+  // Create the data structure for Chart.js
+  let interestLoansData = {
+    labels: interestLoansPeriods,
+    datasets: [
+      {
+        label: 'Loans - Fixed Interest Rate',
+        data: interestLoansDeposits1Year,
+        fill: false,
+        backgroundColor: colorYellow
+      },
+      {
+        label: 'Loans - Variable Interest Rates',
+        data: interestLoansDepositsOver1Year,
+        fill: false,
+        backgroundColor: colorGreen
+      }
+    ]
+  }
+
+  const graphWrapInterestLoans = document.getElementById(
+    'graph-wrap-interest-loans'
+  )
+  const graphInterestLoansCanvas = graphWrapInterestLoans.appendChild(
+    document.createElement('canvas')
+  )
+  graphInterestLoansCanvas.id = 'graphInterestLoansCanvas'
+  graphInterestLoansCanvas.width = '100%'
+  graphInterestLoansCanvas.height = 400
+  const ctxGraphInterestLoans = document
+    .getElementById('graphInterestLoansCanvas')
+    .getContext('2d')
+
+  const graphInterestLoans = new Chart(ctxGraphInterestLoans, {
+    type: 'bar',
+    data: interestLoansData,
+    plugins: [plugin],
+    options: {
+      plugins: {
+        legend: {
+          // display: false
+          labels: {
+            color: '#fff',
+            font: {
+              size: 14,
+              family: "'Inter', 'Arial', sans-serif"
+            }
+          }
+        }
+      },
+      maintainAspectRatio: true,
+      responsive: true,
+      interaction: {
+        intersect: true
+      }
+    }
+  })
 </script>

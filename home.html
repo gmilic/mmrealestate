@@ -976,6 +976,23 @@
       $(this).append(swiperNodesMarkets)
     })
 
+    const swiperBreakpoints = {
+    // when window width is >= 320px
+    0: {
+      slidesPerView: 1
+    },
+    // when window width is >= 480px
+    478: {
+      slidesPerView: 2
+      
+    },
+    // when window width is >= 640px
+    900: {
+      slidesPerView: 4
+    
+    }
+  }
+
     const swiperHomeMarkets = new Swiper('.swiper-home-markets', {
       effect: 'slide',
       slidesPerView: 4,
@@ -991,7 +1008,8 @@
       },
       autoplay: {
         delay: 7000
-      }
+      },
+      breakpoints: swiperBreakpoints
     })
 
     // Swiper Home ROI
@@ -1010,7 +1028,9 @@
       },
       autoplay: {
         delay: 10000
-      }
+      },
+      breakpoints: swiperBreakpoints
+  
     })
 
     //Swiper home citizenship
@@ -1030,7 +1050,8 @@
       },
       autoplay: {
         delay: 7000
-      }
+      },
+      breakpoints: swiperBreakpoints
     })
   })
 

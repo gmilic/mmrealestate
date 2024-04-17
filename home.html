@@ -567,7 +567,7 @@
     plugins: [plugin],
     options: {
       responsive: true,
-      maintainAspectRatio: false,
+      // maintainAspectRatio: false,
       scales: {
         y: {
           beginAtZero: false,
@@ -979,17 +979,19 @@
     const swiperBreakpoints = {
     // when window width is >= 320px
     0: {
-      slidesPerView: 1
+      slidesPerView: 1,
+      slidesPerGroup: 1,
     },
     // when window width is >= 480px
     478: {
-      slidesPerView: 2
+      slidesPerView: 2,
+      slidesPerGroup: 2,
       
     },
     // when window width is >= 640px
     900: {
-      slidesPerView: 4
-    
+      slidesPerView: 4,
+      slidesPerGroup: 4,
     }
   }
 

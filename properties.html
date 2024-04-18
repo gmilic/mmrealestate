@@ -1,3 +1,71 @@
+<style>
+
+/********************** Property listing **************************************/
+  
+@media only screen and (max-width: 1243px) {
+
+.home-map-wrap{
+  width: 0;
+}
+
+/** .div-block-4 is old class in case something broke when changed to .listing-filter-wrap **/
+.listing-filter-wrap{
+  width: 100vw;
+}
+
+.show-map-button{
+  display: block;
+}
+
+
+}
+
+
+@media only screen and (max-width: 768px) {
+
+.mobile-filter-adding{
+  display: block;
+}
+
+.main-filter-wrap{
+  display: none;
+}
+
+.open-mobile-filter{
+  display: flex;
+}
+
+}
+
+</style>
+
+
+<script>
+
+//remove paddinng from .listing-filter-wrap so map is stretched to full width
+
+document.querySelector('.show-map-button').addEventListener('click', function() {
+    document.querySelector('.listing-filter-wrap').style.paddingBottom = '0';
+});
+
+
+</script>
+
+
+<script>
+
+//resize window on click to show map full size as it is not resizing properly
+
+document.querySelector('.show-map-button').addEventListener('click', function() {
+    setTimeout(function() {
+        let event = new Event('resize');
+        window.dispatchEvent(event);
+    }, 1000);
+});
+
+</script>
+
+
 <script>
   mapboxgl.accessToken =
     'pk.eyJ1IjoibW1yZWFsZXN0YXRldGVjaCIsImEiOiJjbHB3bjVsZ2EwZzByMm9wYmVtZDVwb2hyIn0.d66L0eAH0VLt2CvD8stQlw'

@@ -1,16 +1,15 @@
 <style>
 
 
+/* Property list and map layout - small desktop */
 
-/********************** Property listing **************************************/
-  
 @media only screen and (max-width: 1243px) {
 
 .home-map-wrap{
   width: 0;
 }
 
-/** .div-block-4 is old class in case something broke when changed to .listing-filter-wrap **/
+/* .div-block-4 is old class in case something broke when changed to .listing-filter-wrap */
 .listing-filter-wrap{
   width: 100vw;
 }
@@ -19,12 +18,13 @@
   display: flex;
 }
 
-
 }
 
+/* Filters and map layout - mobile */
 
 @media only screen and (max-width: 768px) {
 
+/* Add main filters to side filters */
 .mobile-filter-adding{
   display: block;
 }
@@ -38,6 +38,7 @@
   flex-direction:row;
 }
 
+/* Side filters layout */
 .sidebar-left_inner{
   height:100%;
   justify-content:start;
@@ -55,9 +56,7 @@
   padding-right: 20px;
 }
 
-
 }
-
 
 
 </style>
@@ -65,19 +64,18 @@
 
 <script>
 
-//remove paddinng from .listing-filter-wrap so map is stretched to full width
+/* Remove padding-bottom from .listing-filter-wrap (removing gap between filters and map) */
 
 document.querySelector('.show-map-button').addEventListener('click', function() {
     document.querySelector('.listing-filter-wrap').style.paddingBottom = '0';
 });
-
 
 </script>
 
 
 <script>
 
-//resize window on click to show map full size as it is not resizing properly
+/* Resize window to show map full size */
 
 document.querySelector('.show-map-button').addEventListener('click', function() {
     setTimeout(function() {

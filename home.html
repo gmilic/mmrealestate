@@ -263,6 +263,12 @@
       }
     }
   }
+  // start Una
+  document
+    .getElementById('start-una-chat')
+    .addEventListener('click', function () {
+      document.getElementById('chatbase-bubble-button').click()
+    })
 
   const priceMin = 100000
   let roi1year = 50
@@ -785,13 +791,13 @@
   )
   let investment = 500000
 
-  // homeRoiCalcCountrySelect.addEventListener('change', function () {
-  //   let annularROIforCOuntry =
-  //     document.getElementById('roi-for-country').innerText
+  homeRoiCalcCountrySelect.addEventListener('change', function () {
+    // let annularROIforCOuntry =
+    //   document.getElementById('roi-for-country').innerText
 
-  //   console.log(annularROIforCOuntry)
-  //   console.log('Country changed')
-  // })
+    console.log(annularROIforCOuntry)
+    console.log('Country changed')
+  })
 
   // Finesweet CMS Filter config, events, and callbacks
   window.fsAttributes = window.fsAttributes || []
@@ -977,23 +983,22 @@
     })
 
     const swiperBreakpoints = {
-    // when window width is >= 320px
-    0: {
-      slidesPerView: 1,
-      slidesPerGroup: 1,
-    },
-    // when window width is >= 480px
-    478: {
-      slidesPerView: 2,
-      slidesPerGroup: 2,
-      
-    },
-    // when window width is >= 640px
-    900: {
-      slidesPerView: 4,
-      slidesPerGroup: 4,
+      // when window width is >= 320px
+      0: {
+        slidesPerView: 1,
+        slidesPerGroup: 1
+      },
+      // when window width is >= 480px
+      478: {
+        slidesPerView: 2,
+        slidesPerGroup: 2
+      },
+      // when window width is >= 640px
+      900: {
+        slidesPerView: 4,
+        slidesPerGroup: 4
+      }
     }
-  }
 
     const swiperHomeMarkets = new Swiper('.swiper-home-markets', {
       effect: 'slide',
@@ -1032,7 +1037,6 @@
         delay: 10000
       },
       breakpoints: swiperBreakpoints
-  
     })
 
     //Swiper home citizenship
@@ -1057,35 +1061,29 @@
     })
   })
 
-
   // zoom on hover
-  $('.div-block-665').on('mouseenter', function() {
-    console.log('hover');
-    $(this).find('.card-bg-holder').css('transform', 'scale(1.05)');
-});
-$('.div-block-665').on('mouseleave', function() {
-    console.log('hover');
-    $(this).find('.card-bg-holder').css('transform', 'scale(1)');
-});
-$('.link-block-4').on('mouseenter', function() {
-    console.log('hover');
-    $(this).find('.card-bg-holder').css('transform', 'scale(1.05)');
-});
-$('.link-block-4').on('mouseleave', function() {
-    console.log('hover');
-    $(this).find('.card-bg-holder').css('transform', 'scale(1)');
-});
-$('.rezidency-and-citizenship_card').on('mouseenter', function() {
-    console.log('hover');
-    $(this).find('.card-bg-holder').css('transform', 'scale(1.05)');
-});
-$('.rezidency-and-citizenship_card').on('mouseleave', function() {
-    console.log('hover');
-    $(this).find('.card-bg-holder').css('transform', 'scale(1)');
-});
-
-
-
-
-
+  $('.div-block-665').on('mouseenter', function () {
+    console.log('hover')
+    $(this).find('.card-bg-holder').css('transform', 'scale(1.05)')
+  })
+  $('.div-block-665').on('mouseleave', function () {
+    console.log('hover')
+    $(this).find('.card-bg-holder').css('transform', 'scale(1)')
+  })
+  $('.link-block-4').on('mouseenter', function () {
+    console.log('hover')
+    $(this).find('.card-bg-holder').css('transform', 'scale(1.05)')
+  })
+  $('.link-block-4').on('mouseleave', function () {
+    console.log('hover')
+    $(this).find('.card-bg-holder').css('transform', 'scale(1)')
+  })
+  $('.rezidency-and-citizenship_card').on('mouseenter', function () {
+    console.log('hover')
+    $(this).find('.card-bg-holder').css('transform', 'scale(1.05)')
+  })
+  $('.rezidency-and-citizenship_card').on('mouseleave', function () {
+    console.log('hover')
+    $(this).find('.card-bg-holder').css('transform', 'scale(1)')
+  })
 </script>

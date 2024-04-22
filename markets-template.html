@@ -130,24 +130,22 @@
   }
 
   section::before {
-  content: "";
-  display: block;
-  height: 200px; /* Replace with the height of your fixed navigation */
-  margin: -200px 0 0; /* This negative margin is the same value as the height */
-  visibility: hidden;
-}
+    content: '';
+    display: block;
+    height: 200px; /* Replace with the height of your fixed navigation */
+    margin: -200px 0 0; /* This negative margin is the same value as the height */
+    visibility: hidden;
+  }
 
-@media only screen and (max-width: 768px){
-  section::before {
-  content: "";
-  display: block;
-  height: 240px; /* Replace with the height of your fixed navigation */
-  margin: -240px 0 0; /* This negative margin is the same value as the height */
-  visibility: hidden;
-}
-
-}
-
+  @media only screen and (max-width: 768px) {
+    section::before {
+      content: '';
+      display: block;
+      height: 240px; /* Replace with the height of your fixed navigation */
+      margin: -240px 0 0; /* This negative margin is the same value as the height */
+      visibility: hidden;
+    }
+  }
 </style>
 <script>
   const colorRed = '#D45D5D'
@@ -433,7 +431,7 @@
           color: '#fff'
         },
         {
-          label: 'BDP',
+          label: 'GDP',
           data: tableBdpValues03,
           fill: false,
           backgroundColor: '#fff',

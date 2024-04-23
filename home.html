@@ -274,45 +274,81 @@
   let roi1year = 50
   let roi2year = 50
   let roi3year = 50
+  // =================================== Country select for Graphs ===================================
+  const homeGraphsSelect = document.getElementById('home-graphs-select')
+  let homeGraphsSelectedCountry = ''
+  let homeGraphsRoiValue = 0
+  let homeGraphsDepositValue = 0
+  let homeGraphsInflationValue = ''
+  let homeGraphsCountryCode = 0
+
+  homeGraphsSelect.addEventListener('change', function () {
+    homeGraphsSelectedCountry = this.value
+
+    // Select all the country elements in the ROI list
+    let countryElements = document.querySelectorAll(
+      '.home-roi-calc-country-data .w-dyn-item'
+    )
+
+    // Loop through the country elements
+    for (let i = 0; i < countryElements.length; i++) {
+      // If the country matches the selected country
+      if (
+        countryElements[i].querySelector('.text-block-161').textContent ===
+        homeGraphsSelectedCountry
+      ) {
+        // Get the corresponding ROI value
+        homeGraphsRoiValue = countryElements[i].querySelector(
+          '.graphs-data-country-roi'
+        ).textContent
+        homeGraphsDepositValue = countryElements[i].querySelector(
+          '.graphs-data-country-deposit'
+        ).textContent
+        homeGraphsInflationValue = countryElements[i].querySelector(
+          '.graphs-data-country-inflation .w-embed'
+        ).innerHTML
+        homeGraphsCountryCode = countryElements[i].querySelector(
+          '.graphs-data-country-code'
+        ).textContent
+        // create savigsvsreal graph
+        let investmentArray = createInvestmentsArray(
+          100000, //investment
+          36, //months
+          homeGraphsRoiValue, // roi1year
+          homeGraphsRoiValue, // roi1year
+          homeGraphsRoiValue // roi1year
+        )
+        let savingsArray = createInvestmentsArray(
+          100000, //investment
+          36, //months
+          homeGraphsDepositValue, // roi1year
+          homeGraphsDepositValue, // roi1year
+          homeGraphsDepositValue // roi1year
+        )
+        renderSavingsVsRealChart(investmentArray, savingsArray)
+
+        // create inflation graph
+
+        // create savings graph
+        renderSavingsGraph(homeGraphsCountryCode)
+
+        // console.log(homeGraphsRoiValue)
+        // console.log(homeGraphsDepositValue)
+        // console.log(homeGraphsInflationValue)
+        // console.log(homeGraphsCountryCode)
+
+        break
+      }
+    }
+  })
+
   // =================================== Inflation Graphs ===================================
-  const inflationSavingsSelectOptions = {
-    ba: 'Bosnia and Herzegovina',
-    tr: 'Turkiye',
-    cy: 'Cyprus',
-    jo: 'Jordan',
-    lb: 'Lebanon',
-    me: 'Montenegro',
-    id: 'Indonesia',
-    gb: 'United Kingdom',
-    qa: 'Qatar',
-    sa: 'Saudi Arabia',
-    es: 'Spain',
-    ae: 'United Arab Emirates'
-    // cyprus, saudi arabia, united arab emirates, spain
-  }
   let inflationURL =
     'https://api.worldbank.org/v2/country/ba/indicator/NY.GDP.DEFL.KD.ZG?format=json'
   let inflationChart = ''
-  const inflationSelecthWrap = document.getElementById(
-    'infaltion-trends-select'
-  )
-  const inflationSelect = inflationSelecthWrap.appendChild(
-    document.createElement('select')
-  )
-  inflationSelect.classList.add('select-js-elements')
-  inflationSelect.id = 'inflation-select'
 
-  // create options for select
-  for (const [key, value] of Object.entries(inflationSavingsSelectOptions)) {
-    const optionEl = inflationSelect.appendChild(
-      document.createElement('option')
-    )
-    optionEl.value = key
-    optionEl.textContent = value
-  }
-
-  inflationSelect.addEventListener('change', function () {
-    waitingSpinner('inflation-select')
+  function renderInflationGraph() {
+    // waitingSpinner('inflation-select')
 
     inflationURL = `https://api.worldbank.org/v2/country/${this.value}/indicator/NY.GDP.DEFL.KD.ZG?format=json`
 
@@ -323,8 +359,8 @@
       inflationChart.update()
     })
 
-    waitingSpinner('inflation-select')
-  })
+    // waitingSpinner('inflation-select')
+  }
 
   getInflationData().then((data) => {
     renderInflationJSON(parseWorldData(data))
@@ -401,45 +437,35 @@
   }
 
   // =================================== Savings Graphs ===================================
-  const savingsSelectOptions = {
-    ba: 'Bosnia and Herzegovina',
-    tr: 'Turkiye',
-    jo: 'Jordan',
-    lb: 'Lebanon',
-    me: 'Montenegro',
-    id: 'Indonesia',
-    gb: 'United Kingdom',
-    qa: 'Qatar'
-  }
 
   let savingsURL =
     'https://api.worldbank.org/v2/country/ba/indicator/FR.INR.DPST?format=json'
   let savingsChart = ''
-  const savingsSelecthWrap = document.getElementById('savings-select')
-  const savingsSelect = savingsSelecthWrap.appendChild(
-    document.createElement('select')
-  )
-  savingsSelect.classList.add('select-js-elements')
 
-  // create options for select
-  for (const [key, value] of Object.entries(savingsSelectOptions)) {
-    const optionEl = savingsSelect.appendChild(document.createElement('option'))
-    optionEl.value = key
-    optionEl.textContent = value
-  }
-
-  savingsSelect.addEventListener('change', function () {
-    waitingSpinner(this)
-    savingsURL = `https://api.worldbank.org/v2/country/${this.value}/indicator/FR.INR.DPST?format=json`
+  function renderSavingsGraph(countryCode) {
+    // waitingSpinner(this)
+    savingsURL = `https://api.worldbank.org/v2/country/${countryCode}/indicator/FR.INR.DPST?format=json`
 
     getSavingsData().then((data) => {
       let newData = parseWorldData(data)
-      savingsChart.data.labels = newData[0]
-      savingsChart.data.datasets[0].data = newData[1]
-      savingsChart.update()
+      if (newData[0].length === 0) {
+        document.getElementById('savings-wrap').style.display = 'none'
+        document.getElementById('savings-wrap-source-text').style.display =
+          'none'
+        document.getElementById('savings-wrap-no-data').style.display = 'block'
+      } else {
+        document.getElementById('savings-wrap').style.display = 'block'
+        document.getElementById('savings-wrap-source-text').style.display =
+          'block'
+        document.getElementById('savings-wrap-no-data').style.display = 'none'
+        savingsChart.data.labels = newData[0]
+        savingsChart.data.datasets[0].data = newData[1]
+        savingsChart.update()
+      }
     })
-    waitingSpinner(this)
-  })
+    // waitingSpinner(this)
+  }
+  renderSavingsGraph('ba')
 
   getSavingsData().then((data) => {
     renderSavingsJSON(parseWorldData(data))
@@ -546,51 +572,58 @@
   for (let i = 0; i <= 36; i++) {
     labelsArrayTime.push(i + ' months')
   }
-
-  savingsVsRealChart = new Chart(ctxSavingsVsReal, {
-    type: 'line',
-    data: {
-      labels: labelsArrayTime,
-      datasets: [
-        {
-          label: 'Real Estate Investment',
-          data: investmentArray,
-          fill: false,
-          backgroundColor: '#fff',
-          borderColor: '#9DEB8F',
-          color: '#fff'
-        },
-        {
-          label: 'Bank Savings',
-          data: savingsArray,
-          fill: false,
-          backgroundColor: '#fff',
-          borderColor: '#5AB8D5',
-          color: '#fff'
-        }
-      ]
-    },
-    plugins: [plugin],
-    options: {
-      responsive: true,
-      // maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: false,
-          ticks: {
-            callback: function (value, index, values) {
-              return value.toLocaleString() + ' €' // Dodaje € iza svake vrijednosti
+  let savingsVsRealChart
+  async function renderSavingsVsRealChart(investmentArray, savingsArray) {
+    if (savingsVsRealChart) {
+      savingsVsRealChart.destroy()
+    }
+    savingsVsRealChart = new Chart(ctxSavingsVsReal, {
+      type: 'line',
+      data: {
+        labels: labelsArrayTime,
+        datasets: [
+          {
+            label: 'Real Estate Investment',
+            data: investmentArray,
+            fill: false,
+            backgroundColor: '#fff',
+            borderColor: '#9DEB8F',
+            color: '#fff'
+          },
+          {
+            label: 'Bank Savings',
+            data: savingsArray,
+            fill: false,
+            backgroundColor: '#fff',
+            borderColor: '#5AB8D5',
+            color: '#fff'
+          }
+        ]
+      },
+      plugins: [plugin],
+      options: {
+        responsive: true,
+        // maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: false,
+            ticks: {
+              callback: function (value, index, values) {
+                return value.toLocaleString() + ' €' // Dodaje € iza svake vrijednosti
+              }
             }
           }
-        }
-      },
-      plugins: {
-        legend: {
-          display: true // Skriva legendu
+        },
+        plugins: {
+          legend: {
+            display: true // Skriva legendu
+          }
         }
       }
-    }
-  })
+    })
+  }
+
+  renderSavingsVsRealChart(investmentArray, savingsArray)
 
   function waitingSpinner(t) {
     if (typeof t === 'string') {

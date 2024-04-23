@@ -792,11 +792,29 @@
   let investment = 500000
 
   homeRoiCalcCountrySelect.addEventListener('change', function () {
-    // let annularROIforCOuntry =
-    //   document.getElementById('roi-for-country').innerText
+    let selectedCountry = this.value
 
-    console.log(annularROIforCOuntry)
-    console.log('Country changed')
+    // Select all the country elements in the ROI list
+    let countryElements = document.querySelectorAll(
+      '.home-roi-calc-country-data .w-dyn-item'
+    )
+
+    // Loop through the country elements
+    for (let i = 0; i < countryElements.length; i++) {
+      // If the country matches the selected country
+      if (
+        countryElements[i].querySelector('.text-block-161').textContent ===
+        selectedCountry
+      ) {
+        // Get the corresponding ROI value
+        let roiValue = countryElements[i].querySelector(
+          '.roi-value-calc-data'
+        ).textContent
+        sliderROI.value = roiValue
+        sliderROI.dispatchEvent(new Event('input', { bubbles: true }))
+        break
+      }
+    }
   })
 
   // Finesweet CMS Filter config, events, and callbacks

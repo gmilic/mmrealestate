@@ -15,7 +15,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
     background-color: var(--light-green);
     margin-bottom: 2rem;
     border-radius: 8px;
@@ -26,7 +26,7 @@
     color: var(--primary-color);
     margin: 0;
     line-height: 1.1;
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
   }
   .h6-js-elements {
     font-size: 0.9rem;
@@ -34,7 +34,7 @@
     color: var(--primary-color);
     margin: 0 0 0.25rem 0;
     line-height: 1.1;
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
   }
   .payment-plan_items {
     margin-bottom: 1.4rem;
@@ -45,7 +45,7 @@
     color: var(--primary-color);
     margin: 0;
     line-height: 1.1;
-    font-family: "Inter", sans-serif;
+    font-family: 'Inter', sans-serif;
   }
   .roi-calc-slider-wrap {
     display: grid;
@@ -115,7 +115,7 @@
     height: 24px;
     background: transparent;
     cursor: grab;
-    background-image: url("https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/6602ee9c354449f54a55974c_mmslider.svg ");
+    background-image: url('https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/6602ee9c354449f54a55974c_mmslider.svg ');
     background-repeat: no-repeat;
     background-size: 24px 24px;
   }
@@ -125,7 +125,7 @@
     height: 24px;
     background: transparent;
     cursor: grab;
-    background-image: url("https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/6602ee9c354449f54a55974c_mmslider.svg ");
+    background-image: url('https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/6602ee9c354449f54a55974c_mmslider.svg ');
     background-repeat: no-repeat;
     background-size: 24px 24px;
   }
@@ -192,8 +192,8 @@
     width: 100%;
     height: 100%;
 
-    content: "";
-    background: url("https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/65ccccafe2b75fdda9060ed3_loading.gif")
+    content: '';
+    background: url('https://uploads-ssl.webflow.com/656f3c6c0f405e41180cd571/65ccccafe2b75fdda9060ed3_loading.gif')
       no-repeat center;
 
     opacity: 0;
@@ -238,19 +238,19 @@
 </style>
 <script>
   // =================================== Payment Plan ===================================
-  let euro = Intl.NumberFormat("en-DE", {
-    style: "currency",
-    currency: "EUR",
-  });
+  let euro = Intl.NumberFormat('en-DE', {
+    style: 'currency',
+    currency: 'EUR'
+  })
   // parse date from text in .data-start-date if exists
   const startDate = new Date(
-    document.querySelector(".data-start-date").innerHTML
-  );
+    document.querySelector('.data-start-date').innerHTML
+  )
   const finishDate = new Date(
-    document.querySelector(".data-finish-date").innerHTML
-  );
+    document.querySelector('.data-finish-date').innerHTML
+  )
 
-  const paymentPlanWrap = document.getElementById("property-payment-plan-wrap");
+  const paymentPlanWrap = document.getElementById('property-payment-plan-wrap')
   // create optinos for period
   // const monthsLabel = paymentPlanWrap.appendChild(
   //   document.createElement('label')
@@ -271,28 +271,26 @@
   // })
   // months.addEventListener('change', calculate)
 
-  const paymentPlan = paymentPlanWrap.appendChild(
-    document.createElement("div")
-  );
-  paymentPlan.classList.add("property-payment-plan");
-  let months;
+  const paymentPlan = paymentPlanWrap.appendChild(document.createElement('div'))
+  paymentPlan.classList.add('property-payment-plan')
+  let months
   if (finishDate && finishDate > new Date()) {
     // calculate number of months from today to finishDate
     months =
       Math.ceil(
         (finishDate.getTime() - new Date().getTime()) /
           (1000 * 60 * 60 * 24 * 30)
-      ) - 1;
+      ) - 1
   } else {
-    months = 36;
+    months = 36
   }
-  calculate();
+  calculate()
 
   function calculate() {
-    const price = document.getElementById("main-price").textContent;
+    const price = document.getElementById('main-price').textContent
     const downpaymentPercentage = document.getElementById(
-      "downpayment-percentage"
-    ).textContent;
+      'downpayment-percentage'
+    ).textContent
 
     // if finishDate exists and is later than current month
     // then set months to finishDate - current month
@@ -301,14 +299,14 @@
 
     const downpayment = (price * (downpaymentPercentage / 100))
       .toFixed(2)
-      .toLocaleString();
-    const loan = (price - downpayment).toFixed(2).toLocaleString();
-    const monthlyPayment = (loan / months).toFixed(2).toLocaleString();
+      .toLocaleString()
+    const loan = (price - downpayment).toFixed(2).toLocaleString()
+    const monthlyPayment = (loan / months).toFixed(2).toLocaleString()
     const monthlyPaymentPercentage = ((monthlyPayment / price) * 100)
       .toFixed(2)
-      .toLocaleString();
+      .toLocaleString()
 
-    let lastMonthPaymentDateStr = lastMonthOfPayment(months, "long");
+    let lastMonthPaymentDateStr = lastMonthOfPayment(months, 'long')
 
     paymentPlan.innerHTML = `
       <div class="payment-plan_items">
@@ -352,56 +350,56 @@
       <h5 class="h5-js-elements">${lastMonthPaymentDateStr}</h5>
       </div>
 
-      `;
+      `
   }
 
   function lastMonthOfPayment(months, length) {
     // calculate last month payment date just month and year
-    const lastMonthPaymentDate = new Date();
+    const lastMonthPaymentDate = new Date()
     lastMonthPaymentDate.setMonth(
       lastMonthPaymentDate.getMonth() + parseInt(months)
-    );
+    )
     return (lastMonthPaymentDateStr = lastMonthPaymentDate.toLocaleDateString(
-      "en-DE",
+      'en-DE',
       {
-        year: "numeric",
-        month: length,
+        year: 'numeric',
+        month: length
       }
-    ));
+    ))
   }
 
   function lastMonthOfPaymentRange(months) {
     // create array of months and years for range starting of current month
-    const lastMonthPaymentDate = new Date();
-    const lastMonthPaymentDateArr = [];
+    const lastMonthPaymentDate = new Date()
+    const lastMonthPaymentDateArr = []
     for (let i = 0; i < months; i++) {
-      lastMonthPaymentDate.setMonth(lastMonthPaymentDate.getMonth() + 1);
+      lastMonthPaymentDate.setMonth(lastMonthPaymentDate.getMonth() + 1)
       lastMonthPaymentDateArr.push(
-        lastMonthPaymentDate.toLocaleDateString("en-DE", {
-          year: "numeric",
-          month: "short",
+        lastMonthPaymentDate.toLocaleDateString('en-DE', {
+          year: 'numeric',
+          month: 'short'
         })
-      );
+      )
     }
-    return lastMonthPaymentDateArr;
+    return lastMonthPaymentDateArr
   }
 
   // =================================== ROI CALC & GRAPH ===================================
   // TODO: check if prices and roi data is present
 
-  const roiCalcWrap = document.getElementById("roi-calc-wrap");
-  const priceMin = document.getElementById("data-price-min").textContent;
-  const priceMax = document.getElementById("data-price-max").textContent;
+  const roiCalcWrap = document.getElementById('roi-calc-wrap')
+  const priceMin = document.getElementById('data-price-min').textContent
+  const priceMax = document.getElementById('data-price-max').textContent
 
-  let monthsForCalc = months;
-  let investment = document.getElementById("main-price").textContent;
-  let roi1year = document.getElementById("data-roi").textContent;
-  let roi2year = document.getElementById("data-roi-2year").textContent;
-  let roi3year = document.getElementById("data-roi-3year").textContent;
-  const roiCalcInner = roiCalcWrap.appendChild(document.createElement("div"));
-  const firstMonthROI = lastMonthOfPayment(1, "short");
-  const lastMonthROI = lastMonthOfPayment(monthsForCalc, "short");
-  let monthsArray = lastMonthOfPaymentRange(monthsForCalc);
+  let monthsForCalc = months
+  let investment = document.getElementById('main-price').textContent
+  let roi1year = document.getElementById('data-roi').textContent
+  let roi2year = document.getElementById('data-roi-2year').textContent
+  let roi3year = document.getElementById('data-roi-3year').textContent
+  const roiCalcInner = roiCalcWrap.appendChild(document.createElement('div'))
+  const firstMonthROI = lastMonthOfPayment(1, 'short')
+  const lastMonthROI = lastMonthOfPayment(monthsForCalc, 'short')
+  let monthsArray = lastMonthOfPaymentRange(monthsForCalc)
 
   let investmentArray = createInvestmentsArray(
     priceMin,
@@ -409,21 +407,21 @@
     roi1year,
     roi2year,
     roi3year
-  );
+  )
   // GRAPH CONSTS
-  const whyInvestGraphWrap = document.getElementById("why-invest-graph-wrap");
+  const whyInvestGraphWrap = document.getElementById('why-invest-graph-wrap')
   const canvas = whyInvestGraphWrap.appendChild(
-    document.createElement("canvas")
-  );
-  canvas.id = "chart";
-  canvas.width = "100%";
-  canvas.height = "400px";
+    document.createElement('canvas')
+  )
+  canvas.id = 'chart'
+  canvas.width = '100%'
+  canvas.height = '400px'
 
-  const ctx = document.getElementById("chart").getContext("2d");
+  const ctx = document.getElementById('chart').getContext('2d')
 
-  var gradient = ctx.createLinearGradient(0, 0, 0, 400);
-  gradient.addColorStop(0, "rgba(1, 255, 72, 0.2)");
-  gradient.addColorStop(1, "rgba(1, 255, 72, 0.01)");
+  var gradient = ctx.createLinearGradient(0, 0, 0, 400)
+  gradient.addColorStop(0, 'rgba(1, 255, 72, 0.2)')
+  gradient.addColorStop(1, 'rgba(1, 255, 72, 0.01)')
 
   roiCalcInner.innerHTML = `
   <div class="roi-calc-slider-wrap">
@@ -480,20 +478,20 @@
   </div>
 
 
-  `;
+  `
 
-  const sliderPrice = document.getElementById("sliderPrice");
-  const sliderTime = document.getElementById("sliderTime");
-  const roiCalcProfit = document.getElementById("roi-calc-profit");
-  const sliderPriceLabel = document.getElementById("sliderPriceLabel");
-  const sliderTimeLabel = document.getElementById("sliderTimeLabel");
+  const sliderPrice = document.getElementById('sliderPrice')
+  const sliderTime = document.getElementById('sliderTime')
+  const roiCalcProfit = document.getElementById('roi-calc-profit')
+  const sliderPriceLabel = document.getElementById('sliderPriceLabel')
+  const sliderTimeLabel = document.getElementById('sliderTimeLabel')
   const roiCalcButtonResultSpan = document.getElementById(
-    "roi-calc-button-result-span"
-  );
+    'roi-calc-button-result-span'
+  )
   // ROI GRAPH
 
   const roiChart = new Chart(ctx, {
-    type: "line",
+    type: 'line',
     data: {
       labels: monthsArray,
       datasets: [
@@ -502,8 +500,8 @@
           data: investmentArray,
           // data: [1, 2, 3],
           borderWidth: 2,
-          borderColor: ["#000"],
-          borrderCapStyle: "round",
+          borderColor: ['#000'],
+          borrderCapStyle: 'round',
           fill: true,
           backgroundColor: gradient,
           borderDash: [3, 5],
@@ -511,50 +509,50 @@
           arrowHeads: {
             width: 10,
             length: 10,
-            frequency: "end",
-          },
-        },
-      ],
+            frequency: 'end'
+          }
+        }
+      ]
     },
     options: {
       plugins: {
         legend: {
-          display: false,
-        },
+          display: false
+        }
       },
       scales: {
         y: {
-          beginAtZero: false,
-        },
-      },
-    },
-  });
+          beginAtZero: false
+        }
+      }
+    }
+  })
 
   // ***************************************************************************
   // =================================== Savings vs Real eastateGraphs ===================================
   const savingsVsRealEstateWrap = document.getElementById(
-    "tab-saving-vs-real-graph"
-  );
+    'tab-saving-vs-real-graph'
+  )
   const savingsVsRealCanvas = savingsVsRealEstateWrap.appendChild(
-    document.createElement("canvas")
-  );
-  savingsVsRealCanvas.id = "savingsVsReal-chart";
-  savingsVsRealCanvas.width = "100%";
-  savingsVsRealCanvas.height = "400px";
+    document.createElement('canvas')
+  )
+  savingsVsRealCanvas.id = 'savingsVsReal-chart'
+  savingsVsRealCanvas.width = '100%'
+  savingsVsRealCanvas.height = '400px'
 
   const ctxSavingsVsReal = document
-    .getElementById("savingsVsReal-chart")
-    .getContext("2d");
+    .getElementById('savingsVsReal-chart')
+    .getContext('2d')
 
   let savingsVsRealReal = parseInt(
     calculateProfitROI(priceMin, 36, roi1year, roi2year, roi3year)
-  );
-  let savingsVsRealSavings = parseInt(priceMin * 1.14);
-  let savingsVsRealValues = [savingsVsRealReal, savingsVsRealSavings];
+  )
+  let savingsVsRealSavings = parseInt(priceMin * 1.14)
+  let savingsVsRealValues = [savingsVsRealReal, savingsVsRealSavings]
   let savingsVsRealLabels = [
     `Real estate investment - Profit: ${savingsVsRealReal.toLocaleString()}`,
-    `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`,
-  ];
+    `Bank saving - Profit: ${savingsVsRealSavings.toLocaleString()}`
+  ]
 
   let investmentArraySavingsVsReal = createInvestmentsArray(
     priceMin, //investment
@@ -562,42 +560,42 @@
     roi1year, // roi1year
     roi2year, // roi1year
     roi3year // roi1year
-  );
+  )
   let savingsArray = createInvestmentsArray(
     priceMin, //investment
     36, //months
     6, // roi1year
     8, // roi1year
     10 // roi1year
-  );
+  )
 
-  labelsArrayTime = [];
+  labelsArrayTime = []
   for (let i = 0; i <= 36; i++) {
-    labelsArrayTime.push(i + " months");
+    labelsArrayTime.push(i + ' months')
   }
 
   savingsVsRealChart = new Chart(ctxSavingsVsReal, {
-    type: "line",
+    type: 'line',
     data: {
       labels: labelsArrayTime,
       datasets: [
         {
-          label: "Real Estate Investment",
+          label: 'Real Estate Investment',
           data: investmentArraySavingsVsReal,
           fill: false,
-          backgroundColor: "#fff",
-          borderColor: "#9DEB8F",
-          color: "#fff",
+          backgroundColor: '#fff',
+          borderColor: '#9DEB8F',
+          color: '#fff'
         },
         {
-          label: "Bank Savings",
+          label: 'Bank Savings',
           data: savingsArray,
           fill: false,
-          backgroundColor: "#fff",
-          borderColor: "#5AB8D5",
-          color: "#fff",
-        },
-      ],
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
+        }
+      ]
     },
     options: {
       responsive: true,
@@ -607,71 +605,71 @@
           beginAtZero: false,
           ticks: {
             callback: function (value, index, values) {
-              return value.toLocaleString() + " €"; // Dodaje € iza svake vrijednosti
-            },
-          },
-        },
+              return value.toLocaleString() + ' €' // Dodaje € iza svake vrijednosti
+            }
+          }
+        }
       },
       plugins: {
         legend: {
-          display: true, // Skriva legendu
-        },
-      },
-    },
-  });
+          display: true // Skriva legendu
+        }
+      }
+    }
+  })
 
-  sliderPrice.addEventListener("input", () => {
-    let { value, min, max, offsetWidth } = sliderPrice;
-    let investment = value;
+  sliderPrice.addEventListener('input', () => {
+    let { value, min, max, offsetWidth } = sliderPrice
+    let investment = value
 
     // Add snap effect
     let snapValues = [
-      100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000,
-    ];
+      100000, 200000, 300000, 400000, 500000, 600000, 700000, 800000, 900000
+    ]
     let closest = snapValues.reduce((a, b) => {
-      return Math.abs(b - investment) < Math.abs(a - investment) ? b : a;
-    });
+      return Math.abs(b - investment) < Math.abs(a - investment) ? b : a
+    })
 
-    if (Math.abs(investment - closest) <= 20000) {
-      sliderPrice.value = closest;
-      investment = closest;
-      value = closest;
+    if (Math.abs(investment - closest) <= 10000) {
+      sliderPrice.value = closest
+      investment = closest
+      value = closest
     }
 
-    const percent = ((value - min) / (max - min)) * 100;
+    const percent = ((value - min) / (max - min)) * 100
     if (percent > 90) {
-      sliderPriceLabel.style.left = "-6rem";
+      sliderPriceLabel.style.left = '-6rem'
     } else if (percent > 50) {
-      sliderPriceLabel.style.left = "-4rem";
+      sliderPriceLabel.style.left = '-4rem'
     } else if (percent > 10) {
-      sliderPriceLabel.style.left = "-2rem";
+      sliderPriceLabel.style.left = '-2rem'
     } else {
-      sliderPriceLabel.style.left = "-1rem";
+      sliderPriceLabel.style.left = '-1rem'
     }
-    const newPosition = percent * (offsetWidth / 100);
-    sliderPriceLabel.style.transform = `translateX(${newPosition}px)`;
-    sliderPriceLabel.textContent = value;
+    const newPosition = percent * (offsetWidth / 100)
+    sliderPriceLabel.style.transform = `translateX(${newPosition}px)`
+    sliderPriceLabel.textContent = value
     investmentArray = createInvestmentsArray(
       investment,
       monthsForCalc,
       roi1year,
       roi2year,
       roi3year
-    );
+    )
     savingsArray = createInvestmentsArray(
       investment, //investment
       monthsForCalc, //months
       6, // roi1year
       8, // roi1year
       10 // roi1year
-    );
-    roiChart.data.datasets[0].data = investmentArray;
-    roiChart.update();
+    )
+    roiChart.data.datasets[0].data = investmentArray
+    roiChart.update()
 
     // Update savingsVsRealChart data
-    savingsVsRealChart.data.datasets[0].data = investmentArray;
-    savingsVsRealChart.data.datasets[1].data = savingsArray;
-    savingsVsRealChart.update();
+    savingsVsRealChart.data.datasets[0].data = investmentArray
+    savingsVsRealChart.data.datasets[1].data = savingsArray
+    savingsVsRealChart.update()
 
     roiCalcProfit.textContent = calculateProfitROI(
       investment,
@@ -679,49 +677,49 @@
       roi1year,
       roi2year,
       roi3year
-    ).toLocaleString();
-  });
+    ).toLocaleString()
+  })
 
-  sliderTime.addEventListener("input", () => {
-    const { value, min, max, offsetWidth } = sliderTime;
-    const percent = ((value - min) / (max - min)) * 100;
+  sliderTime.addEventListener('input', () => {
+    const { value, min, max, offsetWidth } = sliderTime
+    const percent = ((value - min) / (max - min)) * 100
     if (percent > 90) {
-      sliderTimeLabel.style.left = "-4rem";
+      sliderTimeLabel.style.left = '-4rem'
     } else if (percent > 50) {
-      sliderTimeLabel.style.left = "-3rem";
+      sliderTimeLabel.style.left = '-3rem'
     } else if (percent > 10) {
-      sliderTimeLabel.style.left = "-2rem";
+      sliderTimeLabel.style.left = '-2rem'
     } else {
-      sliderTimeLabel.style.left = "-0.5rem";
+      sliderTimeLabel.style.left = '-0.5rem'
     }
-    const newPosition = percent * (offsetWidth / 100);
-    sliderTimeLabel.style.transform = `translateX(${newPosition}px)`;
+    const newPosition = percent * (offsetWidth / 100)
+    sliderTimeLabel.style.transform = `translateX(${newPosition}px)`
     sliderTimeLabel.innerHTML =
-      value + ' <span class="labelSmallText">months</span>';
-    roiCalcButtonResultSpan.textContent = `in ${value} months`;
-    monthsForCalc = value;
-    monthsArray = lastMonthOfPaymentRange(value);
-    roiChart.data.labels = monthsArray;
+      value + ' <span class="labelSmallText">months</span>'
+    roiCalcButtonResultSpan.textContent = `in ${value} months`
+    monthsForCalc = value
+    monthsArray = lastMonthOfPaymentRange(value)
+    roiChart.data.labels = monthsArray
     investmentArray = createInvestmentsArray(
       investment,
       monthsForCalc,
       roi1year,
       roi2year,
       roi3year
-    );
-    roiChart.data.datasets[0].data = investmentArray;
-    roiChart.data.labels = monthsArray;
-    roiChart.update();
+    )
+    roiChart.data.datasets[0].data = investmentArray
+    roiChart.data.labels = monthsArray
+    roiChart.update()
     roiCalcProfit.textContent = calculateProfitROI(
       investment,
       monthsForCalc,
       roi1year,
       roi2year,
       roi3year
-    ).toLocaleString();
-  });
-  sliderPrice.dispatchEvent(new Event("input", { bubbles: true }));
-  sliderTime.dispatchEvent(new Event("input", { bubbles: true }));
+    ).toLocaleString()
+  })
+  sliderPrice.dispatchEvent(new Event('input', { bubbles: true }))
+  sliderTime.dispatchEvent(new Event('input', { bubbles: true }))
 
   function createInvestmentsArray(
     investment,
@@ -730,226 +728,226 @@
     roi2year,
     roi3year
   ) {
-    let investmentArray = [];
-    let currentGain = investment;
+    let investmentArray = []
+    let currentGain = investment
     for (let i = 0; i <= period; i++) {
-      let currentROI;
+      let currentROI
       if (i <= 12) {
-        currentROI = roi1year / 12;
+        currentROI = roi1year / 12
       } else if (i <= 24) {
-        currentROI = roi2year / 12;
+        currentROI = roi2year / 12
       } else {
-        currentROI = roi3year / 12;
+        currentROI = roi3year / 12
       }
 
-      let monthlyGain = parseInt(investment * (currentROI / 100));
+      let monthlyGain = parseInt(investment * (currentROI / 100))
 
-      currentGain = parseInt(currentGain) + parseInt(monthlyGain);
+      currentGain = parseInt(currentGain) + parseInt(monthlyGain)
 
-      investmentArray.push(currentGain);
+      investmentArray.push(currentGain)
     }
 
-    return investmentArray;
+    return investmentArray
   }
 
   // =================================== Mapbox ===================================
   mapboxgl.accessToken =
-    "pk.eyJ1IjoibW1yZWFsZXN0YXRldGVjaCIsImEiOiJjbHB3bjVsZ2EwZzByMm9wYmVtZDVwb2hyIn0.d66L0eAH0VLt2CvD8stQlw";
+    'pk.eyJ1IjoibW1yZWFsZXN0YXRldGVjaCIsImEiOiJjbHB3bjVsZ2EwZzByMm9wYmVtZDVwb2hyIn0.d66L0eAH0VLt2CvD8stQlw'
 
-  const latitude = document.getElementById("data-latitude").textContent;
-  const longitude = document.getElementById("data-longitude").textContent;
+  const latitude = document.getElementById('data-latitude').textContent
+  const longitude = document.getElementById('data-longitude').textContent
   const map = new mapboxgl.Map({
-    container: "property-map-wrap", // container ID
+    container: 'property-map-wrap', // container ID
     center: [longitude, latitude], // starting position [lng, lat]
     zoom: 12, // starting zoom
-    style: "mapbox://styles/mmrealestatetech/clsisuepv00cb01qx84hd38f3",
-  });
+    style: 'mapbox://styles/mmrealestatetech/clsisuepv00cb01qx84hd38f3'
+  })
   const marker1 = new mapboxgl.Marker()
     .setLngLat([longitude, latitude])
-    .addTo(map);
+    .addTo(map)
 
   // =================================== Inflation Graphs ===================================
 
   const countryCode = document
-    .querySelector(".data-country-code")
-    .textContent.trim();
+    .querySelector('.data-country-code')
+    .textContent.trim()
 
-  let inflationURL = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GDP.DEFL.KD.ZG?format=json`;
-  let inflationChart = "";
+  let inflationURL = `https://api.worldbank.org/v2/country/${countryCode}/indicator/NY.GDP.DEFL.KD.ZG?format=json`
+  let inflationChart = ''
 
   getInflationData().then((data) => {
-    renderInflationJSON(parseWorldData(data));
-  });
+    renderInflationJSON(parseWorldData(data))
+  })
 
   async function getInflationData() {
     const response = await fetch(inflationURL, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Accept: "application/json",
-      },
-    });
+        Accept: 'application/json'
+      }
+    })
 
     if (!response.ok) {
       // handle error
-      console.error("HTTP error", response.status);
+      console.error('HTTP error', response.status)
     } else {
-      const apiJSON = await response.json();
-      return apiJSON;
+      const apiJSON = await response.json()
+      return apiJSON
     }
   }
 
-  const inflationGraphWrap = document.getElementById("infaltion-trends-wrap");
+  const inflationGraphWrap = document.getElementById('infaltion-trends-wrap')
   const inflationCanvas = inflationGraphWrap.appendChild(
-    document.createElement("canvas")
-  );
-  inflationCanvas.id = "inflation-chart";
-  inflationCanvas.width = "100%";
-  inflationCanvas.height = "400px";
+    document.createElement('canvas')
+  )
+  inflationCanvas.id = 'inflation-chart'
+  inflationCanvas.width = '100%'
+  inflationCanvas.height = '400px'
 
   const ctxInflation = document
-    .getElementById("inflation-chart")
-    .getContext("2d");
+    .getElementById('inflation-chart')
+    .getContext('2d')
 
-  var gradient = ctxInflation.createLinearGradient(0, 0, 0, 400);
+  var gradient = ctxInflation.createLinearGradient(0, 0, 0, 400)
 
   function parseWorldData(apiJSON) {
-    const inflationData = apiJSON[1].filter((item) => item.value !== null);
-    const inflationYears = inflationData.map((item) => item.date);
-    inflationYears.reverse();
-    const inflationValues = inflationData.map((item) => item.value);
-    inflationValues.reverse();
-    return [inflationYears, inflationValues];
+    const inflationData = apiJSON[1].filter((item) => item.value !== null)
+    const inflationYears = inflationData.map((item) => item.date)
+    inflationYears.reverse()
+    const inflationValues = inflationData.map((item) => item.value)
+    inflationValues.reverse()
+    return [inflationYears, inflationValues]
   }
 
   async function renderInflationJSON(worldData) {
     inflationChart = new Chart(ctxInflation, {
-      type: "line",
+      type: 'line',
       data: {
         labels: worldData[0],
         datasets: [
           {
             data: worldData[1],
             borderWidth: 2,
-            borderColor: ["#2efd53"],
-            borrderCapStyle: "round",
+            borderColor: ['#2efd53'],
+            borrderCapStyle: 'round',
             fill: true,
             backgroundColor: gradient,
             pointRadius: 4, // to hide points set to 0
-            pointStyle: "circle",
+            pointStyle: 'circle',
             arrowHeads: {
               width: 10,
               length: 10,
-              frequency: "end",
-            },
-          },
-        ],
+              frequency: 'end'
+            }
+          }
+        ]
       },
       options: {
         plugins: {
           legend: {
-            display: false,
-          },
+            display: false
+          }
         },
         scales: {
           y: {
-            beginAtZero: false,
-          },
-        },
-      },
-    });
+            beginAtZero: false
+          }
+        }
+      }
+    })
   }
 
   // =================================== Savings Graphs ===================================
-  let savingsURL = `https://api.worldbank.org/v2/country/${countryCode}/indicator/FR.INR.DPST?format=json`;
-  let savingsChart = "";
+  let savingsURL = `https://api.worldbank.org/v2/country/${countryCode}/indicator/FR.INR.DPST?format=json`
+  let savingsChart = ''
 
   getSavingsData().then((data) => {
-    renderSavingsJSON(parseWorldData(data));
-  });
+    renderSavingsJSON(parseWorldData(data))
+  })
 
   async function getSavingsData() {
     const response = await fetch(savingsURL, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Accept: "application/json",
-      },
-    });
+        Accept: 'application/json'
+      }
+    })
 
     if (!response.ok) {
       // handle error
-      console.error("HTTP error", response.status);
+      console.error('HTTP error', response.status)
     } else {
-      const apiJSON = await response.json();
-      return apiJSON;
+      const apiJSON = await response.json()
+      return apiJSON
     }
   }
 
-  const savingsGraphWrap = document.getElementById("savings-wrap");
+  const savingsGraphWrap = document.getElementById('savings-wrap')
   const savingsCanvas = savingsGraphWrap.appendChild(
-    document.createElement("canvas")
-  );
-  savingsCanvas.id = "savings-chart";
-  savingsCanvas.width = "100%";
-  savingsCanvas.height = "400px";
+    document.createElement('canvas')
+  )
+  savingsCanvas.id = 'savings-chart'
+  savingsCanvas.width = '100%'
+  savingsCanvas.height = '400px'
 
-  const ctxSavings = document.getElementById("savings-chart").getContext("2d");
+  const ctxSavings = document.getElementById('savings-chart').getContext('2d')
 
-  var gradient = ctxSavings.createLinearGradient(0, 0, 0, 400);
+  var gradient = ctxSavings.createLinearGradient(0, 0, 0, 400)
 
   async function renderSavingsJSON(worldData) {
     savingsChart = new Chart(ctxSavings, {
-      type: "line",
+      type: 'line',
       data: {
         labels: worldData[0],
         datasets: [
           {
             data: worldData[1],
             borderWidth: 2,
-            borderColor: ["#2efd53"],
-            borrderCapStyle: "round",
+            borderColor: ['#2efd53'],
+            borrderCapStyle: 'round',
             fill: true,
             backgroundColor: gradient,
             pointRadius: 4, // to hide points set to 0
-            pointStyle: "circle",
+            pointStyle: 'circle',
             arrowHeads: {
               width: 10,
               length: 10,
-              frequency: "end",
-            },
-          },
-        ],
+              frequency: 'end'
+            }
+          }
+        ]
       },
       options: {
         plugins: {
           legend: {
-            display: false,
-          },
+            display: false
+          }
         },
         scales: {
           y: {
-            beginAtZero: false,
-          },
-        },
-      },
-    });
+            beginAtZero: false
+          }
+        }
+      }
+    })
   }
 
   function waitingSpinner(t) {
-    if (typeof t === "string") {
-      t = document.getElementById(t);
+    if (typeof t === 'string') {
+      t = document.getElementById(t)
     }
-    let p = t.parentElement;
+    let p = t.parentElement
 
-    if (!p.classList.contains("dropload")) {
-      let w = document.createElement("div");
-      w.classList.add("dropload");
-      p.insertBefore(w, t);
-      w.appendChild(t);
-      p = t.parentElement;
+    if (!p.classList.contains('dropload')) {
+      let w = document.createElement('div')
+      w.classList.add('dropload')
+      p.insertBefore(w, t)
+      w.appendChild(t)
+      p = t.parentElement
     }
 
-    p.classList.toggle("show");
-    p.querySelector("select").disabled = p.classList.contains("show");
+    p.classList.toggle('show')
+    p.querySelector('select').disabled = p.classList.contains('show')
   }
 
   // =================================== Commons ===================================
@@ -985,72 +983,72 @@
     roi2year,
     roi3year
   ) {
-    let profit = Math.round(investment);
-    let currentYearMonths = new Date().getMonth() + 1; // get current month (0-11, hence +1)
-    let remainingMonthsThisYear = 12 - currentYearMonths;
+    let profit = Math.round(investment)
+    let currentYearMonths = new Date().getMonth() + 1 // get current month (0-11, hence +1)
+    let remainingMonthsThisYear = 12 - currentYearMonths
 
     if (months <= remainingMonthsThisYear) {
-      profit += investment * (roi1year / 100) * (months / 12);
+      profit += investment * (roi1year / 100) * (months / 12)
     } else if (months <= remainingMonthsThisYear + 12) {
-      let monthsNextYear = months - remainingMonthsThisYear;
+      let monthsNextYear = months - remainingMonthsThisYear
       profit += Math.round(
         investment * (roi1year / 100) * (remainingMonthsThisYear / 12)
-      ); // profit for remaining months this year
+      ) // profit for remaining months this year
       profit += Math.round(
         investment * (roi2year / 100) * (monthsNextYear / 12)
-      ); // profit for months in next year
+      ) // profit for months in next year
     } else {
-      let monthsThirdYear = months - remainingMonthsThisYear - 12;
+      let monthsThirdYear = months - remainingMonthsThisYear - 12
       profit += Math.round(
         investment * (roi1year / 100) * (remainingMonthsThisYear / 12)
-      ); // profit for remaining months this year
-      profit += Math.round(investment * (roi2year / 100)); // profit for next full year
+      ) // profit for remaining months this year
+      profit += Math.round(investment * (roi2year / 100)) // profit for next full year
       profit += Math.round(
         investment * (roi3year / 100) * (monthsThirdYear / 12)
-      ); // profit for months in third year
+      ) // profit for months in third year
     }
 
-    return Math.round(profit);
+    return Math.round(profit)
   }
 
   // =================================== Time counter ===================================
-  const timeCounters = document.querySelectorAll(".roi-time-counter");
+  const timeCounters = document.querySelectorAll('.roi-time-counter')
 
   // create time counter ticker in timeCounter element that count down to the end of the month
   function timeCounterTicker() {
-    let now = new Date();
-    let endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-    let timeLeft = endOfMonth - now;
-    let daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+    let now = new Date()
+    let endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0)
+    let timeLeft = endOfMonth - now
+    let daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24))
     let hoursLeft = Math.floor(
       (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    let minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-    let secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000);
+    )
+    let minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60))
+    let secondsLeft = Math.floor((timeLeft % (1000 * 60)) / 1000)
 
     timeCounters.forEach((timeCounter) => {
-      timeCounter.innerHTML = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`;
-    });
+      timeCounter.innerHTML = `${daysLeft}d ${hoursLeft}h ${minutesLeft}m ${secondsLeft}s`
+    })
   }
 
-  setInterval(timeCounterTicker, 1000);
+  setInterval(timeCounterTicker, 1000)
 </script>
 
 <script>
-  const swiper = new Swiper(".swiper-property-gallery", {
-    effect: "slide",
-    slidesPerView: "auto",
+  const swiper = new Swiper('.swiper-property-gallery', {
+    effect: 'slide',
+    slidesPerView: 'auto',
     visibilityFullFit: true,
     autoResize: false,
     loop: true,
     pagination: {
-      el: ".swiper-pagination",
+      el: '.swiper-pagination',
       clickable: true,
-      type: "bullets",
+      type: 'bullets'
     },
     navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-  });
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    }
+  })
 </script>

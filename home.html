@@ -328,14 +328,10 @@
         renderSavingsVsRealChart(investmentArray, savingsArray)
 
         // create inflation graph
+        renderInflationGraph(homeGraphsInflationValue)
 
         // create savings graph
         renderSavingsGraph(homeGraphsCountryCode)
-
-        // console.log(homeGraphsRoiValue)
-        // console.log(homeGraphsDepositValue)
-        // console.log(homeGraphsInflationValue)
-        // console.log(homeGraphsCountryCode)
 
         break
       }
@@ -343,46 +339,6 @@
   })
 
   // =================================== Inflation Graphs ===================================
-  let inflationURL =
-    'https://api.worldbank.org/v2/country/ba/indicator/NY.GDP.DEFL.KD.ZG?format=json'
-  let inflationChart = ''
-
-  function renderInflationGraph() {
-    // waitingSpinner('inflation-select')
-
-    inflationURL = `https://api.worldbank.org/v2/country/${this.value}/indicator/NY.GDP.DEFL.KD.ZG?format=json`
-
-    getInflationData().then((data) => {
-      let newData = parseWorldData(data)
-      inflationChart.data.labels = newData[0]
-      inflationChart.data.datasets[0].data = newData[1]
-      inflationChart.update()
-    })
-
-    // waitingSpinner('inflation-select')
-  }
-
-  getInflationData().then((data) => {
-    renderInflationJSON(parseWorldData(data))
-  })
-
-  async function getInflationData() {
-    const response = await fetch(inflationURL, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      }
-    })
-
-    if (!response.ok) {
-      // handle error
-      console.error('HTTP error', response.status)
-    } else {
-      const apiJSON = await response.json()
-      return apiJSON
-    }
-  }
-
   const inflationGraphWrap = document.getElementById('infaltion-trends-wrap')
   const inflationCanvas = inflationGraphWrap.appendChild(
     document.createElement('canvas')
@@ -397,13 +353,49 @@
 
   var gradient = ctxInflation.createLinearGradient(0, 0, 0, 400)
 
-  function parseWorldData(apiJSON) {
-    const inflationData = apiJSON[1].filter((item) => item.value !== null)
-    const inflationYears = inflationData.map((item) => item.date)
-    inflationYears.reverse()
-    const inflationValues = inflationData.map((item) => item.value)
-    inflationValues.reverse()
-    return [inflationYears, inflationValues]
+  let inflationChart = new Chart(ctxInflation, {
+    type: 'line', // or 'bar', 'pie', etc.
+    data: {
+      labels: [], // initialize as empty array
+      datasets: [
+        {
+          label: 'Inflation',
+          data: [], // initialize as empty array
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  })
+
+  function renderInflationGraph(tableData) {
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(tableData, 'text/html')
+    const tableInflation = doc.body.firstChild
+    const tableInflationRows = tableInflation.querySelectorAll('tr')
+    const tableInflationLabels = []
+    const tableInflationValues = []
+    tableInflationRows.forEach((row, index) => {
+      if (index > 0) {
+        const cells = row.querySelectorAll('td')
+        const year = cells[0].textContent
+        const inflation = cells[1].textContent.replace('%', '') // remove the '%' sign
+        tableInflationValues.push(parseFloat(inflation))
+        tableInflationLabels.push(parseInt(year))
+      }
+    })
+    inflationChart.data.labels = tableInflationLabels
+    inflationChart.data.datasets[0].data = tableInflationValues
+    inflationChart.update()
   }
 
   async function renderInflationJSON(worldData) {
@@ -416,7 +408,7 @@
             data: worldData[1],
             fill: false,
             backgroundColor: '#fff',
-            borderColor: '#9DEB8F',
+            borderColor: '#5AB8D5',
             color: '#fff'
           }
         ]
@@ -435,12 +427,15 @@
       }
     })
   }
+  renderInflationGraph(
+    document.querySelector('.graphs-data-country-inflation .w-embed').innerHTML
+  )
 
   // =================================== Savings Graphs ===================================
 
   let savingsURL =
     'https://api.worldbank.org/v2/country/ba/indicator/FR.INR.DPST?format=json'
-  let savingsChart = ''
+  let savingsChart = {}
 
   function renderSavingsGraph(countryCode) {
     // waitingSpinner(this)
@@ -458,7 +453,19 @@
         document.getElementById('savings-wrap-source-text').style.display =
           'block'
         document.getElementById('savings-wrap-no-data').style.display = 'none'
+        if (!savingsChart) {
+          savingsChart = {} // Initialize savingsChart if it's not defined
+        }
+
+        if (!savingsChart.data) {
+          savingsChart.data = {} // Initialize savingsChart.data if it's not defined
+        }
         savingsChart.data.labels = newData[0]
+        if (!savingsChart.data.datasets) {
+          savingsChart.data.datasets = [{}] // Initialize savingsChart.data.datasets as an array with one empty object if it's not defined
+        } else if (!savingsChart.data.datasets[0]) {
+          savingsChart.data.datasets[0] = {} // Initialize savingsChart.data.datasets[0] as an empty object if it's not defined
+        }
         savingsChart.data.datasets[0].data = newData[1]
         savingsChart.update()
       }
@@ -470,6 +477,15 @@
   getSavingsData().then((data) => {
     renderSavingsJSON(parseWorldData(data))
   })
+
+  function parseWorldData(apiJSON) {
+    const inflationData = apiJSON[1].filter((item) => item.value !== null)
+    const inflationYears = inflationData.map((item) => item.date)
+    inflationYears.reverse()
+    const inflationValues = inflationData.map((item) => item.value)
+    inflationValues.reverse()
+    return [inflationYears, inflationValues]
+  }
 
   async function getSavingsData() {
     const response = await fetch(savingsURL, {
@@ -507,20 +523,21 @@
         labels: worldData[0],
         datasets: [
           {
+            label: 'Savings',
             data: worldData[1],
             fill: false,
             backgroundColor: '#fff',
-            borderColor: '#9DEB8F',
+            borderColor: '#5AB8D5',
             color: '#fff'
           }
         ]
       },
       options: {
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
+        // plugins: {
+        //   legend: {
+        //     display: false
+        //   }
+        // },
         scales: {
           y: {
             beginAtZero: false
@@ -1012,7 +1029,7 @@
         url += `&purpose=${purpose.join('%2C')}`
       }
 
-      console.log(url)
+      // console.log(url)
       window.location.href = url
     })
 </script>
@@ -1114,27 +1131,21 @@
 
   // zoom on hover
   $('.div-block-665').on('mouseenter', function () {
-    console.log('hover')
     $(this).find('.card-bg-holder').css('transform', 'scale(1.05)')
   })
   $('.div-block-665').on('mouseleave', function () {
-    console.log('hover')
     $(this).find('.card-bg-holder').css('transform', 'scale(1)')
   })
   $('.link-block-4').on('mouseenter', function () {
-    console.log('hover')
     $(this).find('.card-bg-holder').css('transform', 'scale(1.05)')
   })
   $('.link-block-4').on('mouseleave', function () {
-    console.log('hover')
     $(this).find('.card-bg-holder').css('transform', 'scale(1)')
   })
   $('.rezidency-and-citizenship_card').on('mouseenter', function () {
-    console.log('hover')
     $(this).find('.card-bg-holder').css('transform', 'scale(1.05)')
   })
   $('.rezidency-and-citizenship_card').on('mouseleave', function () {
-    console.log('hover')
     $(this).find('.card-bg-holder').css('transform', 'scale(1)')
   })
 </script>

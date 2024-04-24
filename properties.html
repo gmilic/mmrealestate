@@ -88,14 +88,17 @@
 
   let selectedMapLocations = [];
 
-  // Initialize map and load in #map wrapper
+  const pitchMap = 60;
+
+  // Initialize map and load in #map wrapperd
   let map = new mapboxgl.Map({
     container: "map",
     style: "mapbox://styles/mmrealestatetech/clvdp45qa00ku01qz7wx0gymq",
     center: [17.929102, 43.808274],
     // minZoom: 1,
     // maxZoom: 20
-    pitch: 100,
+    //pitch: pitchMap,
+    //bearing: -60,
     zoom: 5.4,
   });
   // Load an image from an external URL.
@@ -241,6 +244,8 @@
         center: e.features[0].geometry.coordinates,
         speed: 0.5,
         curve: 1,
+        pitch: pitchMap,
+        bearing: -60,
         easing(t) {
           return t;
         },
@@ -256,6 +261,7 @@
         ]);
       });
 
+      //map.setPitch(45);
       map.fitBounds(bounds, { padding: 40 });
     }
 
@@ -288,6 +294,8 @@
           map.easeTo({
             center: features[0].geometry.coordinates,
             zoom: zoom,
+            pitch: pitchMap,
+            bearing: -60,
           });
         });
     });

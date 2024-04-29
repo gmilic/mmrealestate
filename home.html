@@ -307,9 +307,9 @@
         homeGraphsInflationValue = countryElements[i].querySelector(
           '.graphs-data-country-inflation .w-embed'
         ).innerHTML
-        homeGraphsCountryCode = countryElements[i].querySelector(
-          '.graphs-data-country-code'
-        ).textContent
+        homeGraphsSavingsValue = countryElements[i].querySelector(
+          '.graphs-data-country-deposits .w-embed'
+        ).innerHTML
         // create savigsvsreal graph
         let investmentArray = createInvestmentsArray(
           100000, //investment
@@ -331,7 +331,7 @@
         renderInflationGraph(homeGraphsInflationValue)
 
         // create savings graph
-        renderSavingsGraph(homeGraphsCountryCode)
+        renderSavingsGraph(homeGraphsSavingsValue)
 
         break
       }
@@ -398,112 +398,11 @@
     inflationChart.update()
   }
 
-  async function renderInflationJSON(worldData) {
-    inflationChart = new Chart(ctxInflation, {
-      type: 'line',
-      data: {
-        labels: worldData[0],
-        datasets: [
-          {
-            data: worldData[1],
-            fill: false,
-            backgroundColor: '#fff',
-            borderColor: '#5AB8D5',
-            color: '#fff'
-          }
-        ]
-      },
-      options: {
-        plugins: {
-          legend: {
-            display: false
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: false
-          }
-        }
-      }
-    })
-  }
   renderInflationGraph(
     document.querySelector('.graphs-data-country-inflation .w-embed').innerHTML
   )
 
   // =================================== Savings Graphs ===================================
-
-  let savingsURL =
-    'https://api.worldbank.org/v2/country/ba/indicator/FR.INR.DPST?format=json'
-  let savingsChart = {}
-
-  function renderSavingsGraph(countryCode) {
-    // waitingSpinner(this)
-    savingsURL = `https://api.worldbank.org/v2/country/${countryCode}/indicator/FR.INR.DPST?format=json`
-
-    getSavingsData().then((data) => {
-      let newData = parseWorldData(data)
-      if (newData[0].length === 0) {
-        document.getElementById('savings-wrap').style.display = 'none'
-        document.getElementById('savings-wrap-source-text').style.display =
-          'none'
-        document.getElementById('savings-wrap-no-data').style.display = 'block'
-      } else {
-        document.getElementById('savings-wrap').style.display = 'block'
-        document.getElementById('savings-wrap-source-text').style.display =
-          'block'
-        document.getElementById('savings-wrap-no-data').style.display = 'none'
-        if (!savingsChart) {
-          savingsChart = {} // Initialize savingsChart if it's not defined
-        }
-
-        if (!savingsChart.data) {
-          savingsChart.data = {} // Initialize savingsChart.data if it's not defined
-        }
-        savingsChart.data.labels = newData[0]
-        if (!savingsChart.data.datasets) {
-          savingsChart.data.datasets = [{}] // Initialize savingsChart.data.datasets as an array with one empty object if it's not defined
-        } else if (!savingsChart.data.datasets[0]) {
-          savingsChart.data.datasets[0] = {} // Initialize savingsChart.data.datasets[0] as an empty object if it's not defined
-        }
-        savingsChart.data.datasets[0].data = newData[1]
-        savingsChart.update()
-      }
-    })
-    // waitingSpinner(this)
-  }
-  renderSavingsGraph('ba')
-
-  getSavingsData().then((data) => {
-    renderSavingsJSON(parseWorldData(data))
-  })
-
-  function parseWorldData(apiJSON) {
-    const inflationData = apiJSON[1].filter((item) => item.value !== null)
-    const inflationYears = inflationData.map((item) => item.date)
-    inflationYears.reverse()
-    const inflationValues = inflationData.map((item) => item.value)
-    inflationValues.reverse()
-    return [inflationYears, inflationValues]
-  }
-
-  async function getSavingsData() {
-    const response = await fetch(savingsURL, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      }
-    })
-
-    if (!response.ok) {
-      // handle error
-      console.error('HTTP error', response.status)
-    } else {
-      const apiJSON = await response.json()
-      return apiJSON
-    }
-  }
-
   const savingsGraphWrap = document.getElementById('savings-wrap')
   const savingsCanvas = savingsGraphWrap.appendChild(
     document.createElement('canvas')
@@ -514,38 +413,60 @@
 
   const ctxSavings = document.getElementById('savings-chart').getContext('2d')
 
-  var gradient = ctxSavings.createLinearGradient(0, 0, 0, 400)
-
-  async function renderSavingsJSON(worldData) {
-    savingsChart = new Chart(ctxSavings, {
-      type: 'line',
-      data: {
-        labels: worldData[0],
-        datasets: [
-          {
-            label: 'Savings',
-            data: worldData[1],
-            fill: false,
-            backgroundColor: '#fff',
-            borderColor: '#5AB8D5',
-            color: '#fff'
-          }
-        ]
-      },
-      options: {
-        // plugins: {
-        //   legend: {
-        //     display: false
-        //   }
-        // },
-        scales: {
-          y: {
-            beginAtZero: false
-          }
+  let savingsChart = new Chart(ctxSavings, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: 'Savings',
+          data: [],
+          fill: false,
+          backgroundColor: '#fff',
+          borderColor: '#5AB8D5',
+          color: '#fff'
+        }
+      ]
+    },
+    options: {
+      // plugins: {
+      //   legend: {
+      //     display: false
+      //   }
+      // },
+      scales: {
+        y: {
+          beginAtZero: false
         }
       }
+    }
+  })
+
+  function renderSavingsGraph(tableData) {
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(tableData, 'text/html')
+    const tableSavings = doc.body.firstChild
+    const tableSavingsRows = tableSavings.querySelectorAll('tr')
+    const tableSavingsLabels = []
+    const tableSavingsValues = []
+    tableSavingsRows.forEach((row, index) => {
+      if (index > 0) {
+        const cells = row.querySelectorAll('td')
+        const period = cells[0].textContent
+        const deposit1Year = cells[1].textContent.replace('%', '') // remove the '%' sign
+        tableSavingsValues.push(parseFloat(deposit1Year))
+        tableSavingsLabels.push(period)
+      }
     })
+    savingsChart.data.labels = tableSavingsLabels
+    savingsChart.data.datasets[0].data = tableSavingsValues
+    savingsChart.update()
   }
+
+  renderSavingsGraph(
+    document.querySelector('.graphs-data-country-deposits .w-embed').innerHTML
+  )
+
   // =================================== Savings vs Real eastateGraphs ===================================
   const savingsVsRealEstateWrap = document.getElementById(
     'tab-saving-vs-real-graph'

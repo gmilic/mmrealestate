@@ -1,4 +1,3 @@
-<script>
   // Spacing Between Legend and Chart
   const plugin = {
     beforeInit(chart) {
@@ -813,4 +812,4 @@
   $('.rezidency-and-citizenship_card').on('mouseleave', function () {
     $(this).find('.card-bg-holder').css('transform', 'scale(1)')
   })
-</script>
+

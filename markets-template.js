@@ -1,4 +1,3 @@
-<script>
   const colorRed = '#D45D5D'
   const colorGreen = '#76AB74'
   const colorBlue = '#5AB8D5'
@@ -847,4 +846,4 @@
       }
     }
   })
-</script>
+

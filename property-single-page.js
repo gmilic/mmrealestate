@@ -1,4 +1,3 @@
-<script>
   // Payment Plan
   let euro = Intl.NumberFormat('en-DE', {
     style: 'currency',
@@ -746,4 +745,3 @@
   }
 
   setInterval(timeCounterTicker, 1000)
-</script>

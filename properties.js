@@ -1,4 +1,4 @@
-<script>
+
   mapboxgl.accessToken =
     'pk.eyJ1IjoibW1yZWFsZXN0YXRldGVjaCIsImEiOiJjbHB3bjVsZ2EwZzByMm9wYmVtZDVwb2hyIn0.d66L0eAH0VLt2CvD8stQlw'
 
@@ -379,4 +379,4 @@
       })
     }
   })
-</script>
+

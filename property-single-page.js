@@ -1,3 +1,40 @@
+  //Check the URL
+
+  const isBosnianSite = window.location.href.includes('/bs/');
+
+let textMinimum = "Minimum"
+let textMaximum = "Maximum"
+let textStart = "Start"
+let textFinish = "Finish"
+let textMonths = "months"
+let textIn = "in"
+
+//Payment plan
+let textDownpaymentPercentage = "Downpayment percentage:"
+let textDownpaymentAmount = "Downpayment amount:"
+let textRemainingAmount = "Remaining amount:"
+let text3monthlyPayment = "3-monthly payment:"
+let text6monthlyPayment = "6-monthly payment:"
+let textLastPayment = "Last payment:"
+
+if(isBosnianSite){
+textMinimum = "Minimum"
+textMaximum = "Maksimum"
+textStart = "Početak"
+textFinish = "Kraj"
+textMonths = "mjeseci"
+textIn = "za"
+
+//Payment plan
+textDownpaymentPercentage = "Procenat učešća:"
+textDownpaymentAmount = "Iznos učešća:"
+textRemainingAmount = "Preostali iznos:"
+text3monthlyPayment = "Tromjesečna rata:"
+text6monthlyPayment = "Polugodišnja rata:"
+textLastPayment = "Zadnja rata:"
+}
+
+  
   // Payment Plan
   let euro = Intl.NumberFormat('en-DE', {
     style: 'currency',
@@ -47,43 +84,43 @@
 
     paymentPlan.innerHTML = `
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">Downpayment percentage:</h6>
+      <h6 class="h6-js-elements">${textDownpaymentPercentage}</h6>
       <h5 class="h5-js-elements">${downpaymentPercentage}%</h5>
       </div>
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">Downpayment amount: </h6>
+      <h6 class="h6-js-elements">${textDownpaymentAmount}</h6>
       <h5 class="h5-js-elements">${euro.format(downpayment)}</h5>
       </div>
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">Remaining amount:</h6>
+      <h6 class="h6-js-elements">${textRemainingAmount}</h6>
       <h5 class="h5-js-elements">${euro.format(loan)}</h5>
       </div>
       <!--
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">3-monthly payment percentage:</h6>
+      <h6 class="h6-js-elements">${text3monthlyPayment}</h6>
       <h5 class="h5-js-elements">${(monthlyPaymentPercentage * 3)
         .toFixed(2)
         .toLocaleString()}%</h5>
       </div>
       -->
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">3-monthly payment:</h6>
+      <h6 class="h6-js-elements">${text3monthlyPayment}</h6>
       <h5 class="h5-js-elements">${euro.format(monthlyPayment * 3)}</h5>
       </div>
       <!--
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">6-monthly payment percentage:</h6>
+      <h6 class="h6-js-elements">${text6monthlyPayment}</h6>
       <h5 class="h5-js-elements">${(monthlyPaymentPercentage * 6)
         .toFixed(2)
         .toLocaleString()}%</h5>
       </div>
       -->
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">6-monthly payment:</h6>
+      <h6 class="h6-js-elements">${text6monthlyPayment}</h6>
       <h5 class="h5-js-elements">${euro.format(monthlyPayment * 6)}</h5>
       </div>
       <div class="payment-plan_items">
-      <h6 class="h6-js-elements">Last payment:</h6>
+      <h6 class="h6-js-elements">${textLastPayment}</h6>
       <h5 class="h5-js-elements">${lastMonthPaymentDateStr}</h5>
       </div>
 
@@ -123,6 +160,8 @@
 
   // ROI CALC & GRAPH
   // TODO: check if prices and roi data is present
+
+
 
   const roiCalcWrap = document.getElementById('roi-calc-wrap')
   const priceMin = document.getElementById('data-price-min').textContent
@@ -167,11 +206,11 @@
         <div class="sliderMinMaxLabels">
           <div class="sliderMinMaxLabelsStart">
             <p class="sliderMinMaxLabelsTitle">${priceMin}</p>
-            <p class="sliderMinMaxLabelsSubTitle">Minimum</p>
+            <p class="sliderMinMaxLabelsSubTitle">${textMinimum}</p>
           </div>
           <div class="sliderMinMaxLabelsEnd">
             <p class="sliderMinMaxLabelsTitle">1M €</p>
-            <p class="sliderMinMaxLabelsSubTitle">Maximum</p>
+            <p class="sliderMinMaxLabelsSubTitle">${textMaximum}</p>
           </div>
         </div>
         <input
@@ -192,11 +231,11 @@
         <div class="sliderMinMaxLabels">
           <div class="sliderMinMaxLabelsStart">
             <p class="sliderMinMaxLabelsTitle">${firstMonthROI}</p>
-            <p class="sliderMinMaxLabelsSubTitle">Start</p>
+            <p class="sliderMinMaxLabelsSubTitle">${textStart}</p>
           </div>
           <div class="sliderMinMaxLabelsEnd">
             <p class="sliderMinMaxLabelsTitle">${lastMonthROI}</p>
-            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
+            <p class="sliderMinMaxLabelsSubTitle">${textFinish}</p>
           </div>
         </div>
         <input
@@ -431,8 +470,8 @@
     const newPosition = percent * (offsetWidth / 100)
     sliderTimeLabel.style.transform = `translateX(${newPosition}px)`
     sliderTimeLabel.innerHTML =
-      value + ' <span class="labelSmallText">months</span>'
-    roiCalcButtonResultSpan.textContent = `in ${value} months`
+      value + `<span class="labelSmallText">${textMonths}</span>`
+    roiCalcButtonResultSpan.textContent = `${textIn} ${value} ${textMonths}`
     monthsForCalc = value
     monthsArray = lastMonthOfPaymentRange(value)
     roiChart.data.labels = monthsArray

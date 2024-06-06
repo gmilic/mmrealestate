@@ -395,7 +395,31 @@
   }
 
   // ROI calc home
-  const homeRoiCalcJs = document.getElementById('home-roi-calc-js')
+
+    // Check if the URL contains '/bs'
+const isBosnianSite = window.location.href.includes('/bs');
+
+let textInvesment = "Investment";
+let textMinimum = "Minimum"
+let textMaximum = "Maximum"
+let textNumberOfYears ="Number of years"
+let textStart = "Start"
+let textFinish = "Finish"
+let textAnnualRoi = "Annual ROI"
+let textTarget = "Target Sales Price"
+
+if(isBosnianSite){
+textInvesment = "Investicija"
+textMinimum = "Minimum"
+textMaximum = "Maksimum"
+textNumberOfYears ="Broj godina"
+textStart = "Početak"
+textFinish = "Kraj"
+textAnnualRoi = "Godišnji ROI"
+textTarget = "Ciljana prodajna cijena"
+}
+    
+    const homeRoiCalcJs = document.getElementById('home-roi-calc-js')
   const homeRoiCalcCountrySelect = document.getElementById(
     'select-country-roi-calc'
   )
@@ -410,92 +434,96 @@
 
   roiCalcInner.innerHTML = `
   <div class="roi-calc-slider-home-wrap">
-    <div class="roi-calc-single-slider">
-      <p class="roi-calc-button-profit-label-home">Investment:</p>
-      <div class="slider-js-elements-wrap-home">
-        <label for="sliderPrice" class="sliderLabel" id="sliderPriceLabel"
-          >0</label
-        >
-        <input
-          type="range"
-          min=${priceMinRoi}
-          max=1000000
-          step=1000
-          class="slider"
-          id="sliderPrice"
-        />
-        <div class="sliderMinMaxLabels">
-          <div class="sliderMinMaxLabelsStart">
-            <p class="sliderMinMaxLabelsTitle">${priceMinRoi}</p>
-            <p class="sliderMinMaxLabelsSubTitle">Minimum</p>
-          </div>
-          <div class="sliderMinMaxLabelsEnd">
-            <p class="sliderMinMaxLabelsTitle">1M €</p>
-            <p class="sliderMinMaxLabelsSubTitle">Maximum</p>
-          </div>
+  <div class="roi-calc-single-slider">
+    <p class="roi-calc-button-profit-label-home">${textInvesment}:</p>
+    <div class="slider-js-elements-wrap-home">
+      <label for="sliderPrice" class="sliderLabel" id="sliderPriceLabel"
+        >0</label
+      >
+      <input
+        type="range"
+        min=${priceMinRoi}
+        max=1000000
+        step=1000
+        class="slider"
+        id="sliderPrice"
+      />
+      <div class="sliderMinMaxLabels">
+        <div class="sliderMinMaxLabelsStart">
+          <p class="sliderMinMaxLabelsTitle">${priceMinRoi}</p>
+          <p class="sliderMinMaxLabelsSubTitle">${textMinimum}:</p>
         </div>
-      </div>
-    </div>
-    <div class="roi-calc-single-slider">
-      <p class="roi-calc-button-profit-label-home">Number of Years:</p>
-      <div class="slider-js-elements-wrap-home">
-        <input
-          type="range"
-          min="1"
-          max="3"
-          value="2"
-          class="slider"
-          id="sliderTime"
-        />
-        <label for="sliderPrice" class="sliderLabel" id="sliderTimeLabel"
-          >0</label
-        >
-        <div class="sliderMinMaxLabels">
-          <div class="sliderMinMaxLabelsStart">
-            <p class="sliderMinMaxLabelsTitle">1Y</p>
-            <p class="sliderMinMaxLabelsSubTitle">Start</p>
-          </div>
-          <div class="sliderMinMaxLabelsEnd">
-            <p class="sliderMinMaxLabelsTitle">3Y</p>
-            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="roi-calc-single-slider">
-      <p class="roi-calc-button-profit-label-home">Annual ROI:</p>
-      <div class="slider-js-elements-wrap-home">
-        <input
-          type="range"
-          min="0"
-          max="300"
-          value="60"
-          class="slider"
-          id="sliderROI"
-        />
-        <label for="sliderROI" class="sliderLabel" id="sliderROILabel"
-          >0</label
-        >
-        <div class="sliderMinMaxLabels">
-          <div class="sliderMinMaxLabelsStart">
-            <p class="sliderMinMaxLabelsTitle">0%</p>
-            <p class="sliderMinMaxLabelsSubTitle">Start</p>
-          </div>
-          <div class="sliderMinMaxLabelsEnd">
-            <p class="sliderMinMaxLabelsTitle">300%</p>
-            <p class="sliderMinMaxLabelsSubTitle">Finish</p>
-          </div>
+        <div class="sliderMinMaxLabelsEnd">
+          <p class="sliderMinMaxLabelsTitle">1M €</p>
+          <p class="sliderMinMaxLabelsSubTitle">${textMaximum}:</p>
         </div>
       </div>
     </div>
   </div>
-  <div class="roi-calc-home-results-wrap">
-    <p class="roi-calc-button-profit-total-label-home">Target Sales Price:</p>
-    <p class="roi-calc-button-result-main-home"><span>€</span><span id="roi-calc-profit"></span></p>
+  <div class="roi-calc-single-slider">
+    <p class="roi-calc-button-profit-label-home">${textNumberOfYears}:</p>
+    <div class="slider-js-elements-wrap-home">
+      <input
+        type="range"
+        min="1"
+        max="3"
+        value="2"
+        class="slider"
+        id="sliderTime"
+      />
+      <label for="sliderPrice" class="sliderLabel" id="sliderTimeLabel"
+        >0</label
+      >
+      <div class="sliderMinMaxLabels">
+        <div class="sliderMinMaxLabelsStart">
+          <p class="sliderMinMaxLabelsTitle">1Y</p>
+          <p class="sliderMinMaxLabelsSubTitle">${textStart}:</p>
+        </div>
+        <div class="sliderMinMaxLabelsEnd">
+          <p class="sliderMinMaxLabelsTitle">3Y</p>
+          <p class="sliderMinMaxLabelsSubTitle">${textFinish}:</p>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="roi-calc-single-slider">
+    <p class="roi-calc-button-profit-label-home">${textAnnualRoi}:</p>
+    <div class="slider-js-elements-wrap-home">
+      <input
+        type="range"
+        min="0"
+        max="300"
+        value="60"
+        class="slider"
+        id="sliderROI"
+      />
+      <label for="sliderROI" class="sliderLabel" id="sliderROILabel"
+        >0</label
+      >
+      <div class="sliderMinMaxLabels">
+        <div class="sliderMinMaxLabelsStart">
+          <p class="sliderMinMaxLabelsTitle">0%</p>
+          <p class="sliderMinMaxLabelsSubTitle">${textStart}:</p>
+        </div>
+        <div class="sliderMinMaxLabelsEnd">
+          <p class="sliderMinMaxLabelsTitle">300%</p>
+          <p class="sliderMinMaxLabelsSubTitle">${textFinish}:</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="roi-calc-home-results-wrap">
+  <p class="roi-calc-button-profit-total-label-home">${textTarget}</p>
+  <p class="roi-calc-button-result-main-home"><span>€</span><span id="roi-calc-profit"></span></p>
+</div>
 
 
-  `
+  
+  `;
+
+
+  
 
   const roiCalcProfit = document.getElementById('roi-calc-profit')
   const sliderPrice = document.getElementById('sliderPrice')

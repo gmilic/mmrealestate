@@ -67,9 +67,13 @@ textLastPayment = "Zadnja rata:"
 
   function calculate() {
     const price = document.getElementById('main-price').textContent
-    const downpaymentPercentage = document.getElementById(
+    let downpaymentPercentage = document.getElementById(
       'downpayment-percentage'
     ).textContent
+
+    if (downpaymentPercentage === undefined || downpaymentPercentage === null || downpaymentPercentage === '') {
+      downpaymentPercentage = 0
+    }
 
     const downpayment = (price * (downpaymentPercentage / 100))
       .toFixed(2)
@@ -470,8 +474,8 @@ textLastPayment = "Zadnja rata:"
     const newPosition = percent * (offsetWidth / 100)
     sliderTimeLabel.style.transform = `translateX(${newPosition}px)`
     sliderTimeLabel.innerHTML =
-      value + `<span class="labelSmallText">${textMonths}</span>`
-    roiCalcButtonResultSpan.textContent = `${textIn} ${value} ${textMonths}`
+      `<span class="labelSmallText">${textMonths}: </span>` + value 
+    roiCalcButtonResultSpan.textContent = `${textIn} ${textMonths}: ${value} `
     monthsForCalc = value
     monthsArray = lastMonthOfPaymentRange(value)
     roiChart.data.labels = monthsArray
